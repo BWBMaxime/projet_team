@@ -1,24 +1,65 @@
 import "../css/App.css";
-function App() {
+import Header from "../components/common/Header";
+import Footer from "../components/common/Footer";
+import Table from "../components/table/Table";
+import FormLogin from "./forms/FormLogin";
+import { useState, createContext } from "react";
+import Data from "../services/Data";
+import { useEffect } from 'react';
+
+export const CarNCoContext = createContext();
+
+const App = () => {
+  
+  useEffect (() => {
+    try {
+      async function getToken() {
+        await Data.getToken();
+      }
+      getToken();
+    } catch (error) {
+      console.error(`Erreur attrapée dans App`, error);
+    }
+  }, [])
+  
+  const [is_logged, setIsLogged] = useState(false);
+  const [user, setUser] = useState("admin");
+
+
+  const handleClickSubmitFormLogin = async (e) => {
+    e.preventDefault();
+    const email = e.target.typeEmail.value;
+    const pwd = e.target.typePassword.value;
+    try {
+      setIsLogged(true);
+      // Appel de getUser
+      await Data.getUser(email, pwd);
+      setIsLogged(true);
+      // Appel de getTerms
+    } catch (error) {
+      console.error("Erreur attrapée dans handleSubmitLogin", error);
+      setIsLogged(false);
+    }
+  }
+  
   return (
     <>
-      <section className=" container">
-        <div class="m-5 row">
-          <label for="staticEmail" class="col-sm-2 col-form-label">Login</label>
-          <div class="col-sm-10">
-            <input type="email" class="form-control" id="email" />
-          </div>
+      {!is_logged ? (
+        <FormLogin handleClickSubmitFormLogin={handleClickSubmitFormLogin} />
+      ) : (
+        <div className="container-fluid">
+          {/* <CarNCoContext.Provider value={}/> */}
+          <Header user={user} />
+            {user === "admin" ? (
+              <Table/>
+            ) : user=== "patron"(
+              <div> patron</div>
+            )}
+          {/* <CarNCoContext.Provider /> */}
+          <Footer />
         </div>
-        <div class="m-5 row">
-          <label for="inputPassword" class="col-sm-2 col-form-label">Password</label>
-          <div class="col-sm-10">
-            <input type="password" class="form-control" id="inputPassword" />
-          </div>
-        </div>
-      </section>
-
+      )}
     </>
-
   );
 }
 

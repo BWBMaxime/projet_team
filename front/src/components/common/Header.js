@@ -18,16 +18,19 @@ const Header = (props) => {
          {/*end*/}
         <div className="collapse navbar-collapse justify-content-end" id="navbarNav">
         {/* test1 ? test1 vrai : test2 ? test2 vrai : test2 faux */}
-          {props.user === "patron" ? (    
+          {props.user === "commercial" ? (    
             <ul className="navbar-nav">
               <li className="nav-item m-4 h5" >
                 <a className="nav-link" href="#">Devis</a>
               </li>
               <li className="nav-item m-4 h5">
-                <a className="nav-link" href="#">Stocks</a>
+                <a className="nav-link" href="#">Liste Client</a>
               </li>
               <li className="nav-item m-4 h5">
-                <a className="nav-link" href="#">Gestion Utilisateurs</a>
+                <a className="nav-link" href="#">Stock Véhicule</a>
+              </li>
+              <li className="nav-item m-4 h5">
+                <a className="nav-link" href="#">Validation Devis</a>
               </li>
             </ul>       
           )

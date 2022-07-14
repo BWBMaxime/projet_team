@@ -2,6 +2,7 @@ import "../css/App.css";
 import Header from "../components/common/Header";
 import Footer from "../components/common/Footer";
 import TableDevis from "../components/table/TableDevis";
+import Table from "../components/table/Table";
 import FormLogin from "./forms/FormLogin";
 import { useState, createContext } from "react";
 import Data from "../services/Data";
@@ -50,28 +51,28 @@ const App = () => {
   return (
     <>
       {!is_logged ? (
-        <FormLogin handleClickSubmitFormLogin={handleClickSubmitFormLogin} />
-      ) : (
-      <>
-      <div className="container-fluid">
-          <CarNCoContext.Provider value={handleContext}> 
-          <Header user={user}  />
-          {(() => {
-            switch (user) {
-              case "patron":
-                return <TableDevis />
-              case "admin":
-                return <div>Admin</div>
-              case "commercial":
-                return <div>Commercial</div>
-            }
-          })()}
-           </CarNCoContext.Provider> 
-          <Footer />
-        </div>
-      </>
-        
-      )}
+    <FormLogin handleClickSubmitFormLogin={handleClickSubmitFormLogin} />
+  ) : (
+  <>
+  <div className="container-fluid">
+      <CarNCoContext.Provider value={handleContext}> 
+      <Header user={user}  />
+      {(() => {
+        switch (user) {
+          case "patron":
+            return <TableDevis />
+          case "admin":
+            return <div>Admin</div>
+          case "commercial":
+            return <Table />
+        }
+      })()}
+       </CarNCoContext.Provider> 
+      <Footer />
+    </div>
+  </>
+    
+  )}
     </>
   );
 }

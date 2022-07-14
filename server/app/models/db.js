@@ -1,8 +1,6 @@
 import { MongoClient, ServerApiVersion } from "mongodb";
 import { URI } from "../config/db.config.js";
 
-console.log(URI);
-
 export const connection = new MongoClient(URI, {
   useNewUrlParser: true,
   useUnifiedTopology: true,

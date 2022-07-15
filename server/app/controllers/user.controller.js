@@ -127,21 +127,63 @@ export class UserController {
                 }
             });
         }
+        else{
+            return res.status(403).send({
+                error: "Accès refusé pour ce profil utilisateur",
+            });
+        }
     };
-
 
     static findAll = (req, res) => {
-        User.findAll((err, data) => {
-            if (err) {
-                res
-                    .status(500)
-                    .send({message: err.message || "Unable to fetch user data"});
-            } else {
-                res.send(data);
-            }
-        });
+        if (!req.body) {
+            // return res.status(403).send({message: "No content in body"});
+            return res.status(403).send({error: "Accès refusé"});
+        }
+        if(this.isManagerUser) {
+            User.findAll((err, data) => {
+                if (err) {
+                    res
+                        .status(500)
+                        .send({message: err.message || "Unable to fetch user data"});
+                } else {
+                    let dataSecure=data.map((datamap,index) => {
+                        delete datamap.password
+                        return datamap;
+                    });
+                    res.send(dataSecure);
+                }
+            });
+        }
+        else{
+            return res.status(403).send({
+                error: "Accès refusé pour ce profil utilisateur",
+            });
+        }
     };
 
+
+    static deleteById = (req, res) => {
+        if (!req.body) {
+            // return res.status(403).send({message: "No content in body"});
+            return res.status(403).send({error: "Accès refusé"});
+        }
+        if(this.isManagerUser) {
+            User.deleteById(req.params.id, (err, data) => {
+                console.log(req.params.id);
+                if (err) {
+                    res.status(500).send({
+                        message:
+                            err.message || `Unable to delete user with id ${req.params.id}`,
+                    });
+                } else {
+                    res.send(`User deleted`);
+                }
+            });
+        }
+    };
+
+
+  /*
     static findByQuery = (req, res) => {
         User.findById(req.params.id, (err, data) => {
             console.log(req.params.id);
@@ -155,20 +197,8 @@ export class UserController {
             }
         });
     };
+*/
 
-    static deleteById = (req, res) => {
-        User.deleteById(req.params.id, (err, data) => {
-            console.log(req.params.id);
-            if (err) {
-                res.status(500).send({
-                    message:
-                        err.message || `Unable to delete user with id ${req.params.id}`,
-                });
-            } else {
-                res.send(`User deleted`);
-            }
-        });
-    };
 
 
 

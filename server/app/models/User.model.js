@@ -68,7 +68,10 @@ export class User {
         result(err, null);
         return;
       } else {
-        console.log(`Users list ${res}`);
+        console.log(`Users list ${res}`);;
+
+
+
         result(null, res);
       }
     });

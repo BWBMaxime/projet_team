@@ -6,7 +6,7 @@ These examples describe all functionnalities of our REST API with all parameters
 
 Open endpoints require no Authentication.
 
-- - [Login](/api/users/login.md) : `POST /api/users/login`
+- - [Login](users/login.md) : `POST /api/users/login`
 
 ## Endpoints that require Authentication
 

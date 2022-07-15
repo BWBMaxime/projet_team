@@ -15,7 +15,7 @@ Authentification de l'utilisateur, l'API Retourne un JWT (json web token) permet
   **Required:**
 
 
-- **Data Params (HEADER)**
+- **Data Params (BODY)**
  
     ```json
     {

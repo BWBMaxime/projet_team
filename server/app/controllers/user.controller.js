@@ -63,9 +63,8 @@ export class UserController {
         if (this.isManagerUser) {
             User.findByLogin(req.body.login, (err, data) => {
                 if (err) {
-                    return res.status(404).send({
-                        // error: err.message || `Unable to find user with id ${data.id}`,
-                        error: "Impossible de trouver l’utilisateur",
+                    return res.status(500).send({
+                        error: err.message,
                         code: 'UC2'
                     });
                 } else {

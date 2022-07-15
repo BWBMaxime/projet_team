@@ -1,6 +1,6 @@
 ## **Login**
 
-Retourne un JWT (json web token)
+Authentification de l'utilisateur, l'API Retourne un JWT (json web token) permetant ensuite d'accéder aux autre service de l'API selon les droits accordés au profil de l'utilisateur identifié.
 
  **URL**
 
@@ -15,7 +15,7 @@ Retourne un JWT (json web token)
   **Required:**
 
 
-- **Data Params**
+- **Data Params (HEADER)**
  
     ```json
     {

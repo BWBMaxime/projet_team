@@ -1,7 +1,6 @@
 import { UserController } from "../controllers/index.js";
 import {checkTokenMiddleware} from "../utils/jwt.js"
 
-
 export const router = (app) => {
   app.post("/users/login", UserController.login);
   app.post("/users/create",checkTokenMiddleware, UserController.create);

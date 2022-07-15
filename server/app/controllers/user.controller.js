@@ -13,7 +13,8 @@ export class UserController {
             if (err) {
                 return res.status(200).send({
                     // error: err.message || `Unable to find user with id ${data.id}`,
-                    error: "Impossible de trouver l’utilisateur"
+                    error: "Impossible de trouver l’utilisateur",
+                    code: 'UL1'
                 });
             } else {
                 if (data != null) {
@@ -33,16 +34,20 @@ export class UserController {
                             //compte non actif
                             return res.status(200).send({
                                 error: "Votre compte n'est pas activé",
+                                code: 'UL2'
                             });
                         }
                     } else {
                         return res.status(200).send({
                             error: "Login et/ou mot de passe invalide",
+                            code: 'UL3'
+
                         });
                     }
                 } else {
                     return res.status(200).send({
                         error: "Login et/ou mot de passe invalide",
+                        code: 'UL4'
                     });
                 }
             }
@@ -52,14 +57,18 @@ export class UserController {
     static create = (req, res) => {
         if (!req.body) {
             // return res.status(403).send({message: "No content in body"});
-            return res.status(403).send({error: "Accès refusé"});
+            return res.status(403).send({
+                error: "Accès refusé",
+                code: 'UC1'
+            });
         }
         if(this.isManagerUser) {
             User.findByLogin(req.body.login, (err, data) => {
                 if (err) {
                     return res.status(200).send({
                         // error: err.message || `Unable to find user with id ${data.id}`,
-                        error: "Impossible de trouver l’utilisateur"
+                        error: "Impossible de trouver l’utilisateur",
+                        code: 'UC2'
                     });
                 } else {
                     if (data == null) {
@@ -75,17 +84,20 @@ export class UserController {
                             if (err) {
                                 return res.status(200).send({
                                     //error: err.message || "Unable to create user"
-                                    error: "Impossible de créer un utilisateur"
+                                    error: "Impossible de créer un utilisateur",
+                                    code: 'UC3'
                                 });
                             } else {
                                 return res.status(200).send({
                                     message: "Utilisateur ajouté avec succés",
+                                    code: 'UC4'
                                 });
                             }
                         });
                     } else {
                         return res.status(200).send({
                             error: "Utilisateur déjà inscrit",
+                            code: 'UC5'
                         });
                     }
                 }
@@ -94,6 +106,7 @@ export class UserController {
         else{
             return res.status(403).send({
                 error: "Accès refusé pour ce profil utilisateur",
+                code: 'UC6'
             });
         }
     }
@@ -101,7 +114,10 @@ export class UserController {
     static update = (req, res) => {
         if (!req.body) {
             // return res.status(403).send({message: "No content in body"});
-            return res.status(403).send({error: "Accès refusé"});
+            return res.status(403).send({
+                error: "Accès refusé",
+                code: 'UU1'
+            });
         }
         if(this.isManagerUser) {
             const userUpdated = {
@@ -118,10 +134,12 @@ export class UserController {
                     //res.status(500).send(`Unable to update user ${req.params.id}`);
                     return res.status(403).send({
                         error: "Impossible de mettre à jour les données de l’utilisateur",
+                        code: 'UU2'
                     });
                 } else {
                     return res.status(403).send({
                         error: "Les données de l'utilisateur ont été mis à jour avec succès",
+                        code: 'UU3'
                     });
 
                 }
@@ -130,6 +148,7 @@ export class UserController {
         else{
             return res.status(403).send({
                 error: "Accès refusé pour ce profil utilisateur",
+                code: 'UU4'
             });
         }
     };
@@ -137,14 +156,20 @@ export class UserController {
     static findAll = (req, res) => {
         if (!req.body) {
             // return res.status(403).send({message: "No content in body"});
-            return res.status(403).send({error: "Accès refusé"});
+            return res.status(403).send({
+                error: "Accès refusé",
+                code: 'UF1'
+            });
         }
         if(this.isManagerUser) {
             User.findAll((err, data) => {
                 if (err) {
-                    res
-                        .status(500)
-                        .send({message: err.message || "Unable to fetch user data"});
+                    /*res.status(500).send({message: err.message || "Unable to fetch user data"});*/
+                    return res.status(403).send({
+                        error: "Impossible de récupérer les données utilisateur",
+                        code: 'UF2'
+                    });
+
                 } else {
                     let dataSecure=data.map((datamap,index) => {
                         delete datamap.password
@@ -157,31 +182,37 @@ export class UserController {
         else{
             return res.status(403).send({
                 error: "Accès refusé pour ce profil utilisateur",
+                code: 'UF3'
             });
         }
     };
 
-
     static deleteById = (req, res) => {
         if (!req.body) {
             // return res.status(403).send({message: "No content in body"});
-            return res.status(403).send({error: "Accès refusé"});
+            return res.status(403).send({
+                error: "Accès refusé",
+                code: 'UD1'
+            });
         }
         if(this.isManagerUser) {
             User.deleteById(req.params.id, (err, data) => {
                 console.log(req.params.id);
                 if (err) {
-                    res.status(500).send({
-                        message:
-                            err.message || `Unable to delete user with id ${req.params.id}`,
+                   /*res.status(500).send({message:err.message || `Unable to delete user with id ${req.params.id}`,});*/
+                    return res.status(200).send({
+                        error : 'Impossible de supprimer l’utilisateur',
+                        code: 'UD2'
                     });
                 } else {
-                    res.send(`User deleted`);
+                    return res.status(200).send({
+                        message : 'l’utilisateur à été supprimer',
+                        code: 'UD3'
+                    });
                 }
             });
         }
     };
-
 
   /*
     static findByQuery = (req, res) => {
@@ -198,9 +229,6 @@ export class UserController {
         });
     };
 */
-
-
-
 
     static isManagerUser() {
         const token = req.headers.authorization && extractBearerToken(req.headers.authorization);

@@ -16,12 +16,18 @@ export const checkTokenMiddleware = (req, res, next) => {
     console.log(token);
     // Présence d'un token
     if (!token) {
-        return res.status(403).json({ error: 'Besoin d’un jeton' })
+        return res.status(403).json({
+            error: 'Besoin d’un jeton',
+            code: 'JC1'
+        })
     }
     // Véracité du token
     jwt.verify(token, SECRET_KEY_JWT, (err, decodedToken) => {
         if (err) {
-            res.status(401).json({ error: 'Jeton défectueux' })
+            res.status(401).json({
+                error: 'Jeton défectueux',
+                code: 'JC2'
+            })
         } else {
             return next()
         }

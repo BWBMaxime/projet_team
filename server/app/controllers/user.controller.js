@@ -2,14 +2,12 @@ import {User} from "../models/index.js";
 import {extractBearerToken} from "../utils/jwt.js"
 import jwt from "jsonwebtoken";
 import {SECRET_KEY_JWT} from "../config/config.js";
+import bcrypt from "bcrypt";
 
 
 export class UserController {
-
     static login = (req, res) => {
-        let login = req.body.login;
-        let password = req.body.password;
-        User.findByLogin(req.body.login, (err, data) => {
+           User.findByLogin(req.body.login, (err, data) => {
             if (err) {
                 return res.status(200).send({
                     // error: err.message || `Unable to find user with id ${data.id}`,
@@ -18,7 +16,7 @@ export class UserController {
                 });
             } else {
                 if (data != null) {
-                    if (data.password == password) {
+                    if (bcrypt.compareSync(req.body.password, data.password)) {
                         //identifié
                         if (data.active) {
                             //compte activé
@@ -41,7 +39,6 @@ export class UserController {
                         return res.status(200).send({
                             error: "Login et/ou mot de passe invalide",
                             code: 'UL3'
-
                         });
                     }
                 } else {
@@ -74,7 +71,7 @@ export class UserController {
                     if (data == null) {
                         const newUser = {
                             login: req.body.login,
-                            password: req.body.password,
+                            password: this.passwordCrypt(req.body.password),
                             lastName: req.body.lastName,
                             firstName: req.body.firstName,
                             profil: req.body.profil,
@@ -122,7 +119,7 @@ export class UserController {
         if(this.isManagerUser) {
             const userUpdated = {
                 login: req.body.login,
-                password: req.body.password,
+                password: this.passwordCrypt(req.body.password),
                 lastName: req.body.lastName,
                 firstName: req.body.firstName,
                 profil: req.body.profil,
@@ -172,7 +169,7 @@ export class UserController {
 
                 } else {
                     let dataSecure=data.map((datamap,index) => {
-                        delete datamap.password
+                       // delete datamap.password
                         return datamap;
                     });
                     res.send(dataSecure);
@@ -260,6 +257,10 @@ export class UserController {
                 }
             }
         });
+    }
+
+    static passwordCrypt(password){
+        return bcrypt.hashSync(password, 10);
     }
 
 }

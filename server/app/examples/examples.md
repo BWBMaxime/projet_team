@@ -17,7 +17,7 @@ Closed endpoints require a valid Token to be included in the header of the reque
 Each endpoint manipulates or displays information related to the User. Token is provided with the request:
 
 - [Show all user](users/get.md) : `GET /api/users`
-- [Show user](users/getId.md) : `GET /api/users`
+- [Show user](users/getId.md) : `GET /api/users/:id`
 - [Create user](users/post.md) : `POST /api/users`
-- [Update user](users/put.md) : `PUT /api/users`
-- [Delete user](users/delete.md) : `DELETE /api/users`
+- [Update user](users/put.md) : `PUT /api/users/:id`
+- [Delete user](users/delete.md) : `DELETE /api/users/:id`

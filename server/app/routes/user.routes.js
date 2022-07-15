@@ -6,7 +6,7 @@ export const router = (app) => {
   app.post("/users/create",checkTokenMiddleware, UserController.create);
   app.put("/users/update/:id",checkTokenMiddleware, UserController.update);
   app.get("/users", checkTokenMiddleware,UserController.findAll);
- // app.delete("/users/:id",checkTokenMiddleware, UserController.deleteById);
+  app.delete("/users/:id",checkTokenMiddleware, UserController.deleteById);
 
 
 

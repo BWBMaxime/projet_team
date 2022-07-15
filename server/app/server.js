@@ -1,12 +1,8 @@
 import express from "express";
 import bodyParser from "body-parser";
 import { router as UserRouter } from "./routes/index.js";
-import {checkTokenMiddleware} from "./utils/jwt.js"
 const app = express();
 const appPort = 3000;
-
-
-
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));

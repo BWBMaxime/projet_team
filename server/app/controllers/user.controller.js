@@ -197,7 +197,7 @@ export class UserController {
         }
         if(this.isManagerUser) {
             User.deleteById(req.params.id, (err, data) => {
-                console.log(req.params.id);
+                console.log('delete',req.params.id);
                 if (err) {
                    /*res.status(500).send({message:err.message || `Unable to delete user with id ${req.params.id}`,});*/
                     return res.status(200).send({

@@ -1,5 +1,5 @@
 import { MongoClient, ServerApiVersion } from "mongodb";
-import { URI } from "../config/db.config.js";
+import { URI } from "../config/config.js";
 
 export const connection = new MongoClient(URI, {
   useNewUrlParser: true,

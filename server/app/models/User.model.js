@@ -23,6 +23,8 @@ export class User {
     }*/
   };
 
+
+
   static findById = (userId, result) => {
     try {
       const options = {

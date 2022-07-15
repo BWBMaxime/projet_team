@@ -1,8 +1,5 @@
-
 import jwt from "jsonwebtoken";
-const SECRET_KEY_JWT="$dsf54645sdfsdf545488dd122f4df454544yeyehjnsdsd$$$sddskjkj";
-
-
+import { SECRET_KEY_JWT } from "../config/config.js";
 /* Récupération du header bearer */
 export const extractBearerToken = headerValue => {
     if (typeof headerValue !== 'string') {
@@ -19,13 +16,12 @@ export const checkTokenMiddleware = (req, res, next) => {
     console.log(token);
     // Présence d'un token
     if (!token) {
-        return res.status(401).json({ error: 'Error. Need a token' })
+        return res.status(401).json({ error: 'Need a token' })
     }
-
     // Véracité du token
     jwt.verify(token, SECRET_KEY_JWT, (err, decodedToken) => {
         if (err) {
-            res.status(401).json({ error: 'Error. Bad token' })
+            res.status(401).json({ error: 'Bad token' })
         } else {
             return next()
         }

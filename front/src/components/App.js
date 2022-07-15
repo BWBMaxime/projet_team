@@ -1,9 +1,18 @@
 import "../css/App.css";
+//Component
 import Header from "../components/common/Header";
 import Footer from "../components/common/Footer";
+
 import TableDevis from "../components/table/TableDevis";
+import CardVehicule from "../components/table/CardVehicule";
 import Table from "../components/table/Table";
+
 import FormLogin from "./forms/FormLogin";
+import FormUser from "./forms/FormUser";
+import FormDevis from "./forms/FormDevis";
+import FormClient from "./forms/FormClient";
+import FormVehicle from "./forms/FormVehicle";
+//----------
 import { useState, createContext } from "react";
 import Data from "../services/Data";
 import { useEffect } from 'react';
@@ -50,29 +59,16 @@ const App = () => {
   }
   return (
     <>
-      {!is_logged ? (
-    <FormLogin handleClickSubmitFormLogin={handleClickSubmitFormLogin} />
-  ) : (
-  <>
-  <div className="container-fluid">
-      <CarNCoContext.Provider value={handleContext}> 
-      <Header user={user}  />
-      {(() => {
-        switch (user) {
-          case "patron":
-            return <TableDevis />
-          case "admin":
-            return <div>Admin</div>
-          case "commercial":
-            return <Table />
-        }
-      })()}
-       </CarNCoContext.Provider> 
-      <Footer />
-    </div>
-  </>
-    
-  )}
+    <Header/>
+    <FormLogin />
+    <FormUser />
+    <FormDevis />
+    <FormClient />
+    <FormVehicle/>
+    <TableDevis />
+    <CardVehicule />
+    <Table />
+    <Footer/>
     </>
   );
 }

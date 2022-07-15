@@ -2,6 +2,16 @@ const FormLogin = (props) => {
 
     return (
         <>
+
+        {/* TODO : a modifier placeholder champ
+          TOAST
+          Forgot password
+          creation devis champ date
+          placement des boutton centrer
+          ajustement des tableaux
+          gestion taille d image
+          Version Mobile des tableaux
+        */}
         <section className="container py-5 h-100 ">
           <div className="row d-flex justify-content-center align-items-center h-100">
             <div className="col-12 col-md-8 col-lg-6 col-xl-5">

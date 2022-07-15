@@ -48,7 +48,7 @@ Retourne un JWT (json web token)
         }
     ```
 
-    **OR**
+**OR**
 
 
 - **Code:** 401 UNAUTHORIZED <br />
@@ -59,7 +59,7 @@ Retourne un JWT (json web token)
         code: 'UL2'
       }
     ```
-OR
+**OR**
 
 - **Code:** 401 UNAUTHORIZED <br />
 **Content:**
@@ -69,7 +69,7 @@ OR
       code: 'UL3'
     }
     ```
-OR
+**OR**
 
 - **Code:** 401 UNAUTHORIZED <br />
   **Content:**

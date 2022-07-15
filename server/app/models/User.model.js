@@ -23,7 +23,23 @@ export class User {
     }*/
   };
 
-
+  static findByLogin = (login, result) => {
+    try {
+      const options = {
+        projection: { login: 0, firstName: 1, lastName: 1 },
+      };
+      const user = usersData
+          .findOne({
+            login: login,
+          })
+          .then((user) => result(null, user));
+    } catch (e) {
+      console.log(`error ${e}`);
+      result(e, null);
+    } /* finally {
+      connection.close();
+    }*/
+  };
 
   static findById = (userId, result) => {
     try {

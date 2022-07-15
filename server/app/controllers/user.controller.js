@@ -6,8 +6,9 @@ import bcrypt from "bcrypt";
 
 
 export class UserController {
+
     static login = (req, res) => {
-           User.findByLogin(req.body.login, (err, data) => {
+        User.findByLogin(req.body.login, (err, data) => {
             if (err) {
                 return res.status(404).send({
                     // error: err.message || `Unable to find user with id ${data.id}`,
@@ -59,7 +60,7 @@ export class UserController {
                 code: 'UC1'
             });
         }
-        if(this.isManagerUser) {
+        if (this.isManagerUser) {
             User.findByLogin(req.body.login, (err, data) => {
                 if (err) {
                     return res.status(404).send({
@@ -99,8 +100,7 @@ export class UserController {
                     }
                 }
             });
-        }
-        else{
+        } else {
             return res.status(403).send({
                 error: "Accès refusé pour ce profil utilisateur",
                 code: 'UC6'
@@ -116,7 +116,7 @@ export class UserController {
                 code: 'UU1'
             });
         }
-        if(this.isManagerUser) {
+        if (this.isManagerUser) {
             const userUpdated = {
                 login: req.body.login,
                 password: this.passwordCrypt(req.body.password),
@@ -137,11 +137,9 @@ export class UserController {
                         error: "Les données de l'utilisateur ont été mis à jour avec succès",
                         code: 'UU3'
                     });
-
                 }
             });
-        }
-        else{
+        } else {
             return res.status(401).send({
                 error: "Accès refusé pour ce profil utilisateur",
                 code: 'UU4'
@@ -157,7 +155,7 @@ export class UserController {
                 code: 'UF1'
             });
         }
-        if(this.isManagerUser) {
+        if (this.isManagerUser) {
             User.findAll((err, data) => {
                 if (err) {
                     /*res.status(500).send({message: err.message || "Unable to fetch user data"});*/
@@ -166,15 +164,14 @@ export class UserController {
                         code: 'UF2'
                     });
                 } else {
-                    let dataSecure=data.map((datamap,index) => {
+                    let dataSecure = data.map((datamap, index) => {
                         delete datamap.password
                         return datamap;
                     });
                     res.send(dataSecure);
                 }
             });
-        }
-        else{
+        } else {
             return res.status(401).send({
                 error: "Accès refusé pour ce profil utilisateur",
                 code: 'UF3'
@@ -190,24 +187,23 @@ export class UserController {
                 code: 'UD1'
             });
         }
-        if(this.isManagerUser) {
+        if (this.isManagerUser) {
             User.deleteById(req.params.id, (err, data) => {
-                console.log('delete',req.params.id);
+                console.log('delete', req.params.id);
                 if (err) {
-                   /*res.status(500).send({message:err.message || `Unable to delete user with id ${req.params.id}`,});*/
+                    /*res.status(500).send({message:err.message || `Unable to delete user with id ${req.params.id}`,});*/
                     return res.status(404).send({
-                        error : 'Impossible de supprimer l’utilisateur',
+                        error: 'Impossible de supprimer l’utilisateur',
                         code: 'UD2'
                     });
                 } else {
                     return res.status(200).send({
-                        message : 'l’utilisateur à été supprimer',
+                        message: 'l’utilisateur à été supprimer',
                         code: 'UD3'
                     });
                 }
             });
-        }
-        else{
+        } else {
             return res.status(401).send({
                 error: "Accès refusé",
                 code: 'UF3'
@@ -223,7 +219,7 @@ export class UserController {
                 code: 'UF1'
             });
         }
-         if(this.isManagerUser) {
+        if (this.isManagerUser) {
             User.findById(req.params.id, (err, data) => {
                 console.log(req.params.id);
                 if (err) {
@@ -232,13 +228,12 @@ export class UserController {
                         error: "Impossible de trouver l’utilisateur",
                         code: 'UF2'
                     });
-                    } else {
+                } else {
                     delete data.password
                     res.send(data);
                 }
             });
-        }
-        else{
+        } else {
             return res.status(401).send({
                 error: "Accès refusé",
                 code: 'UF3'
@@ -262,7 +257,7 @@ export class UserController {
         });
     }
 
-    static passwordCrypt(password){
+    static passwordCrypt(password) {
         return bcrypt.hashSync(password, 10);
     }
 

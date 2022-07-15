@@ -8,17 +8,50 @@ export class UserController {
     static login = (req, res) => {
         let login = req.body.login;
         let password = req.body.password;
-        const token = jwt.sign({
-            id: '62d11fa14bffa6eec663d186'
-        }, SECRET_KEY_JWT, {expiresIn: '3 hours'})
-        console.log({access_token: token})
-        return res.json({access_token: 'bearer ' + token})
+        User.findByLogin(req.body.login, (err, data) => {
+            if (err) {
+                return res.status(200).send({
+                    error: err.message || `Unable to find user with id ${data.id}`,
+                });
+            } else {
+                if (data != null) {
+                    if(data.password == password){
+                        //identifié
+                        if(data.active) {
+                            //compte activé
+                            const token = jwt.sign({id: data.id}, SECRET_KEY_JWT, {expiresIn: '3 hours'});
+                            return res.json(
+                                {
+                                    access_token: 'bearer ' + token,
+                                    lastName: data.lastName,
+                                    firstName: data.firstName,
+                                    profil: data.profil
+                                });
+                        }
+                        else{
+                            //compte non actif
+                            return res.status(200).send({
+                                error: "Votre compte n'est pas activé",
+                            });
+                        }
+                    }
+                    else{
+                        return res.status(200).send({
+                            error: "Login et/ou mot de passe invalide",
+                        });
+                    }
+                } else {
+                    return res.status(200).send({
+                        error: "Login et/ou mot de passe invalide",
+                    });
+                }
+            }
+        });
     }
-
 
     static create = (req, res) => {
         if (!req.body) {
-            res.status(400).send({message: "No content in body"});
+            res.status(403).send({message: "No content in body"});
             return;
         }
         const token = req.headers.authorization && extractBearerToken(req.headers.authorization);
@@ -71,7 +104,6 @@ export class UserController {
             }
         });
     }
-
 
     static findAll = (req, res) => {
         User.findAll((err, data) => {

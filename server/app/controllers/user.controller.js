@@ -25,7 +25,7 @@ export class UserController {
                             const token = jwt.sign({id: data.id}, SECRET_KEY_JWT, {expiresIn: '3 hours'});
                             return res.json(
                                 {
-                                    access_token: 'bearer ' + token,
+                                    access_token: token,
                                     lastName: data.lastName,
                                     firstName: data.firstName,
                                     profil: data.profil
@@ -214,21 +214,37 @@ export class UserController {
         }
     };
 
-  /*
-    static findByQuery = (req, res) => {
-        User.findById(req.params.id, (err, data) => {
-            console.log(req.params.id);
-            if (err) {
-                res.status(500).send({
-                    message: err.message || `Unable to find user with id ${data}`,
-                });
-            } else {
-                console.log(`dataUser ${data}`);
-                res.send(data);
-            }
-        });
+    static findById = (req, res) => {
+        if (!req.body) {
+            // return res.status(403).send({message: "No content in body"});
+            return res.status(403).send({
+                error: "Accès refusé",
+                code: 'UF1'
+            });
+        }
+        console.log('dddd ',req.params.id)
+        if(this.isManagerUser) {
+            User.findById(req.params.id, (err, data) => {
+                console.log(req.params.id);
+                if (err) {
+                    //res.status(500).send({ message: err.message || `Unable to find user with id ${data}`,});
+                    res.status(200).send({
+                        error: "Impossible de trouver l’utilisateur",
+                        code: 'UF2'
+                    });
+                    } else {
+                    delete data.password
+                    res.send(data);
+                }
+            });
+        }
+        else{
+            return res.status(403).send({
+                error: "Accès refusé",
+                code: 'UF3'
+            });
+        }
     };
-*/
 
     static isManagerUser() {
         const token = req.headers.authorization && extractBearerToken(req.headers.authorization);
@@ -245,8 +261,5 @@ export class UserController {
             }
         });
     }
-
-
-
 
 }

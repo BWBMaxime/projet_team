@@ -11,7 +11,8 @@ export class UserController {
         User.findByLogin(req.body.login, (err, data) => {
             if (err) {
                 return res.status(200).send({
-                    error: err.message || `Unable to find user with id ${data.id}`,
+                   // error: err.message || `Unable to find user with id ${data.id}`,
+                    error: "Impossible de trouver l’utilisateur"
                 });
             } else {
                 if (data != null) {
@@ -51,22 +52,24 @@ export class UserController {
 
     static create = (req, res) => {
         if (!req.body) {
-            res.status(403).send({message: "No content in body"});
-            return;
+           // return res.status(403).send({message: "No content in body"});
+            return  res.status(403).send({error: "Accès refusé"});
+
         }
         const token = req.headers.authorization && extractBearerToken(req.headers.authorization);
         const decoded = jwt.decode(token, {complete: false})
         User.findById(decoded.id, (err, data) => {
             if (err) {
                 res.status(403).send({
-                    error: "Acces denied user not found",
+                    error: "Accès refusé utilisateur introuvable",
                 });
             } else {
                 if (data.profil == "admin" || data.profil == "patron") {
                     User.findByLogin(req.body.login, (err, data) => {
                         if (err) {
                             return res.status(200).send({
-                                error: err.message || `Unable to find user with id ${data.id}`,
+                               // error: err.message || `Unable to find user with id ${data.id}`,
+                                error: "Impossible de trouver l’utilisateur"
                             });
                         } else {
                             if (data == null) {
@@ -81,7 +84,8 @@ export class UserController {
                                 User.create(newUser, (err, data) => {
                                     if (err) {
                                         return res.status(200).send({
-                                          error: err.message || "Unable to create user"
+                                          //error: err.message || "Unable to create user"
+                                            error: "Impossible de créer un utilisateur"
                                         });
                                     } else {
                                         return res.status(200).send({
@@ -98,7 +102,7 @@ export class UserController {
                     });
                 } else {
                     res.status(403).send({
-                        error: "Acces denied for the profil user",
+                        error: "Accès refusé pour ce profil utilisateur",
                     });
                 }
             }

@@ -1,6 +1,6 @@
 ## **Find By Id**
 
-Service permetant de récupérer les information d"un utilisateur, seul les utilisateurs dont le profil est "admin" ou "patron" sont autorisés à utiliser ce service.
+Service permettant de récupérer les informations d"un utilisateur, seuls les utilisateurs dont le profil est "admin" ou "patron" sont autorisés à utiliser ce service.
 
 **URL**
 
@@ -58,7 +58,7 @@ Service permetant de récupérer les information d"un utilisateur, seul les util
   ```
 **OR**
 - **Code:**  401 Unauthorized<br />
-  l'utilisateur n'as pas les droits liés à son profil pour modifier des utilisateurs. Seul les profils "admin" et "patron" peuvent modifier des utilisateurs
+  l'utilisateur n'as pas les droits liés à son profil pour modifier des utilisateurs. Seuls les profils "admin" et "patron" peuvent modifier des utilisateurs
     - **Content:**
   ```json
         {

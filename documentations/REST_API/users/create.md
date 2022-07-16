@@ -1,6 +1,6 @@
 ## **Create Users**
 
-Service permetant de créer de nouveaux utilisateurs, seul les utilisateurs dont le profil est "admin" ou "patron" sont autorisés à utiliser ce service..
+Service permettant de créer de nouveaux utilisateurs, seuls les utilisateurs dont le profil est "admin" ou "patron" sont autorisés à utiliser ce service.
 
 **URL**
 
@@ -38,7 +38,7 @@ Service permetant de créer de nouveaux utilisateurs, seul les utilisateurs dont
 
     ```json
       {
-          "message": "Utilisateur ajouté avec succés",
+          "message": "Utilisateur ajouté avec succès",
           "code": "UC4"
       }
     ```
@@ -86,7 +86,7 @@ Service permetant de créer de nouveaux utilisateurs, seul les utilisateurs dont
   ```
 **OR**
 - **Code:**  403 Forbidden <br />
-  l'utilisateur n'as pas les droits liés à son profil pour créer des utilisateurs. Seul les profils "admin" et "patron" peuvent créer des utilisateurs
+  l'utilisateur n'a pas les droits liés à son profil pour créer des utilisateurs. Seuls les profils "admin" et "patron" peuvent créer des utilisateurs
 
   - **Content:**
   ```json

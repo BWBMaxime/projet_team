@@ -4,7 +4,6 @@ import jwt from "jsonwebtoken";
 import {SECRET_KEY_JWT} from "../config/config.js";
 import bcrypt from "bcrypt";
 
-
 export class UserController {
 
     static login = (req, res) => {
@@ -86,7 +85,7 @@ export class UserController {
                                 });
                             } else {
                                 return res.status(200).send({
-                                    message: "Utilisateur ajouté avec succés",
+                                    message: "Utilisateur ajouté avec succès",
                                     code: 'UC4'
                                 });
                             }
@@ -133,7 +132,7 @@ export class UserController {
                     });
                 } else {
                     return res.status(200).send({
-                        message: "Les données de l'utilisateur ont été mis à jour avec succès",
+                        message: "Les données de l'utilisateur ont été mises à jour avec succès",
                         code: 'UU3'
                     });
                 }
@@ -199,7 +198,7 @@ export class UserController {
                     });
                 } else {
                     return res.status(200).send({
-                        message: 'l’utilisateur à été supprimer',
+                        message: 'l’utilisateur à été supprimé',
                         code: 'UD3'
                     });
                 }

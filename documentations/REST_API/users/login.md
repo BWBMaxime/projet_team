@@ -1,6 +1,6 @@
 ## **Login**
 
-Authentification de l'utilisateur, l'API Retourne un JWT (json web token) permetant ensuite d'accéder aux autre service de l'API selon les droits accordés au profil de l'utilisateur identifié.
+Authentification de l'utilisateur, l'API Retourne un JWT (json web token) permettant ensuite d'accéder aux autres services de l'API selon les droits accordés au profil de l'utilisateur identifié.
 
  **URL**
 

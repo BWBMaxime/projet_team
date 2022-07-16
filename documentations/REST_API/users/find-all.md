@@ -1,6 +1,6 @@
 ## **Find all Users**
 
-Service permetant de récupérer tous les utilisateurs présent en BDD,  seul les utilisateurs dont le profil est "admin" ou "patron" sont autorisés à utiliser ce service.
+Service permettant de récupérer tous les utilisateurs présents en BDD,  seuls les utilisateurs dont le profil est "admin" ou "patron" sont autorisés à utiliser ce service.
 
 **URL**
 
@@ -79,7 +79,7 @@ Service permetant de récupérer tous les utilisateurs présent en BDD,  seul le
 
 **OR**
 - **Code:**  401 Unauthorized <br />
-  l'utilisateur n'as pas les droits liés à son profil pour créer des utilisateurs. Seul les profils "admin" et "patron" peuvent recupérer la liste des utilisateurs
+  l'utilisateur n'as pas les droits liés à son profil pour créer des utilisateurs. Seuls les profils "admin" et "patron" peuvent recupérer la liste des utilisateurs.
 
     - **Content:**
   ```json
@@ -87,6 +87,27 @@ Service permetant de récupérer tous les utilisateurs présent en BDD,  seul le
          error: "Accès refusé pour ce profil utilisateur",
          code: 'UC6'
        }
+  ```
+**OR**
+- **Code:**  401 Unauthorized <br />
+
+  - **Content:**
+  ```json
+      {
+        error: 'Besoin d’un jeton',
+        code: 'JC1'
+      }
+  ```
+
+**OR**
+- **Code:**  401 Unauthorized <br />
+
+  - **Content:**
+  ```json
+      {
+        error: 'Jeton défectueux',
+        code: 'JC2'
+      }
   ```
 
 

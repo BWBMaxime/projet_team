@@ -1,6 +1,6 @@
 ## **Create Users**
 
-Service permetant de modifier un utilisateur, seul les utilisateurs dont le profil "admin" et "patron" sont autorisés à utiliser ce service.
+Service permettant de modifier un utilisateur, seuls les utilisateurs dont le profil "admin" et "patron" sont autorisés à utiliser ce service.
 
 **URL**
 
@@ -38,7 +38,7 @@ Service permetant de modifier un utilisateur, seul les utilisateurs dont le prof
 
     ```json
       {
-           message: "Les données de l'utilisateur ont été mis à jour avec succès",
+           message: "Les données de l'utilisateur ont été mises à jour avec succès",
            code: 'UU3'
       }
     ```
@@ -66,7 +66,7 @@ Service permetant de modifier un utilisateur, seul les utilisateurs dont le prof
   ```
 **OR**
 - **Code:**  401 Unauthorized<br />
-  l'utilisateur n'as pas les droits liés à son profil pour modifier des utilisateurs. Seul les profils "admin" et "patron" peuvent modifier des utilisateurs
+  l'utilisateur n'as pas les droits liés à son profil pour modifier des utilisateurs. Seulss les profils "admin" et "patron" peuvent modifier des utilisateurs
   - **Content:**
   ```json
         {

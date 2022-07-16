@@ -1,6 +1,6 @@
 ## **Delete Users**
 
-Service permetant de supprimer un utilisateur, seul les utilisateurs dont le profil est "admin" ou "patron" sont autorisés à utiliser ce service.
+Service permettant de supprimer un utilisateur, seuls les utilisateurs dont le profil est "admin" ou "patron" sont autorisés à utiliser ce service.
 
 **URL**
 
@@ -28,7 +28,7 @@ Service permetant de supprimer un utilisateur, seul les utilisateurs dont le pro
 
     ```json
      {
-        message: 'l’utilisateur à été supprimer',
+        message: 'l’utilisateur à été supprimé',
         code: 'UD3'
      }
     ```
@@ -56,7 +56,7 @@ Service permetant de supprimer un utilisateur, seul les utilisateurs dont le pro
   ```
 **OR**
 - **Code:**  401 Unauthorized<br />
-  l'utilisateur n'as pas les droits liés à son profil pour modifier des utilisateurs. Seul les profils "admin" et "patron" peuvent modifier des utilisateurs
+  l'utilisateur n'as pas les droits liés à son profil pour modifier des utilisateurs. Seuls les profils "admin" et "patron" peuvent modifier des utilisateurs
     - **Content:**
   ```json
         {

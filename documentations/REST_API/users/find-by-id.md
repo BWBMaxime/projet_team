@@ -1,6 +1,6 @@
 ## **Find By Id**
 
-Service permetant de récupérer les information d"un utilisateur, seul les utilisateurs dont le profil "admin" et "patron" sont autorisés à utiliser ce service.
+Service permetant de récupérer les information d"un utilisateur, seul les utilisateurs dont le profil est "admin" ou "patron" sont autorisés à utiliser ce service.
 
 **URL**
 
@@ -18,18 +18,6 @@ Service permetant de récupérer les information d"un utilisateur, seul les util
       Authorization:  [access_token]
     ```
 
-- **Data Params (BODY)**
-    ```json
-      {
-        login: "login",
-        password: "password",
-        lastName: "lastName",
-        firstName: "firstName",
-        profil: "profil",
-        active: "active"
-      }
-    ```
-
 **Response:**
 - **Success Response:**
 
@@ -38,8 +26,12 @@ Service permetant de récupérer les information d"un utilisateur, seul les util
 
     ```json
       {
-           message: "Les données de l'utilisateur ont été mis à jour avec succès",
-           code: 'UU3'
+        "_id": "62cece7df362b00959e32083",
+        "login": "maxlemax",
+        "lastName": "GUICHEAU",
+        "firstName": "Maxime",
+        "profil": "commercial",
+        "active": true
       }
     ```
 - **Error Response:**
@@ -51,17 +43,17 @@ Service permetant de récupérer les information d"un utilisateur, seul les util
     ```json
         {
           error: "Accès refusé",
-          code: 'UU1'
+          code: 'UF1'
         }
     ```
 **OR**
-- **Code:** 500 Internal Server Error  <br />
+- **Code:** 404 NOT FOUND  <br />
 
     - **Content:**
   ```json
         {
-          error: "Impossible de mettre à jour les données de l’utilisateur",
-          code: 'UU2'
+          error: "Impossible de trouver l’utilisateur",
+          code: 'UF2'
         }
   ```
 **OR**
@@ -71,7 +63,7 @@ Service permetant de récupérer les information d"un utilisateur, seul les util
   ```json
         {
             error: "Accès refusé pour ce profil utilisateur",
-            code: 'UU4'
+            code: 'UF3'
         }
   ```
 

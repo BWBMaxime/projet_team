@@ -236,7 +236,7 @@ export class UserController {
             });
         } else {
             return res.status(401).send({
-                error: "Accès refusé",
+                error: "Accès refusé pour ce profil utilisateur",
                 code: 'UF3'
             });
         }

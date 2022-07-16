@@ -1,6 +1,6 @@
 import express from "express";
 import bodyParser from "body-parser";
-import { router as UserRouter } from "./routes/index.js";
+import { UserRouter, VehicleRouter } from "./routes/index.js";
 const app = express();
 const appPort = 3000;
 
@@ -23,6 +23,7 @@ app.get("/", (request, repsonse) => {
 });
 
 UserRouter(app);
+VehicleRouter(app);
 
 app.listen(appPort, () => {
   console.log(`Server listening at port ${appPort}`);

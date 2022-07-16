@@ -7,4 +7,5 @@ export const connection = new MongoClient(URI, {
   serverApi: ServerApiVersion.v1,
 });
 export const database = connection.db("projet_team_db");
-export const usersData = database.collection("user");
+export const UsersData = database.collection("user");
+export const VehiclesData = database.collection("vehicle");

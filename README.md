@@ -1,7 +1,7 @@
-# projet_team
+# PROJET TEAM
 
 Projet 2022_M05 | Gestion de ventes de véhicules
 
-## REST API Documentation
+## Documentation
 
-[Examples](server/app/examples/examples.md)
+[Description REST API](documentations/REST_API/description_API.md)

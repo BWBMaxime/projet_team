@@ -1,6 +1,6 @@
-## **Delete Users**
+## **Find By Id**
 
-Service permetant de supprimer un utilisateur, seul les utilisateurs dont le profil est "admin" ou "patron" sont autorisés à utiliser ce service.
+Service permetant de récupérer les information d"un utilisateur, seul les utilisateurs dont le profil "admin" et "patron" sont autorisés à utiliser ce service.
 
 **URL**
 
@@ -8,7 +8,7 @@ Service permetant de supprimer un utilisateur, seul les utilisateurs dont le pro
 
 **Method:**
 
-`DELETE`
+`GET`
 
 **Auth required :**  OUI
 
@@ -18,7 +18,17 @@ Service permetant de supprimer un utilisateur, seul les utilisateurs dont le pro
       Authorization:  [access_token]
     ```
 
-
+- **Data Params (BODY)**
+    ```json
+      {
+        login: "login",
+        password: "password",
+        lastName: "lastName",
+        firstName: "firstName",
+        profil: "profil",
+        active: "active"
+      }
+    ```
 
 **Response:**
 - **Success Response:**
@@ -27,10 +37,10 @@ Service permetant de supprimer un utilisateur, seul les utilisateurs dont le pro
       **Content:**
 
     ```json
-     {
-        message: 'l’utilisateur à été supprimer',
-        code: 'UD3'
-     }
+      {
+           message: "Les données de l'utilisateur ont été mis à jour avec succès",
+           code: 'UU3'
+      }
     ```
 - **Error Response:**
 
@@ -41,16 +51,16 @@ Service permetant de supprimer un utilisateur, seul les utilisateurs dont le pro
     ```json
         {
           error: "Accès refusé",
-          code: 'UD1'
+          code: 'UU1'
         }
     ```
 **OR**
-- **Code:**  404 NOT FOUND<br />
+- **Code:** 500 Internal Server Error  <br />
 
     - **Content:**
   ```json
         {
-          error: 'Impossible de supprimer l’utilisateur',
+          error: "Impossible de mettre à jour les données de l’utilisateur",
           code: 'UU2'
         }
   ```

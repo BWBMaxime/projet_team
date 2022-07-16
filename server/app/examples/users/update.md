@@ -1,6 +1,6 @@
-## **Delete Users**
+## **Create Users**
 
-Service permetant de supprimer un utilisateur, seul les utilisateurs dont le profil est "admin" ou "patron" sont autorisés à utiliser ce service.
+Service permetant de modifier un utilisateur, seul les utilisateurs dont le profil "admin" et "patron" sont autorisés à utiliser ce service.
 
 **URL**
 
@@ -8,7 +8,7 @@ Service permetant de supprimer un utilisateur, seul les utilisateurs dont le pro
 
 **Method:**
 
-`DELETE`
+`PUT`
 
 **Auth required :**  OUI
 
@@ -18,7 +18,17 @@ Service permetant de supprimer un utilisateur, seul les utilisateurs dont le pro
       Authorization:  [access_token]
     ```
 
-
+- **Data Params (BODY)**
+    ```json
+      {
+        login: "login",
+        password: "password",
+        lastName: "lastName",
+        firstName: "firstName",
+        profil: "profil",
+        active: "active"
+      }
+    ```
 
 **Response:**
 - **Success Response:**
@@ -27,37 +37,37 @@ Service permetant de supprimer un utilisateur, seul les utilisateurs dont le pro
       **Content:**
 
     ```json
-     {
-        message: 'l’utilisateur à été supprimer',
-        code: 'UD3'
-     }
+      {
+           message: "Les données de l'utilisateur ont été mis à jour avec succès",
+           code: 'UU3'
+      }
     ```
 - **Error Response:**
 
     - **Code:** 401 UNAUTHORIZED <br />
       les paramètres ne sont pas envoyés dans le body
-
+  
     - **Content:**
     ```json
         {
           error: "Accès refusé",
-          code: 'UD1'
+          code: 'UU1'
         }
     ```
 **OR**
-- **Code:**  404 NOT FOUND<br />
-
-    - **Content:**
+- **Code:** 500 Internal Server Error  <br />
+ 
+  - **Content:**
   ```json
         {
-          error: 'Impossible de supprimer l’utilisateur',
+          error: "Impossible de mettre à jour les données de l’utilisateur",
           code: 'UU2'
         }
   ```
 **OR**
 - **Code:**  401 Unauthorized<br />
   l'utilisateur n'as pas les droits liés à son profil pour modifier des utilisateurs. Seul les profils "admin" et "patron" peuvent modifier des utilisateurs
-    - **Content:**
+  - **Content:**
   ```json
         {
             error: "Accès refusé pour ce profil utilisateur",
@@ -67,8 +77,8 @@ Service permetant de supprimer un utilisateur, seul les utilisateurs dont le pro
 
 **OR**
 - **Code:**  401 Unauthorized <br />
-
-    - **Content:**
+  
+  - **Content:**    
   ```json
       {
         error: 'Besoin d’un jeton',
@@ -79,7 +89,7 @@ Service permetant de supprimer un utilisateur, seul les utilisateurs dont le pro
 **OR**
 - **Code:**  401 Unauthorized <br />
 
-    - **Content:**
+  - **Content:**
   ```json
       {
         error: 'Jeton défectueux',

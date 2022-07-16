@@ -127,13 +127,13 @@ export class UserController {
             User.updateById(req.params.id, userUpdated, (err, data) => {
                 if (err) {
                     //res.status(500).send(`Unable to update user ${req.params.id}`);
-                    return res.status(404).send({
+                    return res.status(500).send({
                         error: "Impossible de mettre à jour les données de l’utilisateur",
                         code: 'UU2'
                     });
                 } else {
                     return res.status(200).send({
-                        error: "Les données de l'utilisateur ont été mis à jour avec succès",
+                        message: "Les données de l'utilisateur ont été mis à jour avec succès",
                         code: 'UU3'
                     });
                 }
@@ -167,7 +167,9 @@ export class UserController {
                         delete datamap.password
                         return datamap;
                     });
-                    res.send(dataSecure);
+                     return res.status(200).send(
+                        dataSecure
+                    );
                 }
             });
         } else {
@@ -204,8 +206,8 @@ export class UserController {
             });
         } else {
             return res.status(401).send({
-                error: "Accès refusé",
-                code: 'UF3'
+                error: "Accès refusé pour ce profil utilisateur",
+                code: 'UD4'
             });
         }
     };
@@ -229,7 +231,7 @@ export class UserController {
                     });
                 } else {
                     delete data.password
-                    res.send(data);
+                    res.status(200).send(data);
                 }
             });
         } else {

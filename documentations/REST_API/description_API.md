@@ -14,7 +14,7 @@ Services nécessitant qu'un jeton valide soit inclus dans l'en-tête de la deman
 
 **USERS:**
 
-<u>Liste des profils utilisateurs :</u> "admin", "patron", "client", "commercial"
+<u>Liste des profils utilisateurs :</u> "admin", "patron", "client", "commercial", "magasinier"
 
 - [Create User](users/create.md) : `POST /api/users`
 - [Update User](users/create.md) : `PUT /api/users/:id`
@@ -23,7 +23,11 @@ Services nécessitant qu'un jeton valide soit inclus dans l'en-tête de la deman
 - [Find By Id](users/find-by-id.md) : `GET /api/users/:id`
 
 **VEHICLES:**
-
+- [Create Vehicle](vehicles/create.md) : `POST /api/vehicles`
+- [Update Vehicle](vehicles/update.md) : `PUT /api/vehicles/:id`
+- [Find All Vehicle](vehicles/find-all.md) : `GET /api/vehicles/`
+- [Delete Vehicle](vehicles/delete.md) : `DELETE /api/vehicles/:id`
+- [Find By Id](vehicles/find-by-id.md) : `GET /api/vehicles/:id`
 
 **CUSTOMER:**
 

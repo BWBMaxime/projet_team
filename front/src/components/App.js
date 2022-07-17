@@ -72,5 +72,10 @@ const App = () => {
     </>
   );
 }
-
+     {/* TODO :
+          TOAST for gestion erreur
+          ajustement des tableaux
+          gestion taille d image
+          Version Mobile des tableaux
+        */}
 export default App;

@@ -2,13 +2,13 @@ const Table = () => {
     return (
         <>
             {/* Exemple gestion utilisateur */}
-            <div className="container">
-                <div className="d-flex">
+            <div className="container w-75">
+                <div className="d-flex justify-content-between w-75">
                     <h3 className="m-4">Gestion des utilisateurs</h3>
                     <button className="btn btn-primary m-4">Crée un utilisateurs</button>
                 </div>
 
-                <table className="table">
+                <table className="table w-75">
                     <thead className="thead-dark">
                         <tr>
                             <th>Nom</th>

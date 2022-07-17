@@ -65,7 +65,7 @@ export class VehicleController {
           });
         } else {
           res.status(200).send({
-            message: "Véhitule ajouté avec succès",
+            message: "Véhicule ajouté avec succès",
             code: "VC4",
           });
         }

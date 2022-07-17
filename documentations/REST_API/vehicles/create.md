@@ -41,7 +41,7 @@ Service permettant de créer des vehicules.
 
     ```json
      {
-        message: "Véhitule ajouté avec succès",
+        message: "Véhicule ajouté avec succès",
         code: "VC4",
      }
     ```

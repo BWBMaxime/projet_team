@@ -1,6 +1,5 @@
 import { useState } from "react";
 
-
 const FormVehicle = () => {
     const [img, setImg] = useState();
 

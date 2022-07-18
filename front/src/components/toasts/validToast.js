@@ -1,4 +1,4 @@
-const Footer = () => {
+const validToast = () => {
     return (
         <>
             <div class="toast" role="alert" aria-live="assertive" aria-atomic="true">
@@ -18,4 +18,4 @@ const Footer = () => {
     );
 }
 
-export default Footer;
+export default validToast;

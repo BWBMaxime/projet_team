@@ -22,11 +22,6 @@
     
   )}
 
-
-
-
-
-
   {props.user === "commercial" ? (    
     <ul className="navbar-nav">
       <li className="nav-item m-4 h5" >

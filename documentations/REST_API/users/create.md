@@ -15,18 +15,18 @@ Service permettant de créer de nouveaux utilisateurs, seuls les utilisateurs do
 **Required:**
 - **Data Params (HEADER)**
     ```json
-      Authorization:  [access_token]
+      "Authorization":  "[access_token]"
     ```
 
 - **Data Params (BODY)**
     ```json
       {
-        login: "login",
-        password: "password",
-        lastName: "lastName",
-        firstName: "firstName",
-        profil: "profil",
-        active: "active"
+        "login": "login",
+        "password": "password",
+        "lastName": "lastName",
+        "firstName": "firstName",
+        "profil": "profil",
+        "active": "active"
       }
     ```
 
@@ -50,8 +50,8 @@ Service permettant de créer de nouveaux utilisateurs, seuls les utilisateurs do
     - **Content:**
     ```json
         {
-          error: "Accès refusé",
-          code: 'UC1'
+          "error": "Accès refusé",
+          "code": "UC1"
         }
     ```
 **OR**
@@ -60,8 +60,8 @@ Service permettant de créer de nouveaux utilisateurs, seuls les utilisateurs do
   - **Content:**
   ```json
         {
-          error: [erreur BDD],
-          code: 'UC2'
+          "error": "[erreur BDD]",
+          "code": "UC2"
         }
   ```
 **OR**
@@ -70,8 +70,8 @@ Service permettant de créer de nouveaux utilisateurs, seuls les utilisateurs do
   - **Content:**
   ```json
         {
-          error: "Impossible de créer un utilisateur",
-          code: 'UC3'
+          "error": "Impossible de créer un utilisateur",
+          "code": "UC3"
         }
   ```
 **OR**
@@ -80,8 +80,8 @@ Service permettant de créer de nouveaux utilisateurs, seuls les utilisateurs do
   - **Content:**
   ```json
         {
-          error: "Utilisateur déjà inscrit",
-          code: 'UC5'
+          "error": "Utilisateur déjà inscrit",
+          "code": "UC5"
         }
   ```
 **OR**
@@ -91,8 +91,8 @@ Service permettant de créer de nouveaux utilisateurs, seuls les utilisateurs do
   - **Content:**
   ```json
        {
-         error: "Accès refusé pour ce profil utilisateur",
-         code: 'UC6'
+         "error": "Accès refusé pour ce profil utilisateur",
+         "code": "UC6"
        }
   ```
 **OR**
@@ -101,8 +101,8 @@ Service permettant de créer de nouveaux utilisateurs, seuls les utilisateurs do
   - **Content:**    
   ```json
       {
-        error: 'Besoin d’un jeton',
-        code: 'JC1'
+        "error": "Besoin d’un jeton",
+        "code": "JC1"
       }
   ```
 **OR**
@@ -111,8 +111,8 @@ Service permettant de créer de nouveaux utilisateurs, seuls les utilisateurs do
   - **Content:**
   ```json
       {
-        error: 'Jeton défectueux',
-        code: 'JC2'
+        "error": "Jeton défectueux",
+        "code": "JC2"
       }
   ```
 

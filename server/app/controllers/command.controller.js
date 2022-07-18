@@ -1,8 +1,8 @@
-import { Customer } from "../models/index.js";
+import { Command } from "../models/index.js";
 
-export class CustomerController {
+export class CommandController {
   static findById = (req, res) => {
-    Customer.findById(req.params.id, (err, data) => {
+    Command.findById(req.params.id, (err, data) => {
       if (err) {
         res.status(404).send({
           error: "Impossible de trouver le client demandé.",
@@ -22,10 +22,10 @@ export class CustomerController {
         code: "CF1",
       });
     }
-    Customer.findAll((err, data) => {
+    Command.findAll((err, data) => {
       if (err) {
         res.status(404).send({
-          error: "Impossible de récupérer les données des clients",
+          error: "Impossible de récupérer les données des commandes",
           code: "CF2",
         });
       } else {
@@ -42,21 +42,22 @@ export class CustomerController {
         code: "CF1",
       });
     }
-    const newCustomer = {
-      lastName: req.body.lastName,
-      firstName: req.body.firstName,
-      address: req.body.address,
-      mobile: req.body.mobile,
+    const newCommand = {
+      user: req.body.user,
+      client: req.body.client,
+      date: req.body.date,
+      status: req.body.status,
+      vehicle: req.body.vehicle,
     };
-    Customer.create(newCustomer, (err, data) => {
+    Command.create(newCommand, (err, data) => {
       if (err) {
         res.status(500).send({
-          message: "Impossible de créer le client",
+          message: "Impossible de créer la commande",
           code: "CC2",
         });
       } else {
         res.status(200).send({
-          message: "Client ajouté avec succès",
+          message: "Commande ajouté avec succès",
           code: "CC4",
         });
       }
@@ -71,13 +72,14 @@ export class CustomerController {
         code: "CF1",
       });
     }
-    const newCustomerValues = {
-      lastName: customer.lastName,
-      firstName: customer.firstName,
-      address: customer.address,
-      mobile: customer.mobile,
+    const newValuesCommand = {
+      user: req.body.user,
+      client: req.body.client,
+      date: req.body.date,
+      status: req.body.status,
+      vehicle: req.body.vehicle,
     };
-    Customer.updateById(req.params.id, newCustomerValues, (err, data) => {
+    Command.updateById(req.params.id, newValuesCommand, (err, data) => {
       if (err) {
         res.status(404).send({
           message: "Impossible de mettre à jour les données du client.",
@@ -100,15 +102,15 @@ export class CustomerController {
         code: "CF1",
       });
     }
-    Customer.deleteById(req.params.id, (err, data) => {
+    Command.deleteById(req.params.id, (err, data) => {
       if (err) {
         res.status(404).send({
-          message: "Impossible de supprimer le client.",
+          message: "Impossible de supprimer la commande.",
           code: "CD2",
         });
       } else {
         res.status(200).send({
-          message: "Le client à été supprimé avec succès",
+          message: "La commande à été supprimé avec succès",
           code: "CD3",
         });
       }

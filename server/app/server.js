@@ -2,7 +2,12 @@ import express from "express";
 import bodyParser from "body-parser";
 
 import cors from "cors";
-import { CustomerRouter, UserRouter, VehicleRouter } from "./routes/index.js";
+import {
+  CommandRouter,
+  CustomerRouter,
+  UserRouter,
+  VehicleRouter,
+} from "./routes/index.js";
 const app = express();
 const appPort = 4000;
 
@@ -32,6 +37,7 @@ app.get("/", (request, repsonse) => {
 UserRouter(app);
 VehicleRouter(app);
 CustomerRouter(app);
+CommandRouter(app);
 
 app.listen(appPort, () => {
   console.log(`Server listening at port ${appPort}`);

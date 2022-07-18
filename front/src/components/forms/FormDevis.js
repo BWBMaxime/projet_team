@@ -1,11 +1,13 @@
-const FormDevis = () => {
+import { Modal } from "react-bootstrap";
+const FormDevis = (props) => {
     return (
         <>
-            <section className="container py-5 h-100 ">
-                <div className="row d-flex justify-content-center h-100 ">
-                    <div className="col-12 col-md-8 col-lg-6 col-xl-5">
-                        <form className="row justify-content-center">
-                            <h3 className="m-4">Création/Modification Devis</h3>
+            <Modal show={props.show} onHide={props.handleClickCloseModal} >
+                <Modal.Header closeButton>
+                    <Modal.Title> {props.creation === true? ("Créer"):("Modifier")} un devis</Modal.Title>
+                </Modal.Header>
+                <Modal.Body>
+                <form onSubmit={(e)=>{props.handleClickAddDevis(e)}}>
                             <div className="form-group">
                                 <label htmlFor="Client">Client</label>
                                 <input type="text" className="form-control" id="clientLastName" placeholder="Dupont" />
@@ -34,13 +36,10 @@ const FormDevis = () => {
                                 <label htmlFor="price">Prix</label>
                                 <input type="text" className="form-control" id="price" placeholder="10" />
                             </div>
-                            <input className="btn btn-success m-4 w-50" value="Créer le devis" type="submit" />
+                            <input className="btn btn-success m-4 w-50" value={props.creation === true? ("Créer un devis"):("Modifier un devis")} type="submit" />
                         </form>
-
-                    </div>
-                </div>
-            </section>
-
+                </Modal.Body>
+            </Modal>
         </>
     );
 }

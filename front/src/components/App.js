@@ -6,20 +6,20 @@ import TableDevis from "../components/table/TableDevis";
 import Table from "../components/table/Table";
 import { useState ,createContext } from "react";
 import Services from "../services/Services";
+import ValidToast from "./toasts/ValidToast";
 export const CarNCoContext = createContext();
 
 const App = () => {
     const [user, setUser] = useState([]);
+    const [toast, setToast] = useState([]);
     class handleCarNCoContext {
         static handleClickLogOut = (e)=>{
             console.log('handleClickLogout');
             setUser([]);
         };
 
-        static openToast(type,timer,message){
-            console.log('openToast');
-            alert(message);
-
+        static openToast(type,delay,message){
+          setToast([true,type,delay,message])
         }
 
         static handleClickSubmitLogin = (e) => {
@@ -28,12 +28,13 @@ const App = () => {
                 .then(result => {
                         //console.log('(1) Inside result:', result.access_token)
                         setUser(result);
-                        this.openToast('success','15',`Bienvenue `+result['firstName']+' '+result['lastName'] )
+                        this.openToast('success','3000',`Bienvenue `+result['firstName']+' '+result['lastName'] )
                     }
                 )
                 .catch(error => {
                         console.error(error.response.data.error);
-                        this.openToast('error','15',error.response.data.error)
+                       
+                        this.openToast('error','3000',error.response.data.error)
                     }
                 )
         }
@@ -43,18 +44,24 @@ const App = () => {
       <CarNCoContext.Provider value={handleCarNCoContext}>
           {!user['access_token'] ? (
               <>
+              <ValidToast show={toast} />
               <FormLogin/>
+              
               </>
           ) : (
               <>
               <Header user={user}  />
+             
+
                   {(() => {
                       switch (user['profil']) {
                           case "patron":
-                              return <TableDevis />
+                              return <TableDevis />                              
                           case "admin":
                               return <div>Admin</div>
                           case "commercial":
+                              return <Table />
+                          case "magasinier":
                               return <Table />
                       }
                   })()}

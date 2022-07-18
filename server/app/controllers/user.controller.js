@@ -127,7 +127,7 @@ export class UserController {
                 if (err) {
                     //res.status(500).send(`Unable to update user ${req.params.id}`);
                     return res.status(500).send({
-                        error: "Impossible de mettre à jour les données de l’utilisateur",
+                        error: "Impossible de mettre à journpm star les données de l’utilisateur",
                         code: 'UU2'
                     });
                 } else {

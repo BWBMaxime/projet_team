@@ -1,9 +1,17 @@
 import express from "express";
 import bodyParser from "body-parser";
+
+import cors from 'cors';
 import { UserRouter, VehicleRouter } from "./routes/index.js";
 const app = express();
-const appPort = 3000;
+const appPort = 4000;
 
+
+app.use(cors());
+//app.use(fileupload());
+app.use(express.json({limit: '25mb'}));
+app.use(express.urlencoded({limit: '25mb'}));
+app.use(express.static("files"));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 

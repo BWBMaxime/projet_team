@@ -66,16 +66,6 @@ Service permettant de récupérer tous les utilisateurs présents en BDD,  seuls
           code: 'UF2'
         }
   ```
-**OR**
-- **Code:**  404 NOT FOUND <br />
-
-    - **Content:**
-  ```json
-        {
-          error: "Impossible de créer un utilisateur",
-          code: 'UC3'
-        }
-  ```
 
 **OR**
 - **Code:**  401 Unauthorized <br />

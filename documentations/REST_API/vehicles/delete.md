@@ -1,10 +1,10 @@
 ## **Delete Users**
 
-Service permettant de supprimer un utilisateur, seuls les utilisateurs dont le profil est "admin" ou "patron" sont autorisés à utiliser ce service.
+Service permettant de supprimer un véhicule.
 
 **URL**
 
-    /api/users/:id
+    /api/vehicles/:id
 
 **Method:**
 
@@ -28,8 +28,8 @@ Service permettant de supprimer un utilisateur, seuls les utilisateurs dont le p
 
     ```json
      {
-        message: 'l’utilisateur à été supprimé',
-        code: 'UD3'
+        message: 'Le véhicule à été supprimé avec succès',
+        code: 'VD3'
      }
     ```
 - **Error Response:**
@@ -41,7 +41,7 @@ Service permettant de supprimer un utilisateur, seuls les utilisateurs dont le p
     ```json
         {
           error: "Accès refusé",
-          code: 'UD1'
+          code: 'VD1'
         }
     ```
 **OR**
@@ -50,22 +50,12 @@ Service permettant de supprimer un utilisateur, seuls les utilisateurs dont le p
     - **Content:**
   ```json
         {
-          error: 'Impossible de supprimer l’utilisateur',
-          code: 'UU2'
+          error: 'Impossible de supprimer le véhicule.',
+          code: 'VD2'
         }
   ```
 **OR**
-- **Code:**  401 Unauthorized<br />
-  l'utilisateur n'as pas les droits liés à son profil pour modifier des utilisateurs. Seuls les profils "admin" et "patron" peuvent modifier des utilisateurs
-    - **Content:**
-  ```json
-        {
-            error: "Accès refusé pour ce profil utilisateur",
-            code: 'UD4'
-        }
-  ```
 
-**OR**
 - **Code:**  401 Unauthorized <br />
 
     - **Content:**

@@ -51,7 +51,6 @@ const App = () => {
   }
 
   class handleContext {
-
    static handleClickLogout2 = (e)=>{
     setIsLogged(false);
     }

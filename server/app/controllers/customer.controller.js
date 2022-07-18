@@ -43,10 +43,10 @@ export class CustomerController {
       });
     }
     const newCustomer = {
-      lastName: customer.lastName,
-      firstName: customer.firstName,
-      address: customer.address,
-      mobile: customer.mobile,
+      lastName: req.body.lastName,
+      firstName: req.body.firstName,
+      address: req.body.address,
+      mobile: req.body.mobile,
     };
     Customer.create(newCustomer, (err, data) => {
       if (err) {
@@ -56,7 +56,7 @@ export class CustomerController {
         });
       } else {
         res.status(200).send({
-          message: "Véhitule ajouté avec succès",
+          message: "Client ajouté avec succès",
           code: "CC4",
         });
       }

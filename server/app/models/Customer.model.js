@@ -57,7 +57,7 @@ export class Customer {
     const options = {
       projection: { _id: 0, firstName: 1, lastName: 1 },
     };
-    let customerCursor = CustomersData.find({}, options);
+    let customerCursor = CustomersData.find({});
     customerCursor.toArray((err, res) => {
       if (err) {
         console.log(`error: ${err}`);

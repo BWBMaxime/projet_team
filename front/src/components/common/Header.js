@@ -2,9 +2,7 @@ import { useContext } from "react";
 import { CarNCoContext } from "../App";
 
 const Header = (props) => {
-
   const onClickLogOut = useContext(CarNCoContext).handleClickLogOut;
-
   return (
     <>
       <nav className="navbar navbar-expand-lg navbar-light bg-light">
@@ -30,10 +28,11 @@ const Header = (props) => {
                       <a className="nav-link" href="#">Les clients</a>
                     </li>
                     <li className="nav-item m-4 h5">
-                      <a className="nav-link" href="#">Stock Véhicule</a>
+                      <a className="nav-link" href="#">Stock Véhicules</a>
                     </li>
                   </ul>   
                 )
+
               case "commercial":
                 return (
                   <ul className="navbar-nav">
@@ -44,7 +43,7 @@ const Header = (props) => {
                       <a className="nav-link" href="#">Les clients</a>
                     </li>
                     <li className="nav-item m-4 h5">
-                      <a className="nav-link" href="#">Stock Véhicule</a>
+                      <a className="nav-link" href="#">Stock Véhicules</a>
                     </li>
                   </ul>  
                 )

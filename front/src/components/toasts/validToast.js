@@ -1,19 +1,19 @@
-import React, { useState } from 'react';
-import Button from 'react-bootstrap/Button';
-import Col from 'react-bootstrap/Col';
+import React, { useState,useContext } from 'react';
+import {CarNCoContext} from "../App";
 import Row from 'react-bootstrap/Row';
 import Toast from 'react-bootstrap/Toast';
 
 function ValidToast(props) {
+    const onCloseToast= useContext(CarNCoContext).closeToast;
+   // const [show, setShow] = useState(false);
+    console.log(props);
   return (
     <Row>
-      <Col xs={6}>
-        <Toast className='bg-success' onClose={() => props.setShow(false)} show={props.show} delay={props.delay} autohide>
+        <Toast className={'bg-'+props.type + ' w-100'} show={props.show}   onClick={() => onCloseToast()} >
           <Toast.Header>
             <strong className="me-auto">{props.message}</strong>
           </Toast.Header>
         </Toast>
-      </Col>
     </Row>
   );
 }

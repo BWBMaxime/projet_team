@@ -4,14 +4,16 @@ import Header from "../components/common/Header";
 import Footer from "../components/common/Footer";
 import TableDevis from "../components/table/TableDevis";
 import Table from "../components/table/Table";
+import ValidToast from "../components/toasts/validToast";
+import Vehicles from "../components/grid/Vehicles"
 import { useState ,createContext } from "react";
 import Services from "../services/Services";
-import ValidToast from "./toasts/ValidToast";
+
 export const CarNCoContext = createContext();
 
 const App = () => {
     const [user, setUser] = useState([]);
-    const [toast, setToast] = useState([]);
+    const [showToast, setShowToast] = useState([false]);
     class handleCarNCoContext {
         static handleClickLogOut = (e)=>{
             console.log('handleClickLogout');
@@ -19,22 +21,28 @@ const App = () => {
         };
 
         static openToast(type,delay,message){
-          setToast([true,type,delay,message])
+            setShowToast([true,type,delay,message]);
+            setTimeout(() => {
+                this.closeToast();
+            }, delay)
+
         }
+
+        static closeToast(){
+            setShowToast([false,'','','']);
+        }
+
 
         static handleClickSubmitLogin = (e) => {
             e.preventDefault();
             Services.login(e.target.login.value,e.target.password.value)
                 .then(result => {
-                        //console.log('(1) Inside result:', result.access_token)
                         setUser(result);
                         this.openToast('success','3000',`Bienvenue `+result['firstName']+' '+result['lastName'] )
                     }
                 )
                 .catch(error => {
-                        console.error(error.response.data.error);
-                       
-                        this.openToast('error','3000',error.response.data.error)
+                        this.openToast('danger','3000',error.response.data.error)
                     }
                 )
         }
@@ -42,33 +50,30 @@ const App = () => {
     };
   return (
       <CarNCoContext.Provider value={handleCarNCoContext}>
+          <ValidToast show={showToast[0]} type={showToast[1]} delay={showToast[2]}  message={showToast[3]}  />
           {!user['access_token'] ? (
               <>
-              <ValidToast show={toast} />
+
               <FormLogin/>
-              
               </>
           ) : (
               <>
               <Header user={user}  />
-             
-
                   {(() => {
                       switch (user['profil']) {
                           case "patron":
-                              return <TableDevis />                              
+                              return <TableDevis />
                           case "admin":
-                              return <div>Admin</div>
+                              return <Table view={"tableUser"} />
                           case "commercial":
-                              return <Table />
+                              return <Table view={"tableDevis"}/>
                           case "magasinier":
-                              return <Table />
+                              return <Vehicles />
                       }
                   })()}
               <Footer />
               </>
           )
-
           }
       </CarNCoContext.Provider>
   );

@@ -3,7 +3,7 @@ import { CarNCoContext } from "../App";
 
 const Header = (props) => {
 
-  //const handleClickLogout = useContext(CarNCoContext).handleClickLogout;
+  const onClickLogOut = useContext(CarNCoContext).handleClickLogOut;
 
   return (
     <>
@@ -16,7 +16,7 @@ const Header = (props) => {
         </button>
         <div className="collapse navbar-collapse justify-content-end" id="navbarNav">
           {(()=>{
-            switch (props.user) {
+            switch (props.user['profil']) {
               case "patron":
                 return (
                   <ul className="navbar-nav">
@@ -61,7 +61,7 @@ const Header = (props) => {
                 )
             }
           })()}
-          <button  className="btn btn-warning me-5" >Logout</button>
+          <button  className="btn btn-warning me-5" onClick={(e) => {onClickLogOut(e)}}>Logout</button>
         </div>
       </nav>
     </>

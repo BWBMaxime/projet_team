@@ -1,74 +1,69 @@
 import "../css/App.css";
-//Component
+import FormLogin from "./forms/FormLogin";
 import Header from "../components/common/Header";
 import Footer from "../components/common/Footer";
-
 import TableDevis from "../components/table/TableDevis";
-import CardVehicule from "../components/table/CardVehicule";
 import Table from "../components/table/Table";
-
-import FormLogin from "./forms/FormLogin";
-import FormUser from "./forms/FormUser";
-import FormDevis from "./forms/FormDevis";
-import FormClient from "./forms/FormClient";
-import FormVehicle from "./forms/FormVehicle";
-//----------
-import { useState, createContext } from "react";
-import Data from "../services/Data";
-import { useEffect } from 'react';
-
+import { useState ,createContext } from "react";
+import Services from "../services/Services";
 export const CarNCoContext = createContext();
 
 const App = () => {
+    const [user, setUser] = useState([]);
+    class handleCarNCoContext {
+        static handleClickLogOut = (e)=>{
+            console.log('handleClickLogout');
+            setUser([]);
+        };
 
-  useEffect(() => {
-    try {
-      async function getToken() {
-        await Data.getToken();
-      }
-      getToken();
-    } catch (error) {
-      console.error(`Erreur attrapée dans App`, error);
-    }
-  }, [])
+        static openToast(type,timer,message){
+            console.log('openToast');
+            alert(message);
 
-  const [is_logged, setIsLogged] = useState(false);
-  const [user, setUser] = useState("commercial");
+        }
 
+        static handleClickSubmitLogin = (e) => {
+            e.preventDefault();
+            Services.login(e.target.login.value,e.target.password.value)
+                .then(result => {
+                        //console.log('(1) Inside result:', result.access_token)
+                        setUser(result);
+                        this.openToast('success','15',`Bienvenue `+result['firstName']+' '+result['lastName'] )
+                    }
+                )
+                .catch(error => {
+                        console.error(error.response.data.error);
+                        this.openToast('error','15',error.response.data.error)
+                    }
+                )
+        }
 
-  const handleClickSubmitFormLogin = async (e) => {
-    e.preventDefault();
-    const email = e.target.typeEmail.value;
-    const pwd = e.target.typePassword.value;
-    try {
-      setIsLogged(true);
-      await Data.getUser(email, pwd);
-      setIsLogged(true);
-    } catch (error) {
-      console.error("Erreur attrapée dans handleSubmitLogin", error);
-      setIsLogged(false);
-    }
-  }
-
-  class handleContext {
-   static handleClickLogout2 = (e)=>{
-    setIsLogged(false);
-    }
-
-  }
+    };
   return (
-    <>
-    <Header/>
-    <FormLogin />
-    <FormUser />
-    <FormDevis />
-    <FormClient />
-    <FormVehicle/>
-    <TableDevis />
-    <CardVehicule />
-    <Table />
-    <Footer/>
-    </>
+      <CarNCoContext.Provider value={handleCarNCoContext}>
+          {!user['access_token'] ? (
+              <>
+              <FormLogin/>
+              </>
+          ) : (
+              <>
+              <Header user={user}  />
+                  {(() => {
+                      switch (user['profil']) {
+                          case "patron":
+                              return <TableDevis />
+                          case "admin":
+                              return <div>Admin</div>
+                          case "commercial":
+                              return <Table />
+                      }
+                  })()}
+              <Footer />
+              </>
+          )
+
+          }
+      </CarNCoContext.Provider>
   );
 }
      {/* TODO :

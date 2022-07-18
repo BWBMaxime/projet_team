@@ -3,7 +3,7 @@ import { CarNCoContext } from "../App";
 
 const Header = (props) => {
 
-  const handleClickLogout = useContext(CarNCoContext).handleClickLogout;
+  //const handleClickLogout = useContext(CarNCoContext).handleClickLogout;
 
   return (
     <>
@@ -61,7 +61,7 @@ const Header = (props) => {
                 )
             }
           })()}
-          <button onClick={(e)=>handleClickLogout(e)} className="btn btn-warning me-5" >Logout</button>
+          <button  className="btn btn-warning me-5" >Logout</button>
         </div>
       </nav>
     </>

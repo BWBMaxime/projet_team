@@ -4,7 +4,7 @@ import Header from "../components/common/Header";
 import Footer from "../components/common/Footer";
 import TableDevis from "../components/table/TableDevis";
 import Table from "../components/table/Table";
-import ValidToast from "../components/toasts/validToast";
+import ValidToast from "./common/validToast";
 import Vehicles from "../components/grid/Vehicles"
 import { useState ,createContext } from "react";
 import Services from "../services/Services";

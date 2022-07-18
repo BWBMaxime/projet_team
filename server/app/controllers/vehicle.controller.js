@@ -5,9 +5,7 @@ import sharp from "sharp";
 export class VehicleController {
 
   static create  = (req, res) => {
-    //console.log(req);
     if (!req.body) {
-      // return res.status(403).send({message: "No content in body"});
       return res.status(401).send({
         error: "Accès refusé",
         code: 'VC1'

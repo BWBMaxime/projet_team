@@ -25,7 +25,7 @@ export class Customer {
       const options = {
         projection: { name: 0, firstName: 1, lastName: 1 },
       };
-      const user = UsersData.findOne({
+      const user = CustomersData.findOne({
         $or: [{ lastName: name }, { firstName: name }],
       }).then((user) => result(null, user));
     } catch (e) {

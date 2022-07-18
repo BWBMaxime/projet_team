@@ -71,7 +71,7 @@ export class CustomerController {
         code: "CF1",
       });
     }
-    const newCustomer = {
+    const newCustomerValues = {
       lastName: customer.lastName,
       firstName: customer.firstName,
       address: customer.address,

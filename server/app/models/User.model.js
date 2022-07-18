@@ -14,9 +14,20 @@ export class User {
   static create = (newUser, result) => {
     //try {
     UsersData.insertOne(newUser, function (err, res) {
-      if (err) throw result(err, null);
-      console.log("1 document inserted");
-      result(null, res);
+      console.log(`create ${err}`);
+      if (err) {
+        if (err.code == 11000 && err.message.indexOf("login_1 dup") > -1) {
+          result({ kind: "duplicate_login" }, null);
+          return;
+        } else {
+          result(err, null);
+          return;
+        }
+      } else {
+        console.log("1 document inserted");
+        result(null, res);
+        return;
+      }
     });
     /*} finally {
       connection.close();
@@ -25,9 +36,6 @@ export class User {
 
   static findByLogin = (login, result) => {
     try {
-      const options = {
-        projection: { login: 0, firstName: 1, lastName: 1 },
-      };
       const user = UsersData.findOne({
         login: login,
       }).then((user) => result(null, user));
@@ -42,7 +50,7 @@ export class User {
   static findById = (userId, result) => {
     try {
       const options = {
-        projection: { _id: 0, firstName: 1, lastName: 1 },
+        projection: { password: 0 },
       };
       const user = UsersData.findOne({
         _id: ObjectId(userId),
@@ -57,7 +65,10 @@ export class User {
 
   static findAll = (result) => {
     //try {
-    let userCursor = UsersData.find({});
+    const options = {
+      projection: { password: 0 },
+    };
+    let userCursor = UsersData.find({}, options);
     let users = userCursor.toArray((err, res) => {
       if (err) {
         console.log(`error: ${err}`);
@@ -78,9 +89,19 @@ export class User {
     const myquery = { _id: ObjectId(userId) };
     try {
       UsersData.updateOne(myquery, { $set: userUpdated }, function (err, res) {
-        if (err) result(err, null);
-        console.log("Users updated");
-        result(null, res);
+        if (err) {
+          if (err.code == 11000 && err.message.indexOf("login_1 dup") > -1) {
+            console.log("ici");
+            result({ kind: "duplicate_login" }, null);
+            return;
+          }
+          result(err, null);
+          return;
+        } else {
+          console.log("Users updated");
+          result(null, res);
+          return;
+        }
       });
     } catch (e) {
       console.log(e.message || "Unable to update user");

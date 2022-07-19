@@ -1,8 +1,15 @@
 import FormUser from "../forms/FormUser";
-import { useState } from "react";
+import { useContext, useState } from "react";
+import Services from "../../services/Services";
+// import {createContext } from "react";
+import { CarNCoContext } from "../App";
+
 const Table = () => {
+    const getUser = useContext(CarNCoContext).getUser;
+
     const [show, setShow] = useState(false);
     const [creation, setCreation] = useState();
+    const [users, setusers] = useState();
 
     const onClickShowModal = (test)=>{
         setCreation(test);
@@ -21,16 +28,24 @@ const Table = () => {
         setShow(false);
     }
 
+    const listeUsers = ()=>{
+           return Services.getUsers(getUser().access_token);
+    };
+
+
     return (
         <>
+
             {/* Exemple gestion utilisateur */}
             <div className="container w-75">
-                <div className="d-flex justify-content-between w-75">
+                <div className="d-flex justify-content-between ">
                     <h3 className="m-4">Gestion des utilisateurs</h3>
                     <button className="btn btn-primary m-4" onClick={()=>{onClickShowModal(true)}}>Crée un utilisateurs</button>
                 </div>
-
-                <table className="table w-75">
+                {listeUsers.map(user=>{
+                    return <div>{user.name}</div>
+                })}
+                <table className="table">
                     <thead className="thead-dark">
                         <tr>
                             <th>Nom</th>

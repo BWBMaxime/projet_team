@@ -8,19 +8,26 @@ const FormUser = (props) => {
                     <Modal.Title>{props.creation === true ?("Créer"):("Modifier")} un utilisateur</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
-                    <form onSubmit={(e) => {props.handleClickAddUser(e) }}>
+                    <form onSubmit={props.creation === true ?((e) => {props.handleClickAddUser(e)}):( (e) => {props.handleClickUpdateUser(e, props.userInfo[0]._id) })}>
+                        <div className="form-group">
+                            <label className="mb-2" htmlFor="email">Email :</label>
+                            <input type="email" className="form-control" id="userEmail" placeholder="Dupont@dupont.fr" defaultValue={props.creation == false?(`${props.userInfo[0].login}`) :("")}/>
+                        </div>
+                        <div className="form-group">
+                            <label className="mb-2" htmlFor="password">Password :</label>
+                            <input type="password" className="form-control" id="userPassword" placeholder="***" defaultValue={props.creation == false?(`${props.userInfo[0].password}`) :("")}  />
+                        </div>
                         <div className="form-group">
                             <label className="mb-2" htmlFor="nom">Nom :</label>
-                            <input type="text" className="form-control" id="userLastName" placeholder="Dupont" />
+                            <input type="text" className="form-control" id="userLastName" placeholder="Dupont"  defaultValue={props.creation == false?(`${props.userInfo[0].lastName}`) :("")}/>
                         </div>
                         <div className="form-group">
                             <label className="mb-2 mt-2" htmlFor="prénom">Prénom :</label>
-                            <input type="text" className="form-control" id="userFirstName" placeholder="Jean" />
+                            <input type="text" className="form-control" id="userFirstName" placeholder="Jean" defaultValue={props.creation == false?(`${props.userInfo[0].firstName}`) :("")} />
                         </div>
                         <div className="form-group">
                             <label className="mb-2 mt-2" htmlFor="profil">Profil :</label>
-                            <select className="form-control" id="profilUser">
-                                <option>Séléctionné un rôle</option>
+                            <select defaultValue={props.creation == false?(`${props.userInfo[0].profil}`) :("")} className="form-control" id="profilUser">
                                 <option value="patron">Patron</option>
                                 <option value="admin">Admin</option>
                                 <option value="commercial">Commercial</option>
@@ -29,7 +36,7 @@ const FormUser = (props) => {
                         </div>
                         <div>
                             <label className="form-check-label mt-3" htmlFor="active">Active</label>
-                            <input className="form-check-input mx-4 mt-4" type="checkbox" id="active" value="option1" />
+                            <input className="form-check-input mx-4 mt-4" defaultChecked={props.creation == false ? (props.userInfo[0].active == true ?(true) :(false)):("")} type="checkbox" id="active" value="option1" />
                         </div>
                         <input className="btn btn-success m-4 w-50" value={props.creation === true ?("Créer utilisateur"):("Modifier utilisateur")} type="submit" />
                     </form>

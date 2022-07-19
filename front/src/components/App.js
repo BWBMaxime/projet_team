@@ -6,8 +6,6 @@ import TableDevis from "../components/table/TableDevis";
 import Table from "../components/table/Table";
 import ValidToast from "./common/validToast";
 import Loader from "./common/Loader";
-
-
 import Vehicles from "../components/grid/Vehicles"
 import { useState ,createContext } from "react";
 import Services from "../services/Services";
@@ -25,7 +23,10 @@ const App = () => {
             setUser([]);
         };
 
-        static openToast(type,delay,message){
+        static openToast(type,delay,message,code=null){
+            if(code=='JC1' || code=='JC2'){
+                this.handleClickLogOut();
+            }
             setShowToast([true,type,delay,message]);
             setTimeout(() => {
                 this.closeToast();
@@ -52,18 +53,17 @@ const App = () => {
                         setUser(result);
                         this.openToast('success','3000',`Bienvenue `+result['firstName']+' '+result['lastName'] );
                         setTimeout(this.hideLoader,1000);
-
                     }
                 )
                 .catch(error => {
-                        this.openToast('danger','3000',error.response.data.error);
+                        this.openToast('danger','3000',error.response.data.error,error.response.data.code);
                         setTimeout(this.hideLoader,1000);
                     }
                 )
         }
     };
 
-    console.log('viewLoader ',viewLoader)
+
   return (
       <CarNCoContext.Provider value={handleCarNCoContext}>
           <Loader show={viewLoader}/>

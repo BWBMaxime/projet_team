@@ -42,9 +42,7 @@ const Table = () => {
                     <h3 className="m-4">Gestion des utilisateurs</h3>
                     <button className="btn btn-primary m-4" onClick={()=>{onClickShowModal(true)}}>Crée un utilisateurs</button>
                 </div>
-                {listeUsers.map(user=>{
-                    return <div>{user.name}</div>
-                })}
+
                 <table className="table">
                     <thead className="thead-dark">
                         <tr>

@@ -84,7 +84,7 @@ const App = () => {
                           case "patron":
                               return <TableDevis />
                           case "admin":
-                              return <Table view={"tableUser"} />
+                              return <Table  />
                           case "commercial":
                               return <Table view={"tableDevis"}/>
                           case "magasinier":
@@ -98,10 +98,5 @@ const App = () => {
       </CarNCoContext.Provider>
   );
 }
-     {/* TODO :
-          TOAST for gestion erreur
-          ajustement des tableaux
-          gestion taille d image
-          Version Mobile des tableaux
-        */}
+
 export default App;

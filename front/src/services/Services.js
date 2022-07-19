@@ -24,13 +24,12 @@ export default class Services  {
 
         static getUsers = (access_token)  => {
                 const urlService = this.urlServer+"/api/users";
-                
                 return axios.get(urlService, {
                         headers:{
                                 "Authorization":access_token,
                         }
                 }).then((res)=>{
-                        console.log(res.data)
+                        // console.log(res.data)
                         return res.data
                 })
 

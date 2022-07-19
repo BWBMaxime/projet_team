@@ -3,7 +3,6 @@ import {CarNCoContext} from "../App";
 
 function Loader(props) {
 
-    console.log(props.show);
     const onCloseToast= useContext(CarNCoContext).closeToast;
     return (
        <>

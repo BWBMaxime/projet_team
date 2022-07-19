@@ -5,6 +5,9 @@ import Footer from "../components/common/Footer";
 import TableDevis from "../components/table/TableDevis";
 import Table from "../components/table/Table";
 import ValidToast from "./common/validToast";
+import Loader from "./common/Loader";
+
+
 import Vehicles from "../components/grid/Vehicles"
 import { useState ,createContext } from "react";
 import Services from "../services/Services";
@@ -14,6 +17,8 @@ export const CarNCoContext = createContext();
 const App = () => {
     const [user, setUser] = useState([]);
     const [showToast, setShowToast] = useState([false]);
+    const [viewLoader, setViewLoader] = useState(false);
+
     class handleCarNCoContext {
         static handleClickLogOut = (e)=>{
             console.log('handleClickLogout');
@@ -25,35 +30,46 @@ const App = () => {
             setTimeout(() => {
                 this.closeToast();
             }, delay)
-
         }
 
         static closeToast(){
             setShowToast([false,'','','']);
         }
 
+        static showLoader(){
+           setViewLoader(true);
+        }
+
+        static hideLoader(){
+           setViewLoader(false);
+        }
 
         static handleClickSubmitLogin = (e) => {
             e.preventDefault();
+            this.showLoader();
             Services.login(e.target.login.value,e.target.password.value)
                 .then(result => {
                         setUser(result);
-                        this.openToast('success','3000',`Bienvenue `+result['firstName']+' '+result['lastName'] )
+                        this.openToast('success','3000',`Bienvenue `+result['firstName']+' '+result['lastName'] );
+                        setTimeout(this.hideLoader,1000);
+
                     }
                 )
                 .catch(error => {
-                        this.openToast('danger','3000',error.response.data.error)
+                        this.openToast('danger','3000',error.response.data.error);
+                        setTimeout(this.hideLoader,1000);
                     }
                 )
         }
-
     };
+
+    console.log('viewLoader ',viewLoader)
   return (
       <CarNCoContext.Provider value={handleCarNCoContext}>
+          <Loader show={viewLoader}/>
           <ValidToast show={showToast[0]} type={showToast[1]} delay={showToast[2]}  message={showToast[3]}  />
           {!user['access_token'] ? (
               <>
-
               <FormLogin/>
               </>
           ) : (

@@ -6,7 +6,7 @@ import Toast from 'react-bootstrap/Toast';
 function ValidToast(props) {
     const onCloseToast= useContext(CarNCoContext).closeToast;
    // const [show, setShow] = useState(false);
-    console.log(props);
+    //console.log(props);
   return (
     <Row>
         <Toast className={'bg-'+props.type + ' w-100'} show={props.show}   onClick={() => onCloseToast()} >

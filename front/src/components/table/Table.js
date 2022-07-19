@@ -9,7 +9,7 @@ const Table = () => {
 
     const [show, setShow] = useState(false);
     const [creation, setCreation] = useState();
-    const [users, setUsers] = useState();
+    const [users, setUsers] = useState([]);
 
     const onClickShowModal = (isCreated) => {
         setCreation(isCreated);
@@ -29,28 +29,20 @@ const Table = () => {
     }
 
     useEffect( () => {
-        ListeUsers();
+        Services.getUsers(getUser().access_token)
+        .then(result => {
+            console.log(result);
+                     setUsers(result);
+             //setTimeout(this.hideLoader,1000);
+        }
+        )
+        .catch(error => {
+            //this.openToast('danger', '3000', error.response.data.error, error.response.data.code);
+             //setTimeout(this.hideLoader,1000);
+        }
+        )
+     
     },[])
-
- function ListeUsers(){
-    Services.getUsers(getUser().access_token)
-    .then(result => {
-        console.log(result);
-                 setUsers(result);
-        //         // this.openToast('success','3000',`Bienvenue `+result['firstName']+' '+result['lastName'] );
-        //         // setTimeout(this.hideLoader,1000);
-    }
-    )
-    .catch(error => {
-        this.openToast('danger', '3000', error.response.data.error, error.response.data.code);
-        // setTimeout(this.hideLoader,1000);
-    }
-    )
-
- 
- }
-
-
 
     return (
         <>
@@ -65,40 +57,28 @@ const Table = () => {
                 <table className="table">
                     <thead className="thead-dark">
                         <tr>
-                            {/* {users.map(user => <th key={user.lastName}>{`${user.lastName}`}</th>)} */}
+                            <th>Nom</th>
+                            <th>Prénom</th>
+                            <th>Roles</th>
+                            <th>Active</th>
+                            <th></th>
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <th>PETAIN</th>
-                            <td>Geoffrais</td>
-                            <td>Admin</td>
-                            <td><input type="checkbox" /></td>
-                            <td>
-                                <button className="btn btn-secondary text-white m-1" onClick={() => { onClickShowModal(false) }}>&#9998;</button>
-                                <button className="btn btn-danger text-white m-1">&#10008;</button>
-                            </td>
-                        </tr>
-                        <tr>
-                            <th>GUICHON</th>
-                            <td>Maxime</td>
-                            <td>Admin</td>
-                            <td><input type="checkbox" /></td>
-                            <td>
-                                <button className="btn btn-secondary text-white m-1">&#9998;</button>
-                                <button className="btn btn-danger text-white m-1">&#10008;</button>
-                            </td>
-                        </tr>
-                        <tr>
-                            <th>ROJAS</th>
-                            <td>Célia</td>
-                            <td>Admin</td>
-                            <td><input type="checkbox" /></td>
-                            <td>
-                                <button className="btn btn-secondary text-white m-1">&#9998;</button>
-                                <button className="btn btn-danger text-white m-1">&#10008;</button>
-                            </td>
-                        </tr>
+                        
+                        {
+                        users.map(user => 
+                            <tr key={user._id}>
+                                <th>{user.firstName}</th>
+                                <td>{user.lastName}</td>
+                                <td>{user.profil}</td>
+                                <td>{user.active}</td>
+                                <td>
+                                    <button className="btn btn-secondary text-white m-1" onClick={() => { onClickShowModal(false) }}>&#9998;</button>
+                                    <button className="btn btn-danger text-white m-1">&#10008;</button>
+                                </td>
+                            </tr>
+                            )}
                     </tbody>
                 </table>
             </div>

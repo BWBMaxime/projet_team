@@ -1,6 +1,7 @@
 footer {
     bottom: 0;
     width: 100%;
+    position: fixed;
 }
 /* Absolute Center Spinner */
 .loading {

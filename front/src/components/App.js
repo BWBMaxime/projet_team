@@ -4,7 +4,7 @@ import Header from "../components/common/Header";
 import Footer from "../components/common/Footer";
 import TableDevis from "../components/table/TableDevis";
 import Table from "../components/table/Table";
-import ValidToast from "./common/validToast";
+import ValidToast from "./common/Toast";
 import Loader from "./common/Loader";
 import Vehicles from "../components/grid/Vehicles"
 import { useState ,createContext } from "react";
@@ -22,6 +22,10 @@ const App = () => {
             console.log('handleClickLogout');
             setUser([]);
         };
+
+        static getUser(){
+            return user;
+        }
 
         static openToast(type,delay,message,code=null){
             if(code=='JC1' || code=='JC2'){

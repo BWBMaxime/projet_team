@@ -25,7 +25,7 @@ export class Command {
   static findById = (commandId, result) => {
     try {
       CommandsData.findOne({
-        _id: ObjectId(commandId),
+        _id: ObjectID(commandId),
       }).then((command) => result(null, command));
     } catch (e) {
       console.log(`error ${e}`);

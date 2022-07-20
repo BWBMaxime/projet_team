@@ -54,12 +54,22 @@ export class CustomerController {
           message: "Impossible de créer le client",
           code: "CC2",
         });
-      } else {
-        res.status(200).send({
-          message: "Client ajouté avec succès",
-          code: "CC4",
-        });
       }
+
+      Customer.findById(data.insertedId, (err, data) => {
+        if (err) {
+          res.status(500).send({
+            message: "Impossible de créer le client",
+            code: "CC2",
+          });
+        } else {
+          res.status(200).send({
+            message: "Client ajouté avec succès",
+            code: "CC4",
+            client: data,
+          });
+        }
+      });
     });
   };
 
@@ -72,10 +82,10 @@ export class CustomerController {
       });
     }
     const newCustomerValues = {
-      lastName: customer.lastName,
-      firstName: customer.firstName,
-      address: customer.address,
-      mobile: customer.mobile,
+      lastName: req.body.lastName,
+      firstName: req.body.firstName,
+      address: req.body.address,
+      mobile: req.body.mobile,
     };
     Customer.updateById(req.params.id, newCustomerValues, (err, data) => {
       if (err) {
@@ -87,6 +97,7 @@ export class CustomerController {
         res.status(200).send({
           message: "Les données du client ont été mis à jour avec succès.",
           code: "CU3",
+          client: data,
         });
       }
     });

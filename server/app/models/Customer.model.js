@@ -1,3 +1,4 @@
+import { ObjectId } from "mongodb";
 import { CustomersData } from "./db.js";
 
 export class Customer {
@@ -12,7 +13,6 @@ export class Customer {
     //try {
     CustomersData.insertOne(newCustomer, function (err, res) {
       if (err) throw result(err, null);
-      console.log("1 document inserted");
       result(null, res);
     });
     /*} finally {
@@ -43,7 +43,7 @@ export class Customer {
       };
       const customer = CustomersData.findOne({
         _id: ObjectId(customerId),
-      }).then((customer) => result(null, user));
+      }).then((customer) => result(null, customer));
     } catch (e) {
       console.log(`error ${e}`);
       result(e, null);

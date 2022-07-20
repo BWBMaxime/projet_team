@@ -34,7 +34,7 @@ Service permettant de récupérer tous les clients présents en BDD.
     "firstName": "FirstName",
     "email": "contact@customer.fr",
     "address": {
-      "zipCode": 00000,
+      "zipCode": "00000",
       "city": "City"
     },
     "mobile": "0612345678"

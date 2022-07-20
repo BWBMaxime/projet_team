@@ -45,7 +45,17 @@ Service permettant de créer des clients.
 ```json
 {
   "message": "Client ajouté avec succès",
-  "code": "CUC4"
+  "code": "CUC4",
+  "customer": {
+    "lastName": "LastName",
+    "firstName": "FirstName",
+    "email": "em@il.fr",
+    "address": {
+      "zipCode": 00000,
+      "city": "City"
+    },
+    "mobile": 0000000000
+  }
 }
 ```
 

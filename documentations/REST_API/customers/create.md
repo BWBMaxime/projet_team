@@ -51,10 +51,10 @@ Service permettant de créer des clients.
     "firstName": "FirstName",
     "email": "em@il.fr",
     "address": {
-      "zipCode": 00000,
+      "zipCode": "00000",
       "city": "City"
     },
-    "mobile": 0000000000
+    "mobile": "0000000000"
   }
 }
 ```

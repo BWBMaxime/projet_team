@@ -28,6 +28,20 @@ Service permettant de récupérer les informations d"un client.
   **Content:**
 
 ```json
+{
+  "_id": "_id",
+  "lastName": "LastName",
+  "firstName": "FirstName",
+  "email": "contact@customer.fr",
+  "address": {
+    "zipCode": 00000,
+    "city": "City"
+  },
+  "mobile": "0612345678"
+}
+```
+
+```json
 
 ```
 

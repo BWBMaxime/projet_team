@@ -107,12 +107,14 @@ export class UserController {
     if (this.isManagerUser) {
       const userUpdated = {
         login: req.body.login,
-        password: this.passwordCrypt(req.body.password),
         lastName: req.body.lastName,
         firstName: req.body.firstName,
         profil: req.body.profil,
         active: req.body.active,
       };
+
+      if (req.body.password)
+        userUpdated.password = this.passwordCrypt(req.body.password);
       User.updateById(req.params.id, userUpdated, (err, data) => {
         if (err) {
           if (err.kind == "duplicate_login") {

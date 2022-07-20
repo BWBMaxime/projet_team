@@ -23,54 +23,10 @@ const App = () => {
   const [formDatavehicule, setFormDatavehicule] = useState(null);
   const [selectedImageVehicule, setSelectedImageVehicule] = useState([]);
 
-    class handleCarNCoContext {
-        static handleClickLogOut = (e)=>{
-            console.log('handleClickLogout');
-            setUser([]);
-        };
-
-        static getUser(){
-            return user;
-        }
-
-        static openToast =(type,delay,message,code=null) =>{
-            if(code=='JC1' || code=='JC2'){
-                this.handleClickLogOut();
-            }
-            setShowToast([true,type,delay,message]);
-            setTimeout(() => {
-                this.closeToast();
-            }, delay)
-        }
-
-        static closeToast(){
-            setShowToast([false,'','','']);
-        }
-
-        static showLoader(){
-           setViewLoader(true);
-        }
-
-        static hideLoader(){
-           setViewLoader(false);
-        }
-
-        static handleClickSubmitLogin = (e) => {
-            e.preventDefault();
-            this.showLoader();
-            Services.login(e.target.login.value,e.target.password.value)
-                .then(result => {
-                        setUser(result);
-                        this.openToast('success','3000',`Bienvenue `+result['firstName']+' '+result['lastName'] );
-                        setTimeout(this.hideLoader,1000);
-                    }
-                )
-                .catch(error => {
-                        this.openToast('danger','3000',error.response.data.error,error.response.data.code);
-                        setTimeout(this.hideLoader,1000);
-                    }
-                )
-        }
+  class handleCarNCoContext {
+    static handleClickLogOut = (e) => {
+      console.log("handleClickLogout");
+      setUser([]);
     };
 
     static getUser() {

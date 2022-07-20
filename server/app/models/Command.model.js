@@ -25,7 +25,7 @@ export class Command {
   static findById = (commandId, result) => {
     try {
       CommandsData.findOne({
-        _id: ObjectID(commandId),
+        _id: ObjectId(commandId),
       }).then((command) => result(null, command));
     } catch (e) {
       console.log(`error ${e}`);
@@ -37,15 +37,53 @@ export class Command {
 
   static findAll = (result) => {
     //try {
-    let commandCursor = CommandsData.find({});
-    commandCursor.toArray((err, res) => {
+    //let commandCursor = CommandsData.find({});
+    CommandsData.aggregate([
+      {
+        $lookup: {
+          from: "user",
+          localField: "user",
+          foreignField: "login",
+          as: "user",
+        },
+      },
+      {
+        $unwind: "$user",
+      },
+      { $project: { "user.password": 0 } },
+      {
+        $lookup: {
+          from: "customer",
+          localField: "customer",
+          foreignField: "email",
+          as: "customer",
+        },
+      },
+      { $unwind: "$customer" },
+      {
+        $lookup: {
+          from: "vehicle",
+          localField: "vehicle",
+          foreignField: "serialNumber",
+          as: "vehicle",
+        },
+      },
+      { $unwind: "$vehicle" },
+      /*{
+        $replaceRoot: {
+          newRoot: {
+            $mergeObjects: [{ $arrayElemAt: ["$fromUsers", 0] }, "$$ROOT"],
+          },
+        },
+      },*/
+      //      { $project: { fromUsers: 0 } },
+    ]).toArray((err, res) => {
       if (err) {
         console.log(`error: ${err}`);
         result(err, null);
         return;
       } else {
-        console.log(`Commands list ${res}`);
-
+        console.log(res);
         result(null, res);
       }
     });

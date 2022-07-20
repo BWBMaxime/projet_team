@@ -12,6 +12,7 @@ import Vehicles from "../components/grid/Vehicles"
 import {useState, createContext} from "react";
 import Services from "../services/Services";
 
+
 export const CarNCoContext = createContext();
 
 const App = () => {
@@ -21,13 +22,13 @@ const App = () => {
     const [listVehicles, setListVehicles] = useState([]);
     const [showformvehicule, setShowformvehicule] = useState(false);
     const [formDatavehicule, setFormDatavehicule] = useState(null);
-
+    const [selectedImageVehicule, setSelectedImageVehicule] = useState([]);
 
 
     class handleCarNCoContext {
         static handleClickLogOut = (e) => {
             console.log('handleClickLogout');
-           // setUser([]);
+            setUser([]);
         };
 
         static getUser() {
@@ -76,8 +77,6 @@ const App = () => {
         }
         //*************** END USER ******************//
 
-
-
         //*************** BEGIN VEHICLE ******************//
         static getAllVehicle = () => {
             console.log('getAllVehicle');
@@ -119,7 +118,7 @@ const App = () => {
                 year: e.target.year.value,
                 price: e.target.price.value,
                 statut: e.target.statut.value,
-                image: []
+                image: this.getListeImageVehicles()
             }
             this.showLoader();
             Services.saveVehicle(idVehicle,formData, user['access_token'])
@@ -138,10 +137,42 @@ const App = () => {
 
         }
 
-
-        static openFormVehicule(formdata=null){
-            setFormDatavehicule(formdata);
+        static openFormVehicule = (formData=null) => {
+            if(formData==null){
+                setSelectedImageVehicule([]);
+            }
+            else{
+                setSelectedImageVehicule(formData.images);
+            }
+            setFormDatavehicule(formData);
             setShowformvehicule(true);
+        }
+
+        static vehicleFileChange = (e) =>{
+            console.log('vehicleFileChange',e)
+            const file = document.querySelector('input[type=file]').files[0];
+            const reader = new FileReader();
+            reader.addEventListener("load", this.updateListeImage.bind(reader.result), false);
+            if (file) {
+                reader.readAsDataURL(file);
+            }
+        }
+
+        static updateListeImage = (reader) => {
+            let imageSrcData=reader["srcElement"]['result']
+            /*
+            let copySelectedImageVehicule=[...selectedImageVehicule];
+            copySelectedImageVehicule.push(imageSrcData);
+            */
+
+            setSelectedImageVehicule([imageSrcData]);
+        }
+
+        static getListeImageVehicles = () => {
+           return selectedImageVehicule;
+        }
+        static setListeImageVehicles = (listImages) => {
+            setSelectedImageVehicule(listImages);
         }
         static closeFormVehicule(){
             setFormDatavehicule(null);

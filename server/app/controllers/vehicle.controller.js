@@ -13,6 +13,7 @@ export class VehicleController {
     }
     let listeImagesUpload = [];
     if(req.body.image.length>0) {
+      console.log("resize",WIDTH_RESIZE_IMAGE_VEHICLE)
       req.body.image.map((image, imageIndex) => {
         let parts = image.split(';');
         let mimType = parts[0].split(':')[1];

@@ -3,6 +3,30 @@ footer {
     width: 100%;
     position: fixed;
 }
+
+.card-vehicles{
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    background-size: cover;
+    -o-background-size: cover;
+    height:200px;
+    width:100%;
+    background-repeat: no-repeat;
+    background-position: 50% 50%
+}
+
+.card-vehicles-form{
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    background-size: cover;
+    -o-background-size: cover;
+    height:100px;
+    width:100px;
+    background-repeat: no-repeat;
+    background-position: 50% 50%
+}
+
+
 /* Absolute Center Spinner */
 .loading {
     position: fixed;
@@ -123,4 +147,64 @@ footer {
         -o-transform: rotate(360deg);
         transform: rotate(360deg);
     }
+}
+
+
+.ruban {
+    width: 150px;
+    height: 150px;
+    overflow: hidden;
+    position: absolute;
+}
+.ruban::before,
+.ruban::after {
+    position: absolute;
+    z-index: -1;
+    content: '';
+    display: block;
+    border: 5px solid #000;
+}
+
+.ruban span {
+    position: absolute;
+    display: block;
+    width: 225px;
+    padding: 15px 0;
+
+    box-shadow: 0 5px 10px rgba(0,0,0,.1);
+
+    font-weight: bold;
+    text-transform: uppercase;
+    text-align: center;
+}
+
+
+.ruban span.reserve{
+    color: #000000;
+    background-color: orange;
+}
+
+.ruban span.vendu{
+    color: #ffffff;
+    background-color: red;
+}
+
+
+.left {
+    top: -10px;
+    left: -10px;
+}
+
+.left::before {
+    top: 0;
+    right: 0;
+}
+.left::after {
+    bottom: 0;
+    left: 0;
+}
+.left span {
+    right: -25px;
+    top: 30px;
+    transform: rotate(-45deg);
 }

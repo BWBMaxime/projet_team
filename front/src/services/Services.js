@@ -4,6 +4,7 @@ import axios from 'axios';
 export default class Services  {
         static urlServer = 'http://localhost:4000';
 
+        //***********BEGIN VEHICLE*****************/
         static login = (login,password)  => {
                 const urlService = this.urlServer+"/api/users/login";
                 const formData = {
@@ -31,8 +32,7 @@ export default class Services  {
                 })
 
         }
-
-
+        //***********END VEHICLE*****************/
 
         //***********BEGIN VEHICLE*****************/
         static getVehicles = (accessToken)  => {
@@ -47,7 +47,6 @@ export default class Services  {
                         return res.data
                 })
         }
-
 
         static deleteVehicles = (idVehicle,accessToken)  => {
                 const urlService = this.urlServer+"/api/vehicles/"+idVehicle;

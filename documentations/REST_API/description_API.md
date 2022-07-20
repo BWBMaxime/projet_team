@@ -1,4 +1,4 @@
-# REST API PROJET_TEAM 
+# REST API PROJET_TEAM
 
 Déscription de toutes les fonctionnalités de notre API REST avec tous les paramètres nécessaires et tous les retours
 
@@ -23,6 +23,7 @@ Services nécessitant qu'un jeton valide soit inclus dans l'en-tête de la deman
 - [Find By Id](users/find-by-id.md) : `GET /api/users/:id`
 
 **VEHICLES:**
+
 - [Create Vehicle](vehicles/create.md) : `POST /api/vehicles`
 - [Update Vehicle](vehicles/update.md) : `PUT /api/vehicles/:id`
 - [Find All Vehicle](vehicles/find-all.md) : `GET /api/vehicles/`
@@ -31,4 +32,8 @@ Services nécessitant qu'un jeton valide soit inclus dans l'en-tête de la deman
 
 **CUSTOMER:**
 
-
+- [Create Customer](customers/create.md) : `POST /api/customers`
+- [Update Customer](customers/update.md) : `PUT /api/customers/:id`
+- [Find All Customer](customers/find-all.md) : `GET /api/customers/`
+- [Delete Customer](customers/delete.md) : `DELETE /api/customers/:id`
+- [Find By Id](customers/find-by-id.md) : `GET /api/customers/:id`

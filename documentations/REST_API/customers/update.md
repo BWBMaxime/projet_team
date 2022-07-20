@@ -45,7 +45,17 @@ Service permettant de mettre à jour un client.
 ```json
 {
   "message": "Les données du client ont été mis à jour avec succès.",
-  "code": "CUU4"
+  "code": "CUU4",
+  "customer": {
+    "lastName": "LastName",
+    "firstName": "FirstName",
+    "email": "em@il.fr",
+    "address": {
+      "zipCode": 00000,
+      "city": "City"
+    },
+    "mobile": 0000000000
+  }
 }
 ```
 

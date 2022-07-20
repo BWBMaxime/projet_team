@@ -1,4 +1,4 @@
-## **Supression Customer**
+## **Supression Client**
 
 Service permettant de supprimer un client.
 

@@ -41,10 +41,6 @@ Service permettant de récupérer les informations d"un client.
 }
 ```
 
-```json
-
-```
-
 - **Error Response:**
 
 - **Code:** 401 UNAUTHORIZED <br />

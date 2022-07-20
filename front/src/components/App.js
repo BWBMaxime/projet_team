@@ -194,6 +194,21 @@ const App = () => {
       setShowformvehicule(false);
     }
     //*************** END VEHICLE ******************//
+
+    static handleClickOpenNewClientByCommande(){
+
+
+    }
+
+    static handleClickNextClientByCommande(objet){
+
+
+
+    }
+
+
+
+
   }
 
   return (

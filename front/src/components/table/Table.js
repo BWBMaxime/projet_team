@@ -19,14 +19,37 @@ const Table = () => {
         setShow(true);
         if (id !== undefined) {
             const users_copy = [...users];
-            const userInfo = users_copy.filter(user => {
+            const userInfo_copy = users_copy.filter(user => {
                 return id == user._id;
             })
-            setUserInfo(userInfo);
+            setUserInfo(userInfo_copy);
         }
     }
     const handleClickCloseModal = () => {
         setShow(false);
+    }
+
+    const getAllUsers = () => {
+        Services.getUsers(getUser().access_token)
+            .then(result => {
+                setUsers(result);
+                setTimeout(hideLoader, 1000);
+            }
+            )
+            .catch(error => {
+                setTimeout(hideLoader, 1000);
+            }
+            )
+    }
+
+    const handleChangeToggle = (e, id) => {
+        const active = e.target.checked == true ? true : false;
+        const users_copy = [...users];
+        const userInfo_copy = users_copy.filter(user => {
+            return id == user._id;
+        })
+        Services.updateUserToggle(id, userInfo_copy[0].login, userInfo_copy[0].lastName, userInfo_copy[0].firstName, userInfo_copy[0].profil, active, getUser().access_token);
+
     }
 
     const handleClickUpdateUser = (e, id) => {
@@ -38,19 +61,31 @@ const Table = () => {
         const profilUser = e.target.profilUser.value;
         const active = e.target.active.checked == true ? true : false;
         loader();
-        Services.updateUser(id, email, password, lastName, firstName, profilUser, active, getUser().access_token);
-        Services.getUsers(getUser().access_token)
-            .then(result => {
-                toast('success', '3000', `Utilisateur modifié`);
-                setUsers(result);
-                setTimeout(hideLoader, 1000);
-            }
-            )
-            .catch(error => {
-                toast('danger', '3000', error.response.data.error, error.response.data.code);
-                setTimeout(hideLoader, 1000);
-            }
-            )
+        if (password == "") {
+            Services.updateUserToggle(id, email, lastName, firstName, profilUser, active, getUser().access_token)
+                .then(res => {
+                    toast('success', '3000', `Utilisateur Modifié`);
+                    setTimeout(hideLoader, 1000);
+                    getAllUsers();
+                })
+                .catch(error => {
+                    toast('danger', '3000', error.response.data.error, error.response.data.code);
+                    setTimeout(hideLoader, 1000);
+                }
+                )
+        } else {
+            Services.updateUser(id, email, password, lastName, firstName, profilUser, active, getUser().access_token)
+                .then(res => {
+                    toast('success', '3000', `Utilisateur Modifié`);
+                    setTimeout(hideLoader, 1000);
+                    getAllUsers();
+                })
+                .catch(error => {
+                    toast('danger', '3000', error.response.data.error, error.response.data.code);
+                    setTimeout(hideLoader, 1000);
+                }
+                )
+        }
         setShow(false);
     }
 
@@ -64,39 +99,29 @@ const Table = () => {
         const active = e.target.active.checked == true ? true : false;
         loader();
         Services.addUser(email, password, lastName, firstName, profilUser, active, getUser().access_token)
-            .then(result => {
-                toast('success', '3000', `Utilisateur ajouté`);
+            .then(res => {
+                toast('success', '3000', `Utilisateur Ajouté`);
                 setTimeout(hideLoader, 1000);
-            }
-            )
+                getAllUsers();
+            })
             .catch(error => {
                 toast('danger', '3000', error.response.data.error, error.response.data.code);
                 setTimeout(hideLoader, 1000);
-            }
-            )
-        Services.getUsers(getUser().access_token)
-            .then(result => {
-                console.log(result);
-                setUsers(result);
-            }
-            )
-            .catch(error => {
-                toast('danger', '3000', error.response.data.error, error.response.data.code);
             }
             )
         setShow(false);
     }
     const handleClickDeleteUser = (id) => {
         loader();
-        Services.deleteUser(id, getUser().access_token);
-        Services.getUsers(getUser().access_token)
-            .then(result => {
-                setUsers(result);
+        Services.deleteUser(id, getUser().access_token)
+            .then(res => {
                 toast('success', '3000', `Utilisateur supprimé`);
-            }
-            )
+                setTimeout(hideLoader, 1000);
+                getAllUsers();
+            })
             .catch(error => {
                 toast('danger', '3000', error.response.data.error, error.response.data.code);
+                setTimeout(hideLoader, 1000);
             }
             )
     }
@@ -105,7 +130,6 @@ const Table = () => {
         loader();
         Services.getUsers(getUser().access_token)
             .then(result => {
-                console.log(result);
                 setUsers(result);
                 setTimeout(hideLoader, 1000);
             }
@@ -129,6 +153,7 @@ const Table = () => {
                 <table className="table">
                     <thead className="thead-dark">
                         <tr>
+                            {/* {console.log(Object.keys(users[0]))} */}
                             <th>Nom</th>
                             <th>Prénom</th>
                             <th>Roles</th>
@@ -143,8 +168,8 @@ const Table = () => {
                                 <td>{user.firstName}</td>
                                 <td>{user.profil}</td>
                                 <td><label className="switch">
-                                    <input className="check" defaultChecked={user.active == true ? (true): (false)} type="checkbox"/>
-                                        <span className="slider "></span>
+                                    <input className="check" defaultChecked={user.active == true ? (true) : (false)} type="checkbox" onChange={(e) => { handleChangeToggle(e, user._id) }} />
+                                    <span className="slider "></span>
                                 </label>
                                 </td>
                                 <td>

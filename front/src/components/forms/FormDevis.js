@@ -6,7 +6,6 @@ import CardVehicle from "../grid/card/CardVehicule";
 
 const FormDevis = (props) => {
     const getUser = useContext(CarNCoContext).getUser;
-    const getCustomers = useContext(CarNCoContext).getCustomers;
     const getDataCustomers = useContext(CarNCoContext).getDataCustomers;
 
     const toast = useContext(CarNCoContext).openToast;
@@ -22,7 +21,7 @@ const FormDevis = (props) => {
     let params=(props.formDatavehicule ? props.formDatavehicule._id : null);
 
     useEffect(() => {
-        getCustomers();
+        getDataCustomers();
 
     }, [])
 

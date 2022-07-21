@@ -36,6 +36,10 @@ const App = () => {
   const [etapeFormDevis, setEtapeFormDevis] = useState(0);
   const [viewComponent, setViewComponent] = useState("");
 
+  const [isUpdateCustomer, setIsUpdateCustomer] = useState(null);
+  const [selectedCustomer, setSelectedCustomer] = useState([]);
+
+
   class handleCarNCoContext {
     static handleClickLogOut = (e) => {
       console.log("handleClickLogout");
@@ -229,20 +233,20 @@ const App = () => {
 
     //**************START CLIENT *******/
     static getAllCustomers = () => {
-      // this.showLoader();
+      this.showLoader();
       Services.getCustomers(user["access_token"])
         .then((result) => {
           setListCustomers(result);
-          // setTimeout(this.hideLoader, 1000);
+          setTimeout(this.hideLoader, 1000);
         })
         .catch((error) => {
-          // this.openToast(
-          //   "danger",
-          //   "3000",
-          //   error.response.data.error,
-          //   error.response.data.code
-          // );
-          // setTimeout(this.hideLoader, 1000);
+          this.openToast(
+            "danger",
+            "3000",
+            error.response.data.error,
+            error.response.data.code
+          );
+          setTimeout(this.hideLoader, 1000);
         });
     };
 
@@ -250,10 +254,17 @@ const App = () => {
       setShowFormClient(false);
     };
 
-    static handleClickOpenNewClientByCommande = (byCommande) => {
+    static handleClickOpenNewClientByCommande = (byCommande, isUpdateCustomer, idCustomer = null) => {
+      setIsUpdateCustomer(isUpdateCustomer)
       setShowFormClient(true);
       setShowFormClientByCommande(byCommande);
-    };
+      if (isUpdateCustomer != null) {
+        const customers_copy = [...listCustomers];
+        const formDataCustomer = customers_copy.filter(customer => { return idCustomer == customer._id });
+        setSelectedCustomer(formDataCustomer);
+      }
+
+    }
 
     static handleClickAddCustomers = (e) => {
       e.preventDefault();
@@ -262,69 +273,81 @@ const App = () => {
         firstName: e.target.clientFirstName.value,
         email: e.target.clientEmail.value,
         address: {
+          street: e.target.clientStreet.value,
           zipCode: e.target.clientZipCode.value,
           city: e.target.clientCity.value,
         },
         mobile: e.target.clientMobile.value,
       };
-      Services.addCustomer(formData, user["access_token"]).then((result) => {
-        if (showFormClientByCommande == true) {
-          this.handleClickNextClientByCommande(result);
-        }
-        this.getAllCustomers();
-      });
+      console.log(formData);
+      this.showLoader();
+      Services.addCustomer(formData, user["access_token"])
+        .then((result) => {
+          if (showFormClientByCommande == true) {
+            this.handleClickNextClientByCommande(result);
+          }
+          this.getAllCustomers();
+          this.openToast("success","3000","Customer bien ajouté");
+          setTimeout(this.hideLoader, 1000);
+        })
+        .catch((error) => {
+          this.openToast( "danger","3000",error.response.data.error,error.response.data.code);
+          setTimeout(this.hideLoader, 1000);
+        });
+
       this.handleClickCloseModalClient();
-    };
+    }
 
     static handleClickNextClientByCommande = (objet) => {
       console.log(objet);
-    };
-
-    //***************** BEGIN COMMANDE*******************//
-    static handleClickOpenNewClientByCommande() {
-      alert("GO CELIA");
     }
 
-    static handleClickNextClientByCommande(objet) {}
+    static handleClickDeleteCustomer = (idCustomer) => {
+      if (window.confirm("Voulez vous vraiment faire la suppression?")) {
+        this.showLoader();
+        Services.deleteCustomer(idCustomer, user["access_token"])
+          .then((result) => {
+            setTimeout(this.hideLoader, 1000);
+            this.getAllCustomers();
+            this.openToast("success","3000","Customer bien supprimé");
+          })
+          .catch((error) => {
+            this.openToast( "danger","3000",error.response.data.error,error.response.data.code);
+          });
+      }
 
-    static handleClickOpenFormCommandeByVehicule = (e, idVehicule) => {
-      console.log(idVehicule);
-      this.handleClickShowModalDevis(e, 1);
-    };
-
-    static handleClickShowModalDevis = (e, etape) => {
-      console.log(e);
-      e.preventDefault();
-      console.log("handleClickShowModalDevis");
-      setShowformDevis(true);
-      setEtapeFormDevis(etape);
-    };
-
-    static handleClickHideModalDevis() {
-      setShowformDevis(false);
-      setEtapeFormDevis(0);
-    }
-
-    static getCustomers() {
-      console.log("getCustomers");
-      Services.getCustomer(user["access_token"])
-        .then((result) => {
-          setCustomers(result);
-        })
-        .catch((error) => {
-          this.toast(
-            "danger",
-            "3000",
-            error.response.data.error,
-            error.response.data.code
-          );
-        });
     }
     static getDataCustomers() {
       return customers;
     }
 
     //***************  END COMMANDE *************************//
+
+    static handleClickUpdateCustomer = (e, id) => {
+      e.preventDefault();
+      const formData = {
+        lastName: e.target.clientLastName.value,
+        firstName: e.target.clientFirstName.value,
+        email: e.target.clientEmail.value,
+        address: {
+          street: e.target.clientStreet.value,
+          zipCode: e.target.clientZipCode.value,
+          city: e.target.clientCity.value,
+        },
+        mobile: e.target.clientMobile.value,
+      };
+      console.log(formData);
+      Services.updateCustomer(id, formData, user["access_token"])
+        .then(result => {
+          this.getAllCustomers();
+          this.openToast("success","3000","Customer bien Modifié");
+        })
+        .catch((error)=>{
+          this.openToast( "danger","3000",error.response.data.error,error.response.data.code);
+        })
+      this.handleClickCloseModalClient();
+    };
+
   }
 
   return (
@@ -372,7 +395,7 @@ const App = () => {
                   case "client":
                     return (
                       <>
-                        <Table />
+                        <TableClient listCustomers={listCustomers} />
                       </>
                     );
                 }
@@ -407,7 +430,7 @@ const App = () => {
                   case "client":
                     return (
                       <>
-                        <Table />
+                        <TableClient listCustomers={listCustomers} />
                       </>
                     );
                 }
@@ -433,10 +456,7 @@ const App = () => {
                 }
             }
           })()}
-          <FormClient
-            show={showFormClient}
-            showFormClientByCommande={showFormClientByCommande}
-          />
+          <FormClient show={showFormClient} showFormClientByCommande={showFormClientByCommande} isUpdateCustomer={isUpdateCustomer} formDataCustomer={selectedCustomer} />
           <Footer />
         </>
       )}

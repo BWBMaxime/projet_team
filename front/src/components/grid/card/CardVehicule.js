@@ -7,9 +7,9 @@ const CardVehicle = (props) => {
     const OnclickOpenFormCommandeByVehicule = useContext(CarNCoContext).handleClickOpenFormCommandeByVehicule
 
 
-    let vignetteStyle = {
+    /*let vignetteStyle = {
         backgroundImage: `url(${props.vehicle.images[0]})`,
-    };
+    };*/
     let idCarousel='#'+props.vehicle._id;
 
     console.log(props.vehicle.statut);
@@ -25,14 +25,14 @@ const CardVehicle = (props) => {
                         )
                     }
                     <div className="card-body p-4 ">
-                                    {
+                                    {/*
                                         props.vehicle.images.map((image,imageIndex) => {
                                                 return (
-                                                            <div className="card-vehicles   img-fluid d-block mx-auto mb-3" style={{backgroundImage: `url(${image})`}}></div>
+                                                            <div key={imageIndex} className="card-vehicles   img-fluid d-block mx-auto mb-3" style={{backgroundImage: `url(${image})`}}></div>
                                                         )
                                             }
                                         )
-                                    }
+                                        */}
                         <h5 className="d-flex justify-content-between"> <span className="text-dark"> {props.vehicle.brand} {props.vehicle.model}  </span></h5>
                         <span>
                             <u>Année:</u> {props.vehicle.year} <br/>

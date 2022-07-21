@@ -113,18 +113,20 @@ const Table = (props) => {
     }
 
     const handleClickDeleteUser = (id) => {
-        loader();
-        Services.deleteUser(id, getUser().access_token)
-            .then(res => {
-                toast('success', '3000', `Utilisateur supprimé`);
-                setTimeout(hideLoader, 1000);
-                getAllUsers();
-            })
-            .catch(error => {
-                toast('danger', '3000', error.response.data.error, error.response.data.code);
-                setTimeout(hideLoader, 1000);
-            }
+        if (window.confirm("Voulez vous vraiment faire la suppression?")) {
+            loader();
+            Services.deleteUser(id, getUser().access_token)
+                .then(res => {
+                    toast('success', '3000', `Utilisateur supprimé`);
+                    setTimeout(hideLoader, 1000);
+                    getAllUsers();
+                })
+                .catch(error => {
+                    toast('danger', '3000', error.response.data.error, error.response.data.code);
+                    setTimeout(hideLoader, 1000);
+                }
             )
+        }
     }
 
     useEffect(() => {
@@ -157,12 +159,10 @@ const Table = (props) => {
                     <table className="table">
                         <thead className="thead-dark">
                         <tr>
-                            {/* {console.log(Object.keys(users[0]))} */}
                             <th>Nom</th>
                             <th>Prénom</th>
                             <th>Roles</th>
                             <th>Active</th>
-                            <th></th>
                         </tr>
                         </thead>
                         <tbody>

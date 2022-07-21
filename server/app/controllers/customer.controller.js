@@ -45,6 +45,7 @@ export class CustomerController {
     const newCustomer = {
       lastName: req.body.lastName,
       firstName: req.body.firstName,
+      email :req.body.email,
       address: req.body.address,
       mobile: req.body.mobile,
     };
@@ -84,6 +85,7 @@ export class CustomerController {
     const newCustomerValues = {
       lastName: req.body.lastName,
       firstName: req.body.firstName,
+      email :req.body.email,
       address: req.body.address,
       mobile: req.body.mobile,
     };

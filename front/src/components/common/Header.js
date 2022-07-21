@@ -9,7 +9,7 @@ const Header = (props) => {
     <>
       <nav className="navbar navbar-expand-lg navbar-light bg-light">
         <a className="navbar-brand" href="">
-        <img src="https://car-n-co.fr/wp-content/uploads/2019/01/carnco-Logo_Noir.png.png" className="mx-5" width={150} alt="" />
+        <img src="https://car-n-co.fr/wp-content/uploads/2019/01/carnco-Logo_Noir.png.png" className="mx-5" width={150} alt="logo CarnCo" />
         </a>
         <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
           <span className="navbar-toggler-icon"></span>

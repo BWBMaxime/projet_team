@@ -2,13 +2,9 @@ import { useContext, useEffect, useState } from "react";
 import { CarNCoContext } from "../App";
 
 const TableClient = (props) => {
-    const getUser = useContext(CarNCoContext).getUser;
-    const toast = useContext(CarNCoContext).openToast;
-    const loader = useContext(CarNCoContext).showLoader;
-    const hideLoader = useContext(CarNCoContext).hideLoader;
     const handleClickOpenNewClientByCommande = useContext(CarNCoContext).handleClickOpenNewClientByCommande;
     const getAllCustomers = useContext(CarNCoContext).getAllCustomers;
-
+    const handleClickDeleteCustomer = useContext(CarNCoContext).handleClickDeleteCustomer;
 
     const listCustomers=[];
 
@@ -16,12 +12,13 @@ const TableClient = (props) => {
         getAllCustomers();
     },[]);
 
+
     return (
         <>
             <div className="container w-75">
                 <div className="d-flex justify-content-between ">
                     <h3 className="m-4">Gestion des Clients</h3>
-                    <button className="btn btn-primary m-4" onClick={()=>{handleClickOpenNewClientByCommande(false)}}>Créer un Client</button>
+                    <button className="btn btn-primary m-4" onClick={()=>{handleClickOpenNewClientByCommande(false,false,null)}}>Créer un Client</button>
                 </div>
 
                 <table className="table">
@@ -40,11 +37,14 @@ const TableClient = (props) => {
                                 <th>{customer.lastName}</th>
                                 <td>{customer.firstName}</td>
                                 <td>{customer.mobile}</td>
-                                {/* <td>{customer.address.zipCode},{customer.address.city}</td> */}
+                                <td className="d-flex flex-column">
+                                    <div>{customer.address.street?(`${customer.address.street}`):("")} </div>
+                                    <div>{customer.address.zipCode},{customer.address.city}</div>
+                                </td>
                                 <td>{customer.email}</td> 
                                 <td>
-                                    <button className="btn btn-secondary text-white m-1" >&#9998;</button>
-                                    <button className="btn btn-danger text-white m-1">&#10008;</button>
+                                    <button className="btn btn-secondary text-white m-1" onClick = {()=>{handleClickOpenNewClientByCommande(false,true,customer._id)}}>&#9998;</button>
+                                    <button className="btn btn-danger text-white m-1" onClick={()=>{handleClickDeleteCustomer(customer._id)}} >&#10008;</button>
                                 </td>
                             </tr>
                         )}

@@ -67,11 +67,11 @@ const FormVehicle = (props) => {
 
                             <input required={getListeImages().length==0 } className="mb-3" type="file"   onChange={handleFileChange}  />
                             <div className="d-flex flex-wrap">
-                            {
-                                getListeImages().map((image,imageIndex) =>
-                                    <div className="card-vehicles-form img-fluid d-block mx-auto mb-3"  style={{backgroundImage: `url(${image})`}}></div>
-                                )
-                            }
+                                {
+                                    getListeImages().map((image,imageIndex) =>
+                                        <div className="card-vehicles-form img-fluid d-block mx-auto mb-3"  style={{backgroundImage: `url(${image})`}}></div>
+                                    )
+                                }
                             </div>
                         </div>
                         <input className="btn btn-success m-4 w-50" value={props.formDatavehicule === null ? ("Ajouter un véhicule") : ("Modifier un véhicule")} type="submit" />

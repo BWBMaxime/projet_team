@@ -13,11 +13,14 @@ import Vehicles from "../components/grid/Vehicles";
 import { useState, createContext } from "react";
 import Services from "../services/Services";
 import FormClient from "./forms/FormClient";
+import { BrowserRouter, Route, Link } from "react-router-dom";
+import FormDevis from "./forms/FormDevis";
 
 export const CarNCoContext = createContext();
 
 const App = () => {
   const [user, setUser] = useState([]);
+  const [customers, setCustomers] = useState([]);
   const [showToast, setShowToast] = useState([false]);
   const [viewLoader, setViewLoader] = useState(false);
   const [listVehicles, setListVehicles] = useState([]);
@@ -25,17 +28,24 @@ const App = () => {
   const [formDatavehicule, setFormDatavehicule] = useState(null);
   const [selectedImageVehicule, setSelectedImageVehicule] = useState([]);
   const [showFormClient, setShowFormClient] = useState(false);
-  const [showFormClientByCommande, setShowFormClientByCommande] = useState(false);
-
-
+  const [showFormClientByCommande, setShowFormClientByCommande] =
+    useState(false);
 
   const [listCustomers, setListCustomers] = useState([]);
+  const [showformDevis, setShowformDevis] = useState(false);
+  const [etapeFormDevis, setEtapeFormDevis] = useState(0);
+  const [viewComponent, setViewComponent] = useState("");
 
   class handleCarNCoContext {
     static handleClickLogOut = (e) => {
       console.log("handleClickLogout");
       setUser([]);
     };
+
+    static linkComponent(componentName) {
+      console.log(componentName);
+      setViewComponent(componentName);
+    }
 
     static getUser() {
       return user;
@@ -75,6 +85,18 @@ const App = () => {
             "3000",
             `Bienvenue ` + result["firstName"] + " " + result["lastName"]
           );
+
+          console.log("result.profil", result.profil);
+          switch (result.profil) {
+            case "patron":
+              return setViewComponent("vehicule");
+            case "admin":
+              return setViewComponent("user");
+            case "commercial":
+              return setViewComponent("vehicule");
+            case "magasinier":
+              return setViewComponent("vehicule");
+          }
           setTimeout(this.hideLoader, 1000);
         })
         .catch((error) => {
@@ -110,6 +132,8 @@ const App = () => {
 
     static handleClickdeleteVehicle = (idVehicle) => {
       this.showLoader();
+
+      console.log("delete idVehicle", idVehicle);
       Services.deleteVehicles(idVehicle, user["access_token"])
         .then((result) => {
           this.getAllVehicle();
@@ -156,7 +180,7 @@ const App = () => {
         });
     };
 
-    static openFormVehicule = (formData = null) => {
+    static openFormVehicule = (e, formData = null) => {
       if (formData == null) {
         setSelectedImageVehicule([]);
       } else {
@@ -186,16 +210,17 @@ const App = () => {
             let copySelectedImageVehicule=[...selectedImageVehicule];
             copySelectedImageVehicule.push(imageSrcData);
             */
-
       setSelectedImageVehicule([imageSrcData]);
     };
 
     static getListeImageVehicles = () => {
       return selectedImageVehicule;
     };
+
     static setListeImageVehicles = (listImages) => {
       setSelectedImageVehicule(listImages);
     };
+
     static closeFormVehicule() {
       setFormDatavehicule(null);
       setShowformvehicule(false);
@@ -203,7 +228,7 @@ const App = () => {
     //*************** END VEHICLE ******************//
 
     //**************START CLIENT *******/
-    static getAllCustomers = ()=> {
+    static getAllCustomers = () => {
       // this.showLoader();
       Services.getCustomers(user["access_token"])
         .then((result) => {
@@ -219,18 +244,18 @@ const App = () => {
           // );
           // setTimeout(this.hideLoader, 1000);
         });
-    }
+    };
 
-    static handleClickCloseModalClient= ()=> {
+    static handleClickCloseModalClient = () => {
       setShowFormClient(false);
-    }
+    };
 
-    static handleClickOpenNewClientByCommande= (byCommande) =>{
+    static handleClickOpenNewClientByCommande = (byCommande) => {
       setShowFormClient(true);
       setShowFormClientByCommande(byCommande);
-    }
+    };
 
-    static handleClickAddCustomers=(e)=> {
+    static handleClickAddCustomers = (e) => {
       e.preventDefault();
       const formData = {
         lastName: e.target.clientLastName.value,
@@ -242,20 +267,64 @@ const App = () => {
         },
         mobile: e.target.clientMobile.value,
       };
-      Services.addCustomer(formData, user["access_token"])
-        .then((result) => {
-          if (showFormClientByCommande == true) {
-            this.handleClickNextClientByCommande(result);
-          }
-          this.getAllCustomers();
-        })
-        this.handleClickCloseModalClient();
-    }
+      Services.addCustomer(formData, user["access_token"]).then((result) => {
+        if (showFormClientByCommande == true) {
+          this.handleClickNextClientByCommande(result);
+        }
+        this.getAllCustomers();
+      });
+      this.handleClickCloseModalClient();
+    };
 
-    static handleClickNextClientByCommande=(objet)=> {
+    static handleClickNextClientByCommande = (objet) => {
       console.log(objet);
+    };
+
+    //***************** BEGIN COMMANDE*******************//
+    static handleClickOpenNewClientByCommande() {
+      alert("GO CELIA");
     }
 
+    static handleClickNextClientByCommande(objet) {}
+
+    static handleClickOpenFormCommandeByVehicule = (e, idVehicule) => {
+      console.log(idVehicule);
+      this.handleClickShowModalDevis(e, 1);
+    };
+
+    static handleClickShowModalDevis = (e, etape) => {
+      console.log(e);
+      e.preventDefault();
+      console.log("handleClickShowModalDevis");
+      setShowformDevis(true);
+      setEtapeFormDevis(etape);
+    };
+
+    static handleClickHideModalDevis() {
+      setShowformDevis(false);
+      setEtapeFormDevis(0);
+    }
+
+    static getCustomers() {
+      console.log("getCustomers");
+      Services.getCustomer(user["access_token"])
+        .then((result) => {
+          setCustomers(result);
+        })
+        .catch((error) => {
+          this.toast(
+            "danger",
+            "3000",
+            error.response.data.error,
+            error.response.data.code
+          );
+        });
+    }
+    static getDataCustomers() {
+      return customers;
+    }
+
+    //***************  END COMMANDE *************************//
   }
 
   return (
@@ -273,29 +342,105 @@ const App = () => {
         </>
       ) : (
         <>
-          <Header user={user} />
+          <Header user={user} viewComponent={viewComponent} />
           {(() => {
             switch (user["profil"]) {
               case "patron":
-                return <TableClient listCustomers={listCustomers} />;
+                switch (viewComponent) {
+                  case "vehicule":
+                    return (
+                      <>
+                        <Grid
+                          ListVehicles={listVehicles}
+                          showformvehicule={showformvehicule}
+                          formDatavehicule={formDatavehicule}
+                        />
+                      </>
+                    );
+                  case "devis":
+                    return (
+                      <>
+                        <TableDevis />
+                      </>
+                    );
+                  case "user":
+                    return (
+                      <>
+                        <Table />
+                      </>
+                    );
+                  case "client":
+                    return (
+                      <>
+                        <Table />
+                      </>
+                    );
+                }
+
               case "admin":
-                return <Table />
+                switch (viewComponent) {
+                  case "user":
+                    return (
+                      <>
+                        <Table showComponent={viewComponent == "user"} />
+                      </>
+                    );
+                }
               case "commercial":
-                return (
-                  <Grid
-                    ListVehicles={listVehicles}
-                    showformvehicule={showformvehicule}
-                    formDatavehicule={formDatavehicule}
-                  />
-                );
+                switch (viewComponent) {
+                  case "vehicule":
+                    return (
+                      <>
+                        <Grid
+                          ListVehicles={listVehicles}
+                          showformvehicule={showformvehicule}
+                          formDatavehicule={formDatavehicule}
+                        />
+                      </>
+                    );
+                  case "devis":
+                    return (
+                      <>
+                        <TableDevis />
+                      </>
+                    );
+                  case "client":
+                    return (
+                      <>
+                        <Table />
+                      </>
+                    );
+                }
+
               case "magasinier":
-                return <Vehicles />;
+                switch (viewComponent) {
+                  case "vehicule":
+                    return (
+                      <>
+                        <Grid
+                          ListVehicles={listVehicles}
+                          showformvehicule={showformvehicule}
+                          formDatavehicule={formDatavehicule}
+                        />
+                      </>
+                    );
+                  case "devis":
+                    return (
+                      <>
+                        <TableDevis />
+                      </>
+                    );
+                }
             }
           })()}
-          <FormClient show={showFormClient} showFormClientByCommande={showFormClientByCommande} />
+          <FormClient
+            show={showFormClient}
+            showFormClientByCommande={showFormClientByCommande}
+          />
           <Footer />
         </>
       )}
+      <FormDevis show={showformDevis} etapeFormDevis={etapeFormDevis} />
     </CarNCoContext.Provider>
   );
 };

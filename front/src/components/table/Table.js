@@ -3,7 +3,7 @@ import { useContext, useEffect, useState } from "react";
 import Services from "../../services/Services";
 import { CarNCoContext } from "../App";
 
-const Table = () => {
+const Table = (props) => {
     const getUser = useContext(CarNCoContext).getUser;
     const toast = useContext(CarNCoContext).openToast;
     const loader = useContext(CarNCoContext).showLoader;
@@ -111,6 +111,7 @@ const Table = () => {
             )
         setShow(false);
     }
+
     const handleClickDeleteUser = (id) => {
         loader();
         Services.deleteUser(id, getUser().access_token)
@@ -128,30 +129,33 @@ const Table = () => {
 
     useEffect(() => {
         loader();
-        Services.getUsers(getUser().access_token)
-            .then(result => {
-                setUsers(result);
-                setTimeout(hideLoader, 1000);
-            }
-            )
-            .catch(error => {
-                toast('danger', '3000', error.response.data.error, error.response.data.code);
-                setTimeout(hideLoader, 1000);
-            }
-            )
+            Services.getUsers(getUser().access_token)
+                .then(result => {
+                        setUsers(result);
+                        setTimeout(hideLoader, 1000);
+                    }
+                )
+                .catch(error => {
+                        toast('danger', '3000', error.response.data.error, error.response.data.code);
+                        setTimeout(hideLoader, 1000);
+                    }
+                )
 
     }, [])
 
     return (
-        <>
-            <div className="container w-75">
-                <div className="d-flex justify-content-between ">
-                    <h3 className="m-4">Gestion des utilisateurs</h3>
-                    <button className="btn btn-primary m-4" onClick={() => { onClickShowModal(true) }}>Créer un utilisateurs</button>
-                </div>
+            <>
+                <div className="container w-75">
+                    <div className="d-flex justify-content-between ">
+                        <h3 className="m-4">Gestion des utilisateurs</h3>
+                        <button className="btn btn-primary m-4" onClick={() => {
+                            onClickShowModal(true)
+                        }}>Créer un utilisateurs
+                        </button>
+                    </div>
 
-                <table className="table">
-                    <thead className="thead-dark">
+                    <table className="table">
+                        <thead className="thead-dark">
                         <tr>
                             {/* {console.log(Object.keys(users[0]))} */}
                             <th>Nom</th>
@@ -160,30 +164,40 @@ const Table = () => {
                             <th>Active</th>
                             <th></th>
                         </tr>
-                    </thead>
-                    <tbody>
+                        </thead>
+                        <tbody>
                         {users.map(user =>
                             <tr key={user.login}>
                                 <th>{user.lastName}</th>
                                 <td>{user.firstName}</td>
                                 <td>{user.profil}</td>
                                 <td><label className="switch">
-                                    <input className="check" defaultChecked={user.active == true ? (true) : (false)} type="checkbox" onChange={(e) => { handleChangeToggle(e, user._id) }} />
+                                    <input className="check" defaultChecked={user.active == true ? (true) : (false)}
+                                           type="checkbox" onChange={(e) => {
+                                        handleChangeToggle(e, user._id)
+                                    }}/>
                                     <span className="slider "></span>
                                 </label>
                                 </td>
                                 <td>
-                                    <button className="btn btn-secondary text-white m-1" onClick={() => { onClickShowModal(false, user._id) }}>&#9998;</button>
-                                    <button className="btn btn-danger text-white m-1" onClick={() => { handleClickDeleteUser(user._id) }}>&#10008;</button>
+                                    <button className="btn btn-secondary text-white m-1" onClick={() => {
+                                        onClickShowModal(false, user._id)
+                                    }}>&#9998;</button>
+                                    <button className="btn btn-danger text-white m-1" onClick={() => {
+                                        handleClickDeleteUser(user._id)
+                                    }}>&#10008;</button>
                                 </td>
                             </tr>
                         )}
-                    </tbody>
-                </table>
-            </div>
-            <FormUser creation={creation} show={show} onClickShowModal={onClickShowModal} handleClickCloseModal={handleClickCloseModal} handleClickAddUser={handleClickAddUser} handleClickUpdateUser={handleClickUpdateUser} userInfo={userInfo} />
-        </>
-    );
+                        </tbody>
+                    </table>
+                </div>
+                <FormUser creation={creation} show={show} onClickShowModal={onClickShowModal}
+                          handleClickCloseModal={handleClickCloseModal} handleClickAddUser={handleClickAddUser}
+                          handleClickUpdateUser={handleClickUpdateUser} userInfo={userInfo}/>
+            </>
+        );
+
 }
 
 export default Table;

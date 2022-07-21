@@ -21,15 +21,15 @@ export default class Services {
   static getUsers = (accessToken) => {
     const urlService = this.urlServer + "/api/users";
     return axios
-      .get(urlService, {
-        headers: {
-          Authorization: accessToken,
-        },
-      })
-      .then((res) => {
-        // console.log(res.data)
-        return res.data;
-      });
+        .get(urlService, {
+          headers: {
+            Authorization: accessToken,
+          },
+        })
+        .then((res) => {
+          // console.log(res.data)
+          return res.data;
+        });
   };
   //***********END VEHICLE*****************/
 
@@ -38,52 +38,52 @@ export default class Services {
     const urlService = this.urlServer + "/api/vehicles";
 
     return axios
-      .get(urlService, {
-        headers: {
-          Authorization: accessToken,
-        },
-      })
-      .then((res) => {
-        console.log(res.data);
-        return res.data;
-      });
+        .get(urlService, {
+          headers: {
+            Authorization: accessToken,
+          },
+        })
+        .then((res) => {
+          console.log(res.data);
+          return res.data;
+        });
   };
 
   static getUsers = (access_token) => {
     const urlService = this.urlServer + "/api/users";
     return axios
-      .get(urlService, {
-        headers: {
-          Authorization: access_token,
-        },
-      })
-      .then((res) => {
-        // console.log(res.data)
-        return res.data;
-      });
+        .get(urlService, {
+          headers: {
+            Authorization: access_token,
+          },
+        })
+        .then((res) => {
+          // console.log(res.data)
+          return res.data;
+        });
   };
 
   static deleteUser = (id, access_token) => {
     const urlService = this.urlServer + "/api/users/" + id;
     return axios
-      .delete(urlService, {
-        headers: {
-          Authorization: access_token,
-        },
-      })
-      .then((res) => {
-        console.log("supp okay");
-      });
+        .delete(urlService, {
+          headers: {
+            Authorization: access_token,
+          },
+        })
+        .then((res) => {
+          console.log("supp okay");
+        });
   };
 
   static addUser = (
-    login,
-    password,
-    lastName,
-    firstName,
-    profil,
-    active,
-    access_token
+      login,
+      password,
+      lastName,
+      firstName,
+      profil,
+      active,
+      access_token
   ) => {
     const urlService = this.urlServer + "/api/users";
     const formData = {
@@ -96,25 +96,25 @@ export default class Services {
     };
     console.log("formdatacreate", formData);
     return axios
-      .post(urlService, formData, {
-        headers: {
-          Authorization: access_token,
-        },
-      })
-      .then((res) => {
-        console.log("Ajout effectué dans la BDD");
-      });
+        .post(urlService, formData, {
+          headers: {
+            Authorization: access_token,
+          },
+        })
+        .then((res) => {
+          console.log("Ajout effectué dans la BDD");
+        });
   };
 
   static updateUser = (
-    id,
-    login,
-    password,
-    lastName,
-    firstName,
-    profil,
-    active,
-    access_token
+      id,
+      login,
+      password,
+      lastName,
+      firstName,
+      profil,
+      active,
+      access_token
   ) => {
     const urlService = this.urlServer + "/api/users/" + id;
     const formData = {
@@ -128,24 +128,24 @@ export default class Services {
     console.log("formdata", formData);
 
     return axios
-      .put(urlService, formData, {
-        headers: {
-          Authorization: access_token,
-        },
-      })
-      .then((res) => {
-        console.log("Modification effectué dans la BDD");
-      });
+        .put(urlService, formData, {
+          headers: {
+            Authorization: access_token,
+          },
+        })
+        .then((res) => {
+          console.log("Modification effectué dans la BDD");
+        });
   };
 
   static updateUserToggle = (
-    id,
-    login,
-    lastName,
-    firstName,
-    profil,
-    active,
-    access_token
+      id,
+      login,
+      lastName,
+      firstName,
+      profil,
+      active,
+      access_token
   ) => {
     const urlService = this.urlServer + "/api/users/" + id;
     const formData = {
@@ -157,14 +157,14 @@ export default class Services {
     };
 
     return axios
-      .put(urlService, formData, {
-        headers: {
-          Authorization: access_token,
-        },
-      })
-      .then((res) => {
-        console.log("Modification effectué dans la BDD");
-      });
+        .put(urlService, formData, {
+          headers: {
+            Authorization: access_token,
+          },
+        })
+        .then((res) => {
+          console.log("Modification effectué dans la BDD");
+        });
   };
 
   //***********BEGIN VEHICLE*****************/
@@ -172,41 +172,41 @@ export default class Services {
     const urlService = this.urlServer + "/api/vehicles";
 
     return axios
-      .get(urlService, {
-        headers: {
-          Authorization: accessToken,
-        },
-      })
-      .then((res) => {
-        console.log(res.data);
-        return res.data;
-      });
+        .get(urlService, {
+          headers: {
+            Authorization: accessToken,
+          },
+        })
+        .then((res) => {
+          console.log(res.data);
+          return res.data;
+        });
   };
 
   static deleteVehicles = (idVehicle, accessToken) => {
     const urlService = this.urlServer + "/api/vehicles/" + idVehicle;
     return axios
-      .delete(urlService, {
-        headers: {
-          Authorization: accessToken,
-        },
-      })
-      .then((res) => {
-        return res.data;
-      });
+        .delete(urlService, {
+          headers: {
+            Authorization: accessToken,
+          },
+        })
+        .then((res) => {
+          return res.data;
+        });
   };
 
   static getOneVehicle = (idVehicle, accessToken) => {
     const urlService = this.urlServer + "/api/vehicles/" + idVehicle;
     return axios
-      .get(urlService, {
-        headers: {
-          Authorization: accessToken,
-        },
-      })
-      .then((res) => {
-        return res.data;
-      });
+        .get(urlService, {
+          headers: {
+            Authorization: accessToken,
+          },
+        })
+        .then((res) => {
+          return res.data;
+        });
   };
 
   static saveVehicle = (idVehicle, formData, accessToken) => {
@@ -214,40 +214,83 @@ export default class Services {
       //CREATION
       const urlService = this.urlServer + "/api/vehicles/";
       return axios
-        .post(urlService, formData, {
-          headers: {
-            Authorization: accessToken,
-          },
-        })
-        .then((res) => {
-          return res.data;
-        });
+          .post(urlService, formData, {
+            headers: {
+              Authorization: accessToken,
+            },
+          })
+          .then((res) => {
+            return res.data;
+          });
     } else {
       //UPDATE
       const urlService = this.urlServer + "/api/vehicles/" + idVehicle;
       return axios
-        .put(urlService, formData, {
-          headers: {
-            Authorization: accessToken,
-          },
-        })
-        .then((res) => {
-          return res.data;
-        });
+          .put(urlService, formData, {
+            headers: {
+              Authorization: accessToken,
+            },
+          })
+          .then((res) => {
+            return res.data;
+          });
     }
   };
   //***********END VEHICLE*****************/
 
-  static getCustomer = (accessToken) => {
+  //***********DEBUT CLIENT */
+
+
+
+  static getCustomers = (access_token) => {
     const urlService = this.urlServer + "/api/customers/";
-    return axios
-      .get(urlService, {
-        headers: {
-          Authorization: accessToken,
-        },
-      })
-      .then((res) => {
-        return res.data;
-      });
-  };
+    return axios.get(urlService, {
+      headers: {
+        "Authorization": access_token,
+      }
+    }).then((res) => {
+      return res.data
+    })
+
+  }
+
+  static addCustomer = (formData, access_token) => {
+    const urlService = this.urlServer + "/api/customers";
+
+    return axios.post(urlService, formData, {
+      headers: {
+        "Authorization": access_token,
+      }
+
+    }).then((res) => {
+      console.log('Ajout effectué dans la BDD')
+      console.log('result dans addcustomer service', res.data)
+      return res.data;
+    })
+  }
+
+  static deleteCustomer = (id, access_token) => {
+    const urlService = this.urlServer + "/api/customers/" + id;
+    return axios.delete(urlService, {
+      headers: {
+        "Authorization": access_token,
+      }
+    }).then((res) => {
+      console.log('suppression dans la BDD')
+    })
+  }
+
+  static updateCustomer = (id, formData, accessToken) => {
+    const urlService = this.urlServer + "/api/customers/" + id;
+    return axios.put(urlService, formData, {
+      headers: {
+        Authorization: accessToken,
+      },
+    }).then((res) => {
+      return res.data;
+    });
+
+  }
+
+
 }

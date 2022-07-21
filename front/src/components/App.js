@@ -276,16 +276,13 @@ const App = () => {
       this.handleClickCloseModalClient();
     };
 
-    static handleClickNextClientByCommande = (objet) => {
-      console.log(objet);
-    };
-
     //***************** BEGIN COMMANDE*******************//
-    static handleClickOpenNewClientByCommande() {
-      alert("GO CELIA");
-    }
+    static handleClickNextClientByCommande(objet) {
 
-    static handleClickNextClientByCommande(objet) {}
+
+      this.handleClickShowModalDevis(null,1);
+      console.log(objet);
+    }
 
     static handleClickOpenFormCommandeByVehicule = (e, idVehicule) => {
       console.log(idVehicule);
@@ -293,9 +290,8 @@ const App = () => {
     };
 
     static handleClickShowModalDevis = (e, etape) => {
-      console.log(e);
-      e.preventDefault();
       console.log("handleClickShowModalDevis");
+      e.preventDefault();
       setShowformDevis(true);
       setEtapeFormDevis(etape);
     };
@@ -307,7 +303,7 @@ const App = () => {
 
     static getCustomers() {
       console.log("getCustomers");
-      Services.getCustomer(user["access_token"])
+      Services.getCustomers(user["access_token"])
         .then((result) => {
           setCustomers(result);
         })

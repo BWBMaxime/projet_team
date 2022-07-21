@@ -20,7 +20,6 @@ const FormUser = (props) => {
                             ): (
                                 <input type="password" className="form-control" id="userPassword" placeholder="***"   />
                             )}
-        
                         </div>
                         <div className="form-group">
                             <label className="mb-2" htmlFor="nom">Nom :</label>

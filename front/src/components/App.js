@@ -5,12 +5,14 @@ import Footer from "../components/common/Footer";
 import TableDevis from "../components/table/TableDevis";
 import Table from "../components/table/Table";
 import Grid from "../components/grid/Vehicles";
+import TableClient from "./table/TableClient";
 
 import ValidToast from "./common/Toast";
 import Loader from "./common/Loader";
 import Vehicles from "../components/grid/Vehicles";
 import { useState, createContext } from "react";
 import Services from "../services/Services";
+import FormClient from "./forms/FormClient";
 
 export const CarNCoContext = createContext();
 
@@ -22,6 +24,12 @@ const App = () => {
   const [showformvehicule, setShowformvehicule] = useState(false);
   const [formDatavehicule, setFormDatavehicule] = useState(null);
   const [selectedImageVehicule, setSelectedImageVehicule] = useState([]);
+  const [showFormClient, setShowFormClient] = useState(false);
+  const [showFormClientByCommande, setShowFormClientByCommande] = useState(false);
+
+
+
+  const [listCustomers, setListCustomers] = useState([]);
 
   class handleCarNCoContext {
     static handleClickLogOut = (e) => {
@@ -83,7 +91,6 @@ const App = () => {
 
     //*************** BEGIN VEHICLE ******************//
     static getAllVehicle = () => {
-      console.log("getAllVehicle");
       this.showLoader();
       Services.getVehicles(user["access_token"])
         .then((result) => {
@@ -195,19 +202,59 @@ const App = () => {
     }
     //*************** END VEHICLE ******************//
 
-    static handleClickOpenNewClientByCommande(){
-
-
+    //**************START CLIENT *******/
+    static getAllCustomers = ()=> {
+      // this.showLoader();
+      Services.getCustomers(user["access_token"])
+        .then((result) => {
+          setListCustomers(result);
+          // setTimeout(this.hideLoader, 1000);
+        })
+        .catch((error) => {
+          // this.openToast(
+          //   "danger",
+          //   "3000",
+          //   error.response.data.error,
+          //   error.response.data.code
+          // );
+          // setTimeout(this.hideLoader, 1000);
+        });
     }
 
-    static handleClickNextClientByCommande(objet){
-
-
-
+    static handleClickCloseModalClient= ()=> {
+      setShowFormClient(false);
     }
 
+    static handleClickOpenNewClientByCommande= (byCommande) =>{
+      setShowFormClient(true);
+      setShowFormClientByCommande(byCommande);
+    }
 
+    static handleClickAddCustomers=(e)=> {
+      e.preventDefault();
+      const formData = {
+        lastName: e.target.clientLastName.value,
+        firstName: e.target.clientFirstName.value,
+        email: e.target.clientEmail.value,
+        address: {
+          zipCode: e.target.clientZipCode.value,
+          city: e.target.clientCity.value,
+        },
+        mobile: e.target.clientMobile.value,
+      };
+      Services.addCustomer(formData, user["access_token"])
+        .then((result) => {
+          if (showFormClientByCommande == true) {
+            this.handleClickNextClientByCommande(result);
+          }
+          this.getAllCustomers();
+        })
+        this.handleClickCloseModalClient();
+    }
 
+    static handleClickNextClientByCommande=(objet)=> {
+      console.log(objet);
+    }
 
   }
 
@@ -230,11 +277,10 @@ const App = () => {
           {(() => {
             switch (user["profil"]) {
               case "patron":
-                return <TableDevis />;
+                return <TableClient listCustomers={listCustomers} />;
               case "admin":
-                return <Table view={"tableUser"} />;
+                return <Table />
               case "commercial":
-                //                              return <Table view={"tableDevis"}/>
                 return (
                   <Grid
                     ListVehicles={listVehicles}
@@ -246,18 +292,12 @@ const App = () => {
                 return <Vehicles />;
             }
           })()}
+          <FormClient show={showFormClient} showFormClientByCommande={showFormClientByCommande} />
           <Footer />
         </>
       )}
     </CarNCoContext.Provider>
   );
 };
-{
-  /* TODO :
-          TOAST for gestion erreur
-          ajustement des tableaux
-          gestion taille d image
-          Version Mobile des tableaux
-        */
-}
+
 export default App;

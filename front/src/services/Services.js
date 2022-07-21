@@ -256,7 +256,6 @@ export default class Services {
 
   static addCustomer = (formData, access_token) => {
     const urlService = this.urlServer + "/api/customers";
-
     return axios.post(urlService, formData, {
       headers: {
         "Authorization": access_token,
@@ -264,7 +263,6 @@ export default class Services {
 
     }).then((res) => {
       console.log('Ajout effectué dans la BDD')
-      console.log('result dans addcustomer service', res.data)
       return res.data;
     })
   }
@@ -291,4 +289,5 @@ export default class Services {
     });
 
   }
+  ////************END CLIENT******************** */
 }

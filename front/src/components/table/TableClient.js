@@ -6,12 +6,12 @@ const TableClient = (props) => {
     const getAllCustomers = useContext(CarNCoContext).getAllCustomers;
     const handleClickDeleteCustomer = useContext(CarNCoContext).handleClickDeleteCustomer;
 
-
     const listCustomers=[];
 
     useEffect(() => {
         getAllCustomers();
     },[]);
+
 
     return (
         <>
@@ -37,7 +37,10 @@ const TableClient = (props) => {
                                 <th>{customer.lastName}</th>
                                 <td>{customer.firstName}</td>
                                 <td>{customer.mobile}</td>
-                                <td>{customer.address.zipCode},{customer.address.city}</td>
+                                <td className="d-flex flex-column">
+                                    <div>{customer.address.street?(`${customer.address.street}`):("")} </div>
+                                    <div>{customer.address.zipCode},{customer.address.city}</div>
+                                </td>
                                 <td>{customer.email}</td> 
                                 <td>
                                     <button className="btn btn-secondary text-white m-1" onClick = {()=>{handleClickOpenNewClientByCommande(false,true,customer._id)}}>&#9998;</button>

@@ -30,7 +30,7 @@ const FormClient = (props) => {
                         </div>
                         <div className="form-group">
                             <label htmlFor="adresse">Adresse</label>
-                            <input required type="text" className="form-control" id="clientAdress" placeholder="8 rue de l'inconnu" />
+                            <input required type="text" className="form-control" id="clientStreet" placeholder="8 rue de l'inconnu" defaultValue={props.isUpdateCustomer == true ?(formDataCustomer.address["street"]):("")}/>
                         </div>
                         <div className="form-group">
                             <label htmlFor="code postal">Code postal</label>
@@ -42,7 +42,7 @@ const FormClient = (props) => {
                         </div>
                         <div className="form-group">
                             <label htmlFor="téléphone">Téléphone</label>
-                            <input required type="text" className="form-control" id="clientMobile" placeholder="0606060606" defaultValue={props.isUpdateCustomer == true ?(formDataCustomer.mobile):("")}/>
+                            <input required type="text" className="form-control" id="clientMobile" placeholder="0606060606" defaultValue={props.isUpdateCustomer == true ?(formDataCustomer.mobile):("")} pattern="^((\+\d{1,3}(-| )?\(?\d\)?(-| )?\d{1,5})|(\(?\d{2,6}\)?))(-| )?(\d{3,4})(-| )?(\d{4})(( x| ext)\d{1,5}){0,1}$"/>
                         </div>
                         <input className="btn btn-success m-4 w-50" value={props.isUpdateCustomer == false ?("Créer"): ("Modifier")} type="submit" />
                     </form>

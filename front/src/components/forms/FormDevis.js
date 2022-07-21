@@ -8,7 +8,6 @@ const FormDevis = (props) => {
     const getUser = useContext(CarNCoContext).getUser;
     const getCustomers = useContext(CarNCoContext).getCustomers;
     const getDataCustomers = useContext(CarNCoContext).getDataCustomers;
-
     const toast = useContext(CarNCoContext).openToast;
     const loader = useContext(CarNCoContext).showLoader;
     const hideLoader = useContext(CarNCoContext).hideLoader;
@@ -23,10 +22,7 @@ const FormDevis = (props) => {
 
     useEffect(() => {
         getCustomers();
-
     }, [])
-
-
 
     if(props.etapeFormDevis===1) {
         return (
@@ -46,10 +42,6 @@ const FormDevis = (props) => {
         );
     }
     else{
-
-
-
-
         return (
             <>
                 <Modal show={props.show} onHide={onClickHideModalDevis}>
@@ -129,8 +121,6 @@ const FormDevis = (props) => {
                 </Modal>
             </>
         );
-
-
     }
 }
 

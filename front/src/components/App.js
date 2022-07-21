@@ -75,37 +75,37 @@ const App = () => {
       e.preventDefault();
       this.showLoader();
       Services.login(e.target.login.value, e.target.password.value)
-        .then((result) => {
-          setUser(result);
-          this.openToast(
-            "success",
-            "3000",
-            `Bienvenue ` + result["firstName"] + " " + result["lastName"]
-          );
+          .then((result) => {
+            setUser(result);
+            this.openToast(
+                "success",
+                "3000",
+                `Bienvenue ` + result["firstName"] + " " + result["lastName"]
+            );
 
 
-          console.log('result.profil',result.profil)
-          switch (result.profil) {
-            case "patron":
-              return (setViewComponent('vehicule'));
-            case "admin":
-              return (setViewComponent('user'));
-            case "commercial":
-              return (setViewComponent('vehicule'));
-            case "magasinier":
-              return (setViewComponent('vehicule'));
-          }
-          setTimeout(this.hideLoader, 1000);
-        })
-        .catch((error) => {
-          this.openToast(
-            "danger",
-            "3000",
-            error.response.data.error,
-            error.response.data.code
-          );
-          setTimeout(this.hideLoader, 1000);
-        });
+            console.log('result.profil',result.profil)
+            switch (result.profil) {
+              case "patron":
+                return (setViewComponent('vehicule'));
+              case "admin":
+                return (setViewComponent('user'));
+              case "commercial":
+                return (setViewComponent('vehicule'));
+              case "magasinier":
+                return (setViewComponent('vehicule'));
+            }
+            setTimeout(this.hideLoader, 1000);
+          })
+          .catch((error) => {
+            this.openToast(
+                "danger",
+                "3000",
+                error.response.data.error,
+                error.response.data.code
+            );
+            setTimeout(this.hideLoader, 1000);
+          });
     };
     //*************** END USER ******************//
 
@@ -114,19 +114,19 @@ const App = () => {
       console.log("getAllVehicle");
       this.showLoader();
       Services.getVehicles(user["access_token"])
-        .then((result) => {
-          setListVehicles(result);
-          setTimeout(this.hideLoader, 1000);
-        })
-        .catch((error) => {
-          this.openToast(
-            "danger",
-            "3000",
-            error.response.data.error,
-            error.response.data.code
-          );
-          setTimeout(this.hideLoader, 1000);
-        });
+          .then((result) => {
+            setListVehicles(result);
+            setTimeout(this.hideLoader, 1000);
+          })
+          .catch((error) => {
+            this.openToast(
+                "danger",
+                "3000",
+                error.response.data.error,
+                error.response.data.code
+            );
+            setTimeout(this.hideLoader, 1000);
+          });
     };
 
     static handleClickdeleteVehicle = (idVehicle) => {
@@ -134,19 +134,19 @@ const App = () => {
 
       console.log('delete idVehicle',idVehicle)
       Services.deleteVehicles(idVehicle, user["access_token"])
-        .then((result) => {
-          this.getAllVehicle();
-          setTimeout(this.hideLoader, 1000);
-        })
-        .catch((error) => {
-          this.openToast(
-            "danger",
-            "3000",
-            error.response.data.error,
-            error.response.data.code
-          );
-          setTimeout(this.hideLoader, 1000);
-        });
+          .then((result) => {
+            this.getAllVehicle();
+            setTimeout(this.hideLoader, 1000);
+          })
+          .catch((error) => {
+            this.openToast(
+                "danger",
+                "3000",
+                error.response.data.error,
+                error.response.data.code
+            );
+            setTimeout(this.hideLoader, 1000);
+          });
     };
 
     static saveVehicle = (e, idVehicle = null) => {
@@ -163,20 +163,20 @@ const App = () => {
       };
       this.showLoader();
       Services.saveVehicle(idVehicle, formData, user["access_token"])
-        .then((result) => {
-          this.getAllVehicle();
-          setTimeout(this.hideLoader, 1000);
-          this.closeFormVehicule();
-        })
-        .catch((error) => {
-          this.openToast(
-            "danger",
-            "3000",
-            error.response.data.error,
-            error.response.data.code
-          );
-          setTimeout(this.hideLoader, 1000);
-        });
+          .then((result) => {
+            this.getAllVehicle();
+            setTimeout(this.hideLoader, 1000);
+            this.closeFormVehicule();
+          })
+          .catch((error) => {
+            this.openToast(
+                "danger",
+                "3000",
+                error.response.data.error,
+                error.response.data.code
+            );
+            setTimeout(this.hideLoader, 1000);
+          });
     };
 
     static openFormVehicule = (e,formData = null) => {
@@ -194,9 +194,9 @@ const App = () => {
       const file = document.querySelector("input[type=file]").files[0];
       const reader = new FileReader();
       reader.addEventListener(
-        "load",
-        this.updateListeImage.bind(reader.result),
-        false
+          "load",
+          this.updateListeImage.bind(reader.result),
+          false
       );
       if (file) {
         reader.readAsDataURL(file);
@@ -220,7 +220,7 @@ const App = () => {
       setSelectedImageVehicule(listImages);
     };
 
-     static closeFormVehicule() {
+    static closeFormVehicule() {
       setFormDatavehicule(null);
       setShowformvehicule(false);
     }
@@ -228,9 +228,9 @@ const App = () => {
 
 
 
-   //***************** BEGIN COMMANDE*******************//
+    //***************** BEGIN COMMANDE*******************//
     static handleClickOpenNewClientByCommande(){
-        alert('GO CELIA');
+      alert('GO CELIA');
     }
 
     static handleClickNextClientByCommande(objet){
@@ -256,18 +256,18 @@ const App = () => {
     }
 
     static getCustomers(){
-       console.log('getCustomers');
-       Services.getCustomer(user["access_token"]).then(result => {
-             setCustomers(result);
-           }
+      console.log('getCustomers');
+      Services.getCustomer(user["access_token"]).then(result => {
+            setCustomers(result);
+          }
+      )
+          .catch(error => {
+                this.toast('danger', '3000', error.response.data.error, error.response.data.code);
+              }
           )
-           .catch(error => {
-                 this.toast('danger', '3000', error.response.data.error, error.response.data.code);
-               }
-           )
     }
     static getDataCustomers(){
-       return customers;
+      return customers;
 
     }
 
@@ -275,117 +275,117 @@ const App = () => {
   }
 
   return (
-    <CarNCoContext.Provider value={handleCarNCoContext}>
-      <Loader show={viewLoader} />
-      <ValidToast
-        show={showToast[0]}
-        type={showToast[1]}
-        delay={showToast[2]}
-        message={showToast[3]}
-      />
-      {!user["access_token"] ? (
-        <>
-          <FormLogin />
-        </>
-      ) : (
-        <>
-          <Header user={user} viewComponent={viewComponent} />
-          {(() => {
-            switch (user["profil"]) {
-              case "patron":
-                switch (viewComponent) {
-                  case "vehicule":
-                    return (
-                        <>
-                          <Grid
-                              ListVehicles={listVehicles}
-                              showformvehicule={showformvehicule}
-                              formDatavehicule={formDatavehicule}
-                          />
-                        </>
-                    )
-                    case "devis":
-                      return (
-                          <>
-                            <TableDevis />
-                          </>
-                      )
-                    case "user":
-                      return (
-                          <>
-                            <Table />
-                          </>
-                      )
-                    case "client":
-                      return (
-                          <>
-                            <Table />
-                          </>
-                      )
-                  }
+      <CarNCoContext.Provider value={handleCarNCoContext}>
+        <Loader show={viewLoader} />
+        <ValidToast
+            show={showToast[0]}
+            type={showToast[1]}
+            delay={showToast[2]}
+            message={showToast[3]}
+        />
+        {!user["access_token"] ? (
+            <>
+              <FormLogin />
+            </>
+        ) : (
+            <>
+              <Header user={user} viewComponent={viewComponent} />
+              {(() => {
+                switch (user["profil"]) {
+                  case "patron":
+                    switch (viewComponent) {
+                      case "vehicule":
+                        return (
+                            <>
+                              <Grid
+                                  ListVehicles={listVehicles}
+                                  showformvehicule={showformvehicule}
+                                  formDatavehicule={formDatavehicule}
+                              />
+                            </>
+                        )
+                      case "devis":
+                        return (
+                            <>
+                              <TableDevis />
+                            </>
+                        )
+                      case "user":
+                        return (
+                            <>
+                              <Table />
+                            </>
+                        )
+                      case "client":
+                        return (
+                            <>
+                              <Table />
+                            </>
+                        )
+                    }
 
 
-              case "admin":
-                switch (viewComponent) {
-                  case "user":
-                    return (
-                        <>
-                          <Table showComponent={viewComponent == "user"}/>
-                        </>
-                    )
-                }
-              case "commercial":
-                switch (viewComponent) {
-                  case "vehicule":
-                    return (
-                        <>
-                          <Grid
-                              ListVehicles={listVehicles}
-                              showformvehicule={showformvehicule}
-                              formDatavehicule={formDatavehicule}
-                          />
-                        </>
-                    )
-                  case "devis":
-                    return (
-                        <>
-                          <TableDevis  />
-                        </>
-                    )
-                  case "client":
-                    return (
-                        <>
-                          <Table  />
-                        </>
-                    )
-                }
+                  case "admin":
+                    switch (viewComponent) {
+                      case "user":
+                        return (
+                            <>
+                              <Table showComponent={viewComponent == "user"}/>
+                            </>
+                        )
+                    }
+                  case "commercial":
+                    switch (viewComponent) {
+                      case "vehicule":
+                        return (
+                            <>
+                              <Grid
+                                  ListVehicles={listVehicles}
+                                  showformvehicule={showformvehicule}
+                                  formDatavehicule={formDatavehicule}
+                              />
+                            </>
+                        )
+                      case "devis":
+                        return (
+                            <>
+                              <TableDevis  />
+                            </>
+                        )
+                      case "client":
+                        return (
+                            <>
+                              <Table  />
+                            </>
+                        )
+                    }
 
-              case "magasinier":
-                switch (viewComponent) {
-                  case "vehicule":
-                    return (
-                        <>
-                          <Grid
-                              ListVehicles={listVehicles}
-                              showformvehicule={showformvehicule}
-                              formDatavehicule={formDatavehicule}
-                          />
-                        </>
-                    )
-                  case "devis":
-                    return (
-                        <>
-                          <TableDevis  />
-                        </>
-                    )
+                  case "magasinier":
+                    switch (viewComponent) {
+                      case "vehicule":
+                        return (
+                            <>
+                              <Grid
+                                  ListVehicles={listVehicles}
+                                  showformvehicule={showformvehicule}
+                                  formDatavehicule={formDatavehicule}
+                              />
+                            </>
+                        )
+                      case "devis":
+                        return (
+                            <>
+                              <TableDevis  />
+                            </>
+                        )
+                    }
                 }
-            }
-          })()}
-          <Footer />
-        </>
-      )}
-      <FormDevis show={showformDevis}  etapeFormDevis={etapeFormDevis}/>
-    </CarNCoContext.Provider>
+              })()}
+              <Footer />
+            </>
+        )}
+        <FormDevis show={showformDevis}  etapeFormDevis={etapeFormDevis}/>
+      </CarNCoContext.Provider>
   );
 };
 {

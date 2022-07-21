@@ -4,10 +4,15 @@ import {CarNCoContext} from "../../App";
 const CardVehicle = (props) => {
     const onClickdeleteVehicle = useContext(CarNCoContext).handleClickdeleteVehicle;
     const OnclickOpenFormVehicule = useContext(CarNCoContext).openFormVehicule;
+    const OnclickOpenFormCommandeByVehicule = useContext(CarNCoContext).handleClickOpenFormCommandeByVehicule
+
+
     let vignetteStyle = {
         backgroundImage: `url(${props.vehicle.images[0]})`,
     };
     let idCarousel='#'+props.vehicle._id;
+
+    console.log(props.vehicle.statut);
     return (
         <>
             <div className="col-lg-3 col-md-6 mb-4 mb-lg-0  p-2">
@@ -39,7 +44,17 @@ const CardVehicle = (props) => {
                         </span>
                     </div>
                     <div className="d-flex justify-content-end">
-                        <button className="btn btn-secondary text-white m-2" onClick={()=>{OnclickOpenFormVehicule(props.vehicle)}}>&#9998;</button>
+                        {
+                            (
+                                props.vehicle.statut=="stock"
+                                    &&
+                            <button className="btn btn-primary text-white m-2" onClick={(e)=>{OnclickOpenFormCommandeByVehicule(e,props.vehicle._id)}}>Faire un devis</button>
+
+                            )
+                        }
+
+
+                        <button className="btn btn-secondary text-white m-2" onClick={(e)=>{OnclickOpenFormVehicule(e,props.vehicle)}}>&#9998;</button>
                         <button className="btn btn-danger text-white m-2"  onClick={()=>{onClickdeleteVehicle(props.vehicle._id)}}>&#10008;</button>
                     </div>
                 </div>

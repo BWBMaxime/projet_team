@@ -3,6 +3,8 @@ import { CarNCoContext } from "../App";
 
 const Header = (props) => {
   const onClickLogOut = useContext(CarNCoContext).handleClickLogOut;
+  const linkComponent = useContext(CarNCoContext).linkComponent;
+
   return (
     <>
       <nav className="navbar navbar-expand-lg navbar-light bg-light">
@@ -18,43 +20,45 @@ const Header = (props) => {
               case "patron":
                 return (
                   <ul className="navbar-nav">
-                    <li className="nav-item m-4 h5" >
-                      <a className="nav-link" href="#">Les utilisateurs</a>
-                    </li>
-                    <li className="nav-item m-4 h5" >
-                      <a className="nav-link" href="#">Les devis</a>
+                    <li className="nav-item m-4 h5">
+                      <a className={(props.viewComponent=="vehicule" ? "nav-link active" : "nav-link")} href="#"  onClick={()=> {linkComponent('vehicule')}}>Véhicules</a>
                     </li>
                     <li className="nav-item m-4 h5">
-                      <a className="nav-link" href="#">Les clients</a>
+                      <a className={(props.viewComponent=="devis" ? "nav-link active" : "nav-link")} href="#"  onClick={()=> {linkComponent('devis')}}>Devis</a>
                     </li>
                     <li className="nav-item m-4 h5">
-                      <a className="nav-link" href="#">Stock Véhicules</a>
+                      <a className={(props.viewComponent=="client" ? "nav-link active" : "nav-link")}  href="#"  onClick={()=> {linkComponent('client')}}>Clients</a>
                     </li>
-                  </ul>   
+                    <li className="nav-item m-4 h5">
+                      <a className={(props.viewComponent=="user" ? "nav-link active" : "nav-link")}  href="#"  onClick={()=> {linkComponent('user')}}>Utilisateurs</a>
+                    </li>
+                  </ul>
                 )
-
+              console.log("props.viewComponent 2",props.viewComponent)
               case "commercial":
                 return (
                   <ul className="navbar-nav">
-                    <li className="nav-item m-4 h5" >
-                      <a className="nav-link" href="#">Les devis</a>
+
+                    <li className="nav-item m-4 h5">
+                      <a className={(props.viewComponent=="vehicule" ? "nav-link active" : "nav-link")} href="#"  onClick={()=> {linkComponent('vehicule')}}>Véhicules</a>
                     </li>
                     <li className="nav-item m-4 h5">
-                      <a className="nav-link" href="#">Les clients</a>
+                      <a className={(props.viewComponent=="devis" ? "nav-link active" : "nav-link")} href="#"  onClick={()=> {linkComponent('devis')}}>Devis</a>
                     </li>
                     <li className="nav-item m-4 h5">
-                      <a className="nav-link" href="#">Stock Véhicules</a>
+                      <a className={(props.viewComponent=="client" ? "nav-link active" : "nav-link")}  href="#"  onClick={()=> {linkComponent('client')}}>Clients</a>
                     </li>
+
                   </ul>  
                 )
               case "magasinier":
                 return (
                   <ul className="navbar-nav">
                     <li className="nav-item m-4 h5">
-                      <a className="nav-link" href="#">Les Devis</a>
+                      <a className={(props.viewComponent=="vehicule" ? "nav-link active" : "nav-link")} href="#"  onClick={()=> {linkComponent('vehicule')}}>Véhicules</a>
                     </li>
                     <li className="nav-item m-4 h5">
-                      <a className="nav-link" href="#">Stock Véhicule</a>
+                      <a className={(props.viewComponent=="devis" ? "nav-link active" : "nav-link")} href="#"  onClick={()=> {linkComponent('devis')}}>Devis</a>
                     </li>
                   </ul>  
                 )

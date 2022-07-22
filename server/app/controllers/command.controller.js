@@ -29,6 +29,7 @@ export class CommandController {
           code: "CF2",
         });
       } else {
+        console.log(data);
         res.send(data);
       }
     });
@@ -43,16 +44,14 @@ export class CommandController {
       });
     }
     const newCommand = {
-      user: req.body.user,
-      customer: req.body.customer,
+      user: req.body.user.login,
+      customer: req.body.customer.email,
       date: `${new Date()}`,
       status: req.body.status,
       vehicle: req.body.vehicle,
     };
+    console.log(newCommand);
 
-    // Ajouter la commande dans liste commandes user
-    // Ajouter commandId dans vehicule
-    // Ajouter la commandId dans list commandes client
     if (!("_id" in newCommand.vehicle)) {
       Vehicle.create(newCommand.vehicle, (err, data) => {
         if (err) {
@@ -62,8 +61,6 @@ export class CommandController {
           });
         }
         newCommand.vehicle = data.insertedId.toString();
-        newCommand.user = newCommand.user.login;
-        newCommand.customer = newCommand.customer.email;
 
         Command.create(newCommand, (err, data) => {
           if (err) {
@@ -79,7 +76,6 @@ export class CommandController {
           }
         });
       });
-      //newCommand.vehicle._id = newVehicle.insertedId;
     }
   };
 
@@ -92,21 +88,22 @@ export class CommandController {
       });
     }
     const newValuesCommand = {
-      user: req.body.user,
-      customer: req.body.customer,
+      user: req.body.user.login,
+      customer: req.body.customer.email,
       date: req.body.date,
       status: req.body.status,
       vehicle: req.body.vehicle,
     };
+
     Command.updateById(req.params.id, newValuesCommand, (err, data) => {
       if (err) {
         res.status(404).send({
-          message: "Impossible de mettre à jour les données du client.",
+          message: "Impossible de mettre à jour les données de la commande.",
           code: "CU2",
         });
       } else {
         res.status(200).send({
-          message: "Les données du client ont été mis à jour avec succès.",
+          message: "Les données de la commande ont été mis à jour avec succès.",
           code: "CU3",
         });
       }

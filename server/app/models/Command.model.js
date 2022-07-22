@@ -160,13 +160,35 @@ export class Command {
   static updateById = (commandId, commandUpdated, result) => {
     const myquery = { _id: ObjectId(commandId) };
     try {
-      CommandsData.updateOne(
-        myquery,
-        { $set: commandUpdated },
-        function (err, res) {
+      console.log(commandUpdated.vehicle._id);
+      VehiclesData.updateOne(
+        { _id: ObjectId(commandUpdated.vehicle._id) },
+        {
+          $set: {
+            brand: commandUpdated.vehicle.brand,
+            color: commandUpdated.vehicle.color,
+            model: commandUpdated.vehicle.model,
+            type: commandUpdated.vehicle.type,
+            year: commandUpdated.vehicle.year,
+            price: commandUpdated.vehicle.price,
+            statut: commandUpdated.vehicle.statut,
+            images: commandUpdated.vehicle.images,
+          },
+        },
+        (err, res) => {
           if (err) result(err, null);
-          console.log("Commands updated");
-          result(null, res);
+          console.log(res);
+          console.log("Commande ajoutée au véhicule");
+          commandUpdated.vehicle = commandUpdated.vehicle._id;
+          CommandsData.updateOne(
+            myquery,
+            { $set: commandUpdated },
+            function (err, res) {
+              if (err) result(err, null);
+              console.log("Commands updated");
+              result(null, res);
+            }
+          );
         }
       );
     } catch (e) {

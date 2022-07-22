@@ -1,5 +1,5 @@
 import { ObjectId } from "mongodb";
-import { CommandsData } from "./db.js";
+import { CommandsData, CustomersData, UsersData, VehiclesData } from "./db.js";
 
 export class Command {
   constructor(command) {
@@ -12,9 +12,36 @@ export class Command {
 
   static create = (newCommand, result) => {
     //try {
-    CommandsData.insertOne(newCommand, function (err, res) {
+    CommandsData.insertOne(newCommand, (err, res) => {
       if (err) throw result(err, null);
-      console.log("1 document inserted");
+      console.log(newCommand.customer);
+      CustomersData.updateOne(
+        { email: newCommand.customer },
+        { $push: { commands: newCommand._id.toString() } },
+        (err, res) => {
+          if (err) result(err, null);
+          newCommand.customer = newCommand.customer._id;
+          console.log("Commande ajoutée customer");
+          UsersData.updateOne(
+            { login: newCommand.user },
+            { $push: { commands: newCommand._id.toString() } },
+            (err, res) => {
+              if (err) result(err, null);
+              newCommand.user = newCommand.user._id;
+              console.log("Commande ajoutée user");
+              VehiclesData.updateOne(
+                { _id: ObjectId(newCommand.vehicle) },
+                { $set: { command: newCommand._id.toString() } },
+                (err, res) => {
+                  if (err) result(err, null);
+                  console.log("Commande ajoutée au véhicule");
+                }
+              );
+            }
+          );
+        }
+      );
+
       result(null, res);
     });
     /*} finally {
@@ -63,20 +90,12 @@ export class Command {
       {
         $lookup: {
           from: "vehicle",
-          localField: "vehicle",
-          foreignField: "serialNumber",
+          localField: "_id.str",
+          foreignField: "command",
           as: "vehicle",
         },
       },
       { $unwind: "$vehicle" },
-      /*{
-        $replaceRoot: {
-          newRoot: {
-            $mergeObjects: [{ $arrayElemAt: ["$fromUsers", 0] }, "$$ROOT"],
-          },
-        },
-      },*/
-      //      { $project: { fromUsers: 0 } },
     ]).toArray((err, res) => {
       if (err) {
         console.log(`error: ${err}`);

@@ -43,17 +43,17 @@ export class CommandController {
       });
     }
     const newCommand = {
-      user: req.body.user.login,
-      customer: req.body.customer.email,
+      user: req.body.user,
+      customer: req.body.customer,
       date: `${new Date()}`,
       status: req.body.status,
       vehicle: req.body.vehicle,
     };
 
-    if ("serialNumber" in newCommand.vehicle)
-      newCommand.vehicle = newCommand.vehicle.serialNumber;
-    else {
-      newCommand.vehicle.serialNumber = new Date().getTime();
+    // Ajouter la commande dans liste commandes user
+    // Ajouter commandId dans vehicule
+    // Ajouter la commandId dans list commandes client
+    if (!("_id" in newCommand.vehicle)) {
       Vehicle.create(newCommand.vehicle, (err, data) => {
         if (err) {
           res.status(500).send({
@@ -61,7 +61,9 @@ export class CommandController {
             code: "CV1",
           });
         }
-        newCommand.vehicle = newCommand.vehicle.serialNumber;
+        newCommand.vehicle = data.insertedId.toString();
+        newCommand.user = newCommand.user.login;
+        newCommand.customer = newCommand.customer.email;
 
         Command.create(newCommand, (err, data) => {
           if (err) {
@@ -77,6 +79,7 @@ export class CommandController {
           }
         });
       });
+      //newCommand.vehicle._id = newVehicle.insertedId;
     }
   };
 
@@ -90,7 +93,7 @@ export class CommandController {
     }
     const newValuesCommand = {
       user: req.body.user,
-      client: req.body.client,
+      customer: req.body.customer,
       date: req.body.date,
       status: req.body.status,
       vehicle: req.body.vehicle,

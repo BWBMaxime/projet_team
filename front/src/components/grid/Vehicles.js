@@ -25,8 +25,8 @@ const Vehicles = (props) => {
                     </div>
                     <div className="d-flex flex-wrap">
                         {
-                            props.ListVehicles.map((vehicle, indexVehicle) => <CardVehicle vehicle={vehicle}
-                                                                                           key={indexVehicle}> </CardVehicle>)
+                            props.ListVehicles.map((vehicle, indexVehicle) => <CardVehicle key={indexVehicle} vehicle={vehicle}
+                                                                                           > </CardVehicle>)
                         }
                     </div>
                 </div>

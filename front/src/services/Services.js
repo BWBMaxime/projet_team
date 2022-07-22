@@ -238,10 +238,7 @@ export default class Services {
   };
   //***********END VEHICLE*****************/
 
-  //***********DEBUT CLIENT */
-
-
-
+  //***********DEBUT CLIENT **************/
   static getCustomers = (access_token) => {
     const urlService = this.urlServer + "/api/customers/";
     return axios.get(urlService, {
@@ -256,7 +253,6 @@ export default class Services {
 
   static addCustomer = (formData, access_token) => {
     const urlService = this.urlServer + "/api/customers";
-
     return axios.post(urlService, formData, {
       headers: {
         "Authorization": access_token,
@@ -289,8 +285,63 @@ export default class Services {
     }).then((res) => {
       return res.data;
     });
-
   }
+    //***********END CLIENT **************/
 
+    //***********DEBUT COMMANDE **************/
+    static updateStatusCommande = (id, access_token, devis) => {
+        const urlService = this.urlServer + "/api/commands" + id;
+        const formData = {
+            user: devis.user,
+            customer: devis.customer,
+            status: devis.status,
+            vehicle: devis.vehicle,
+        };
+        return axios
+            .put(urlService, formData, {
+                headers: {
+                    Authorization: access_token,
+                },
+            })
+            .then((res) => {
+                //console.log(res.data)
+                return res.data;
+            });
+    };
+
+
+    static createCommande = (access_token, formData) => {
+        const urlService = this.urlServer + "/api/commands";
+        return axios
+            .post(urlService, formData, {
+                headers: {
+                    Authorization: access_token,
+                },
+            })
+            .then((res) => {
+                console.log(res.data)
+                return res.data;
+            });
+    };
+
+
+    static updateCommande = (access_token, formData,id) => {
+        console.log("updateCommande");
+        const urlService = this.urlServer + "/api/commands/"+id;
+        return axios
+            .put(urlService, formData, {
+                headers: {
+                    Authorization: access_token,
+                },
+            })
+            .then((res) => {
+                console.log(res.data)
+                return res.data;
+            });
+    };
+
+
+
+    //***********END COMMANDE **************/
 
 }

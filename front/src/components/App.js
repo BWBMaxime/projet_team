@@ -28,9 +28,10 @@ const App = () => {
   const [formDatavehicule, setFormDatavehicule] = useState(null);
   const [selectedImageVehicule, setSelectedImageVehicule] = useState([]);
   const [showFormClient, setShowFormClient] = useState(false);
-  const [showFormClientByCommande, setShowFormClientByCommande] =
-    useState(false);
-
+  const [showFormClientByCommande, setShowFormClientByCommande] = useState(false);
+  const [etapeFormDevisDataClient, setEtapeFormDevisDataClient] = useState(false);
+  const [etapeFormDevisDataVehicle, setEtapeFormDevisDataVehicle] = useState(false);
+  const [objectModifyDevis, setObjectModifyDevis] = useState(false);
   const [listCustomers, setListCustomers] = useState([]);
   const [showformDevis, setShowformDevis] = useState(false);
   const [etapeFormDevis, setEtapeFormDevis] = useState(0);
@@ -250,11 +251,6 @@ const App = () => {
       setShowFormClient(false);
     };
 
-    static handleClickOpenNewClientByCommande = (byCommande) => {
-      setShowFormClient(true);
-      setShowFormClientByCommande(byCommande);
-    };
-
     static handleClickAddCustomers = (e) => {
       e.preventDefault();
       const formData = {
@@ -269,6 +265,7 @@ const App = () => {
       };
       Services.addCustomer(formData, user["access_token"]).then((result) => {
         if (showFormClientByCommande == true) {
+
           this.handleClickNextClientByCommande(result);
         }
         this.getAllCustomers();
@@ -277,28 +274,119 @@ const App = () => {
     };
 
     //***************** BEGIN COMMANDE*******************//
-    static handleClickNextClientByCommande(objet) {
-
-
-      this.handleClickShowModalDevis(null,1);
-      console.log(objet);
+    static handleSubmitFormCommande(e,_id){
+      e.preventDefault();
+      this.showLoader();
+      let formData={
+          "user": {
+            "login": e.target.user.value,
+          },
+          "status": e.target.statutcommande.value,
+            "vehicle": {
+              "brand": e.target.brand.value,
+              "color": e.target.color.value,
+              "model": e.target.model.value,
+              "type": e.target.type.value,
+              "year": e.target.year.value,
+              "price": e.target.price.value,
+              "statut": e.target.statut.value,
+              "images": this.getListeImageVehicles()
+        },
+          "customer": {
+              "email": e.target.email.value
+        }
+      }
+      if(_id!=null){
+        formData._id=_id
+        Services.updateCommande(user["access_token"],formData,_id)
+            .then((result) => {
+              setTimeout(this.hideLoader, 1000);
+              this.openToast(
+                  "success",
+                  "3000",
+                  result["message"]
+              );
+            })
+            .catch((error) => {
+              setTimeout(this.hideLoader, 1000);
+              this.toast(
+                  "danger",
+                  "3000",
+                  error.response.data.error,
+                  error.response.data.code
+              );
+            })
+      }
+      else {
+        Services.createCommande(user["access_token"],formData)
+            .then((result) => {
+              setTimeout(this.hideLoader, 1000);
+              console.log(result)
+              this.openToast(
+                  "success",
+                  "3000",
+                  result["message"]
+              );
+            })
+            .catch((error) => {
+              setTimeout(this.hideLoader, 1000);
+              this.toast(
+                  "danger",
+                  "3000",
+                  error.response.data.error,
+                  error.response.data.code
+              );
+            })
+      }
     }
 
-    static handleClickOpenFormCommandeByVehicule = (e, idVehicule) => {
-      console.log(idVehicule);
-      this.handleClickShowModalDevis(e, 1);
+    static handleClickOpenNewClientByCommande = (byCommande) => {
+      setShowFormClient(true);
+      setShowFormClientByCommande(true);
     };
+
+    static handleClickOpenFormCommandeByVehicule = (e, object) => {
+      console.log(object);
+      setShowFormClientByCommande(true);
+      setEtapeFormDevisDataClient(false);
+      setEtapeFormDevisDataVehicle(object);
+      setEtapeFormDevis(1);
+      e.preventDefault();
+      setShowformDevis(true);
+     };
+
+    static handleClickNextClientByCommande(objet) {
+      console.log('handleClickNextClientByCommande');
+      setShowformDevis(true);
+      setEtapeFormDevis(2);
+      setEtapeFormDevisDataClient(objet);
+    }
 
     static handleClickShowModalDevis = (e, etape) => {
       console.log("handleClickShowModalDevis");
       e.preventDefault();
+      setObjectModifyDevis(false);
       setShowformDevis(true);
       setEtapeFormDevis(etape);
     };
 
-    static handleClickHideModalDevis() {
-      setShowformDevis(false);
+    static handleClickShowModalModifyDevis = (e,object) => {
+    console.log("handleClickShowModalModifyDevis");
+    console.log(object)
+    e.preventDefault();
+    setObjectModifyDevis(object);
+
+    setEtapeFormDevisDataVehicle(false);
+    setEtapeFormDevisDataClient(false)
+    setShowformDevis(true);
+    setEtapeFormDevis(2);
+  }
+
+  static handleClickHideModalDevis() {
+      console.log('handleClickHideModalDevis');
+      setEtapeFormDevisDataVehicle(false);
       setEtapeFormDevis(0);
+      setShowformDevis(false);
     }
 
     static getCustomers() {
@@ -316,6 +404,7 @@ const App = () => {
           );
         });
     }
+
     static getDataCustomers() {
       return customers;
     }
@@ -387,11 +476,17 @@ const App = () => {
                   case "vehicule":
                     return (
                       <>
-                        <Grid
-                          ListVehicles={listVehicles}
-                          showformvehicule={showformvehicule}
-                          formDatavehicule={formDatavehicule}
-                        />
+                        {
+/*
+                          <Grid
+                              ListVehicles={listVehicles}
+                              showformvehicule={showformvehicule}
+                              formDatavehicule={formDatavehicule}
+                          />
+  */
+                        }
+
+
                       </>
                     );
                   case "devis":
@@ -436,7 +531,7 @@ const App = () => {
           <Footer />
         </>
       )}
-      <FormDevis show={showformDevis} etapeFormDevis={etapeFormDevis} />
+      <FormDevis show={showformDevis} etapeFormDevis={etapeFormDevis} etapeFormDevisDataClient={etapeFormDevisDataClient} etapeFormDevisDataVehicle={etapeFormDevisDataVehicle}  objectModifyDevis={objectModifyDevis}/>
     </CarNCoContext.Provider>
   );
 };

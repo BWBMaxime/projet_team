@@ -27,6 +27,7 @@ export class UserController {
                 lastName: data.lastName,
                 firstName: data.firstName,
                 profil: data.profil,
+                login: data.login,
               });
             } else {
               //compte non actif

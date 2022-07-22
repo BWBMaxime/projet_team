@@ -5,8 +5,6 @@ const CardVehicle = (props) => {
     const onClickdeleteVehicle = useContext(CarNCoContext).handleClickdeleteVehicle;
     const OnclickOpenFormVehicule = useContext(CarNCoContext).openFormVehicule;
     const OnclickOpenFormCommandeByVehicule = useContext(CarNCoContext).handleClickOpenFormCommandeByVehicule
-
-
     let vignetteStyle = {
         backgroundImage: `url(${props.vehicle.images[0]})`,
     };
@@ -27,9 +25,9 @@ const CardVehicle = (props) => {
                     <div className="card-body p-4 ">
                                     {
                                         props.vehicle.images.map((image,imageIndex) => {
-                                                return (
-                                                            <div className="card-vehicles   img-fluid d-block mx-auto mb-3" style={{backgroundImage: `url(${image})`}}></div>
-                                                        )
+                                        return (
+                                                    <div className="card-vehicles img-fluid d-block mx-auto mb-3" style={{backgroundImage: `url(${image})`}}></div>
+                                                )
                                             }
                                         )
                                     }
@@ -38,9 +36,6 @@ const CardVehicle = (props) => {
                             <u>Année:</u> {props.vehicle.year} <br/>
                             <u>Type:</u> {props.vehicle.type} <br/>
                             <u>Statut:</u> {props.vehicle.statut}
-
-
-
                         </span>
                     </div>
                     <div className="d-flex justify-content-end">
@@ -48,12 +43,9 @@ const CardVehicle = (props) => {
                             (
                                 props.vehicle.statut=="stock"
                                     &&
-                            <button className="btn btn-primary text-white m-2" onClick={(e)=>{OnclickOpenFormCommandeByVehicule(e,props.vehicle._id)}}>Faire un devis</button>
-
+                                <button className="btn btn-primary text-white m-2" onClick={(e)=>{OnclickOpenFormCommandeByVehicule(e,props.vehicle)}}>Faire un devis</button>
                             )
                         }
-
-
                         <button className="btn btn-secondary text-white m-2" onClick={(e)=>{OnclickOpenFormVehicule(e,props.vehicle)}}>&#9998;</button>
                         <button className="btn btn-danger text-white m-2"  onClick={()=>{onClickdeleteVehicle(props.vehicle._id)}}>&#10008;</button>
                     </div>

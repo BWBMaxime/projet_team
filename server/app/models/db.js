@@ -8,7 +8,7 @@ export const connection = new MongoClient(URI, {
 });
 export const database = connection.db("projet_team_db");
 export const UsersData = database.collection("user");
-//UsersData.createIndex({ login: 1 }, { unique: true });
+UsersData.createIndex({ login: 1 }, { unique: true });
 export const VehiclesData = database.collection("vehicle");
 export const CustomersData = database.collection("customer");
 export const CommandsData = database.collection("command");

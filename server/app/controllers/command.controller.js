@@ -1,4 +1,4 @@
-import { Command } from "../models/index.js";
+import { Command, Vehicle } from "../models/index.js";
 
 export class CommandController {
   static findById = (req, res) => {
@@ -43,25 +43,41 @@ export class CommandController {
       });
     }
     const newCommand = {
-      user: req.body.user,
-      client: req.body.client,
-      date: req.body.date,
+      user: req.body.user.login,
+      customer: req.body.customer.email,
+      date: `${new Date()}`,
       status: req.body.status,
       vehicle: req.body.vehicle,
     };
-    Command.create(newCommand, (err, data) => {
-      if (err) {
-        res.status(500).send({
-          message: "Impossible de créer la commande",
-          code: "CC2",
+
+    if ("serialNumber" in newCommand.vehicle)
+      newCommand.vehicle = newCommand.vehicle.serialNumber;
+    else {
+      newCommand.vehicle.serialNumber = new Date().getTime();
+      Vehicle.create(newCommand.vehicle, (err, data) => {
+        if (err) {
+          res.status(500).send({
+            message: "Impossible de créer le véhicule associé",
+            code: "CV1",
+          });
+        }
+        newCommand.vehicle = newCommand.vehicle.serialNumber;
+
+        Command.create(newCommand, (err, data) => {
+          if (err) {
+            res.status(500).send({
+              message: "Impossible de créer la commande",
+              code: "CC2",
+            });
+          } else {
+            res.status(200).send({
+              message: "Commande ajouté avec succès",
+              code: "CC4",
+            });
+          }
         });
-      } else {
-        res.status(200).send({
-          message: "Commande ajouté avec succès",
-          code: "CC4",
-        });
-      }
-    });
+      });
+    }
   };
 
   static update = (req, res) => {

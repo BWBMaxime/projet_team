@@ -51,9 +51,9 @@ const FormVehicle = (props) => {
                             <input type="number" required className="form-control" id="price" name="price" placeholder="10" defaultValue={(props.formDatavehicule!=null ? props.formDatavehicule.price : "")}/>
                         </div>
 
-                        <div className="form-group">
+                        <div className="form-group visually-hidden">
                             <label htmlFor="price">Statut</label>
-                            <select name="statut" className="form-control" required defaultValue={(props.formDatavehicule!=null ? props.formDatavehicule.statut : "")}>
+                            <select name="statut" className="form-control" required defaultValue={(props.formDatavehicule!=null ? props.formDatavehicule.statut : "stock")}>
                                 <option value="">Choisissez un statut</option>
                                 <option value="stock">En stock</option>
                                 <option value="vendu">Vendu</option>
@@ -62,9 +62,6 @@ const FormVehicle = (props) => {
                         </div>
                         <div className="row">
                             <label htmlFor="vehicleImg">Photo du véhicule</label>
-
-
-
                             <input required={getListeImages().length==0 } className="mb-3" type="file"   onChange={handleFileChange}  />
                             <div className="d-flex flex-wrap">
                                 {

@@ -2,7 +2,11 @@ import React from "react";
 import axios from "axios";
 
 export default class Services {
-  static urlServer = "http://localhost:4000";
+  //static urlServer = "http://localhost:4000";
+    static urlServer = "http://192.168.1.49:4000";
+
+
+
 
   //***********BEGIN VEHICLE*****************/
   static login = (login, password) => {
@@ -252,6 +256,9 @@ export default class Services {
   }
 
   static addCustomer = (formData, access_token) => {
+
+      console.log(formData);
+
     const urlService = this.urlServer + "/api/customers";
     return axios.post(urlService, formData, {
       headers: {
@@ -289,8 +296,23 @@ export default class Services {
     //***********END CLIENT **************/
 
     //***********DEBUT COMMANDE **************/
-    static updateStatusCommande = (id, access_token, devis) => {
-        const urlService = this.urlServer + "/api/commands" + id;
+    static getCommands = (access_token) => {
+        const urlService = this.urlServer + "/api/commands";
+        return axios
+            .get(urlService, {
+                headers: {
+                    Authorization: access_token,
+                },
+            })
+            .then((res) => {
+                return res.data;
+            });
+    };
+
+
+
+    static updateStatusCommand = (id, access_token, devis) => {
+        const urlService = this.urlServer + "/api/commands/" + id;
         const formData = {
             user: devis.user,
             customer: devis.customer,
@@ -304,7 +326,6 @@ export default class Services {
                 },
             })
             .then((res) => {
-                //console.log(res.data)
                 return res.data;
             });
     };
@@ -336,6 +357,19 @@ export default class Services {
             })
             .then((res) => {
                 console.log(res.data)
+                return res.data;
+            });
+    };
+
+    static deleteCommand = (id, access_token) => {
+        const urlService = this.urlServer + "/api/commands/" + id;
+        return axios
+            .delete(urlService, {
+                headers: {
+                    Authorization: access_token,
+                },
+            })
+            .then((res) => {
                 return res.data;
             });
     };

@@ -203,6 +203,19 @@ footer {
   background-color: red;
 }
 
+
+.ruban span.valide {
+  color: #ffffff;
+  background-color: green;
+}
+.ruban span.commande {
+  color: #ffffff;
+  background-color: blue;
+}
+
+
+
+
 .left {
   top: -10px;
   left: -10px;

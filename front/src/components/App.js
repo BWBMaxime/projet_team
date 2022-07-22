@@ -36,6 +36,13 @@ const App = () => {
   const [showformDevis, setShowformDevis] = useState(false);
   const [etapeFormDevis, setEtapeFormDevis] = useState(0);
   const [viewComponent, setViewComponent] = useState("");
+  const [stateDevis, setStateDevis] = useState("");
+
+
+
+
+  const [isUpdateCustomer, setIsUpdateCustomer] = useState(null);
+  const [selectedCustomer, setSelectedCustomer] = useState([]);
 
   class handleCarNCoContext {
     static handleClickLogOut = (e) => {
@@ -62,6 +69,10 @@ const App = () => {
       }, delay);
     }
 
+
+    static setStateDevis(){
+      setStateDevis(true);
+    }
     static closeToast() {
       setShowToast([false, "", "", ""]);
     }
@@ -260,23 +271,69 @@ const App = () => {
         address: {
           zipCode: e.target.clientZipCode.value,
           city: e.target.clientCity.value,
+          street: e.target.clientStreet.value,
         },
         mobile: e.target.clientMobile.value,
       };
       Services.addCustomer(formData, user["access_token"]).then((result) => {
+        console.log('showFormClientByCommande',showFormClientByCommande)
         if (showFormClientByCommande == true) {
-
           this.handleClickNextClientByCommande(result);
         }
         this.getAllCustomers();
       });
       this.handleClickCloseModalClient();
     };
+    static handleClickUpdateCustomer = (e, id) => {
+      e.preventDefault();
+      const formData = {
+        lastName: e.target.clientLastName.value,
+        firstName: e.target.clientFirstName.value,
+        email: e.target.clientEmail.value,
+        address: {
+          street: e.target.clientStreet.value,
+          zipCode: e.target.clientZipCode.value,
+          city: e.target.clientCity.value,
+        },
+        mobile: e.target.clientMobile.value,
+      };
+      console.log(formData);
+      Services.updateCustomer(id, formData, user["access_token"])
+          .then(result => {
+            this.getAllCustomers();
+            this.openToast("success","3000","Customer bien Modifié");
+          })
+          .catch((error)=>{
+            this.openToast( "danger","3000",error.response.data.error,error.response.data.code);
+          })
+      this.handleClickCloseModalClient();
+    };
+
+    static handleClickDeleteCustomer = (idCustomer) => {
+      if (window.confirm("Voulez vous vraiment faire la suppression?")) {
+        this.showLoader();
+        Services.deleteCustomer(idCustomer, user["access_token"])
+            .then((result) => {
+              setTimeout(this.hideLoader, 1000);
+              this.getAllCustomers();
+              this.openToast("success","3000","Customer bien supprimé");
+            })
+            .catch((error) => {
+              this.openToast( "danger","3000",error.response.data.error,error.response.data.code);
+            });
+      }
+
+    }
+
 
     //***************** BEGIN COMMANDE*******************//
-    static handleSubmitFormCommande(e,_id){
+    static handleSubmitFormCommande = (e,_id)=>{
       e.preventDefault();
-      this.showLoader();
+      //this.showLoader();
+
+
+
+
       let formData={
           "user": {
             "login": e.target.user.value,
@@ -290,25 +347,32 @@ const App = () => {
               "year": e.target.year.value,
               "price": e.target.price.value,
               "statut": e.target.statut.value,
-              "images": this.getListeImageVehicles()
+              "images": selectedImageVehicule
         },
           "customer": {
               "email": e.target.email.value
         }
       }
+
+      if(e.target.idVehicule.value!=''){
+        formData.vehicle._id=e.target.idVehicule.value;
+      }
+
       if(_id!=null){
         formData._id=_id
         Services.updateCommande(user["access_token"],formData,_id)
             .then((result) => {
-              setTimeout(this.hideLoader, 1000);
+              //setTimeout(this.hideLoader, 1000);
               this.openToast(
                   "success",
                   "3000",
                   result["message"]
               );
+              setViewComponent('devis');
+
             })
             .catch((error) => {
-              setTimeout(this.hideLoader, 1000);
+             // setTimeout(this.hideLoader, 1000);
               this.toast(
                   "danger",
                   "3000",
@@ -320,7 +384,7 @@ const App = () => {
       else {
         Services.createCommande(user["access_token"],formData)
             .then((result) => {
-              setTimeout(this.hideLoader, 1000);
+              //setTimeout(this.hideLoader, 1000);
               console.log(result)
               this.openToast(
                   "success",
@@ -329,20 +393,38 @@ const App = () => {
               );
             })
             .catch((error) => {
-              setTimeout(this.hideLoader, 1000);
+              //setTimeout(this.hideLoader, 1000);
               this.toast(
                   "danger",
                   "3000",
                   error.response.data.error,
                   error.response.data.code
               );
+              setViewComponent('devis');
             })
       }
+
     }
 
-    static handleClickOpenNewClientByCommande = (byCommande) => {
+    static handleClickOpenNewClientByCommande2 = () => {
+      setIsUpdateCustomer(false)
       setShowFormClient(true);
       setShowFormClientByCommande(true);
+
+    };
+
+
+
+
+    static handleClickOpenNewClientByCommande = (byCommande , isUpdateCustomer, idCustomer = null) => {
+      setIsUpdateCustomer(isUpdateCustomer)
+      setShowFormClient(true);
+      setShowFormClientByCommande(byCommande);
+      if (isUpdateCustomer) {
+        const customers_copy = [...listCustomers];
+        const formDataCustomer = customers_copy.filter(customer => { return idCustomer == customer._id });
+        setSelectedCustomer(formDataCustomer);
+      }
     };
 
     static handleClickOpenFormCommandeByVehicule = (e, object) => {
@@ -371,8 +453,9 @@ const App = () => {
     };
 
     static handleClickShowModalModifyDevis = (e,object) => {
-    console.log("handleClickShowModalModifyDevis");
-    console.log(object)
+      console.log("handleClickShowModalModifyDevis");
+      console.log(object)
+
     e.preventDefault();
     setObjectModifyDevis(object);
 
@@ -387,6 +470,7 @@ const App = () => {
       setEtapeFormDevisDataVehicle(false);
       setEtapeFormDevis(0);
       setShowformDevis(false);
+
     }
 
     static getCustomers() {
@@ -445,7 +529,7 @@ const App = () => {
                   case "devis":
                     return (
                       <>
-                        <TableDevis />
+                        <TableDevis  stateDevis={stateDevis}/>
                       </>
                     );
                   case "user":
@@ -457,7 +541,7 @@ const App = () => {
                   case "client":
                     return (
                       <>
-                        <Table />
+                        <TableClient listCustomers={listCustomers} />
                       </>
                     );
                 }
@@ -477,13 +561,13 @@ const App = () => {
                     return (
                       <>
                         {
-/*
+
                           <Grid
                               ListVehicles={listVehicles}
                               showformvehicule={showformvehicule}
                               formDatavehicule={formDatavehicule}
                           />
-  */
+
                         }
 
 
@@ -492,13 +576,13 @@ const App = () => {
                   case "devis":
                     return (
                       <>
-                        <TableDevis />
+                        <TableDevis  stateDevis={stateDevis}/>
                       </>
                     );
                   case "client":
                     return (
                       <>
-                        <Table />
+                        <TableClient listCustomers={listCustomers} />
                       </>
                     );
                 }
@@ -518,16 +602,13 @@ const App = () => {
                   case "devis":
                     return (
                       <>
-                        <TableDevis />
+                        <TableDevis  stateDevis={stateDevis}/>
                       </>
                     );
                 }
             }
           })()}
-          <FormClient
-            show={showFormClient}
-            showFormClientByCommande={showFormClientByCommande}
-          />
+          <FormClient show={showFormClient} showFormClientByCommande={showFormClientByCommande} isUpdateCustomer={isUpdateCustomer} formDataCustomer={selectedCustomer} />
           <Footer />
         </>
       )}

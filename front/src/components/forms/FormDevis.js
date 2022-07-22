@@ -11,7 +11,7 @@ const FormDevis = (props) => {
     const getDataCustomers = useContext(CarNCoContext).getDataCustomers;
     const onClickShowModalDevis = useContext(CarNCoContext).handleClickShowModalDevis;
     const onClickHideModalDevis = useContext(CarNCoContext).handleClickHideModalDevis;
-    const onClickOpenNewClientByCommande = useContext(CarNCoContext).handleClickOpenNewClientByCommande;
+    const onClickOpenNewClientByCommande2 = useContext(CarNCoContext).handleClickOpenNewClientByCommande2;
     const onSubmitFormCommande = useContext(CarNCoContext).handleSubmitFormCommande;
 
     const handleFileChange = useContext(CarNCoContext).vehicleFileChange;
@@ -39,14 +39,18 @@ const FormDevis = (props) => {
    }
 
 
-console.log('objectModifyDevis',props.objectModifyDevis.user);
-    if(props.objectModifyDevis){
-        console.log(props.objectModifyDevis.vehicle.images);
-        setListeImageVehicles([props.objectModifyDevis.vehicle.images])
+    useEffect(() => {
+        if(props.objectModifyDevis){
+            console.log(props.objectModifyDevis.vehicle.images);
+            setListeImageVehicles([props.objectModifyDevis.vehicle.images])
+        }
+        else{
+            setListeImageVehicles([])
+        }
+    },[]);
 
 
 
-    }
 
     useEffect(() => {
         getCustomers();
@@ -61,7 +65,7 @@ console.log('objectModifyDevis',props.objectModifyDevis.user);
                     </Modal.Header>
                     <Modal.Body>
                             <div className="d-flex justify-content-around">
-                                <button className="btn btn-primary" onClick={(e)=>{onClickOpenNewClientByCommande(e)}}>Nouveau client</button>
+                                <button className="btn btn-primary" onClick={(e)=>{onClickOpenNewClientByCommande2(e,)}}>Nouveau client</button>
                                 <button  className="btn btn-primary" onClick={(e)=>{onClickShowModalDevis(e,2)}}>Client déjà existant</button>
                             </div>
                    </Modal.Body>
@@ -95,7 +99,7 @@ console.log('objectModifyDevis',props.objectModifyDevis.user);
 
                                         </>
                                         :
-                                            <><select required className="form-control" id="email" name="email" defaultValue={(props.objectModifyDevis && props.objectModifyDevis.customer.email)}>
+                                            <><select required className="form-control" id="email"  disabled={(props.etapeFormDevisDataClient || props.objectModifyDevis )} name="email" defaultValue={(props.objectModifyDevis && props.objectModifyDevis.customer.email)}>
                                                 <option value="">Séléctionner un client</option>
                                                 {
                                                     getDataCustomers().map((customer, indexcustomer) => <option
@@ -107,6 +111,8 @@ console.log('objectModifyDevis',props.objectModifyDevis.user);
                             </div>
 
                         <div className="form-group">
+
+                            <input type="hidden"  className="form-control" id="idVehicule" name="idVehicule"  defaultValue={(props.formDatavehicule!=null ? props.formDatavehicule._id : (props.objectModifyDevis ? props.objectModifyDevis.vehicle._id:''))} />
                             <label htmlFor="Marque">Marque</label>
                             <input type="text" required  disabled={props.etapeFormDevisDataVehicle} required className="form-control" id="brand" name="brand" placeholder="Peugeot" defaultValue={(props.formDatavehicule!=null ? props.formDatavehicule.brand : (props.objectModifyDevis ? props.objectModifyDevis.vehicle.brand:''))} />
                         </div>
@@ -149,7 +155,7 @@ console.log('objectModifyDevis',props.objectModifyDevis.user);
 
                         <div className="row">
                             <label htmlFor="vehicleImg">Photo du véhicule</label>
-                            <input name="images" required={getListeImages().length==0 }  defaultValue={(props.objectModifyDevis ? props.objectModifyDevis.vehicle.images:'')} disabled={props.etapeFormDevisDataVehicle} className="mb-3" type="file"   onChange={handleFileChange}  />
+                            <input name="images" required={getListeImages().length==0 }  className="mb-3" type="file"   onChange={handleFileChange}  />
                             <div className="d-flex flex-wrap">
                                 {
                                     getListeImages().map((image,imageIndex) =>

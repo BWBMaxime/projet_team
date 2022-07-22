@@ -51,9 +51,53 @@ export class Command {
 
   static findById = (commandId, result) => {
     try {
-      CommandsData.findOne({
+      CommandsData.aggregate([
+        { $match: { _id: ObjectId(commandId) } },
+        { $limit: 1 },
+        {
+          $lookup: {
+            from: "user",
+            localField: "user",
+            foreignField: "login",
+            as: "user",
+          },
+        },
+        {
+          $unwind: "$user",
+        },
+        { $project: { "user.password": 0 } },
+        {
+          $lookup: {
+            from: "customer",
+            localField: "customer",
+            foreignField: "email",
+            as: "customer",
+          },
+        },
+        { $unwind: "$customer" },
+        { $addFields: { command_id: { $toString: "$_id" } } },
+        {
+          $lookup: {
+            from: "vehicle",
+            localField: "command_id",
+            foreignField: "command",
+            as: "vehicle",
+          },
+        },
+        { $unwind: "$vehicle" },
+      ]).toArray((err, res) => {
+        if (err) {
+          console.log(`error: ${err}`);
+          result(err, null);
+          return;
+        } else {
+          console.log(res);
+          result(null, res);
+        }
+      });
+      /*CommandsData.findOne({
         _id: ObjectId(commandId),
-      }).then((command) => result(null, command));
+      }).then((command) => result(null, command));*/
     } catch (e) {
       console.log(`error ${e}`);
       result(e, null);
@@ -87,15 +131,17 @@ export class Command {
         },
       },
       { $unwind: "$customer" },
+      { $addFields: { command_id: { $toString: "$_id" } } },
       {
         $lookup: {
           from: "vehicle",
-          localField: "_id.str",
+          localField: "command_id",
           foreignField: "command",
           as: "vehicle",
         },
       },
       { $unwind: "$vehicle" },
+      { $project: { command_id: 0 } },
     ]).toArray((err, res) => {
       if (err) {
         console.log(`error: ${err}`);
